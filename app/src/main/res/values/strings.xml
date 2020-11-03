@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">eCommerce</string>
+    <string name="already_have_an_account_login">Already have an Account? Login</string>
+    <string name="join_now">Join Now</string>
+    <string name="shop_online">Shop Online</string>
+    <string name="phone_number">Phone number</string>
+    <string name="name">Name</string>
+    <string name="password">Password</string>
+    <string name="register">Register</string>
+    <string name="forget_password">Forget Password?</string>
+    <string name="remember_me">Remember me</string>
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
+    <string name="admin_link">Admin Link?</string>
+    <string name="add_new_product">Add New Product</string>
+    <string name="add_product">Add Product</string>
+    <string name="product_name">Product Name</string>
+    <string name="product_description">Product Description</string>
+    <string name="product_price">Product Price</string>
+</resources>
