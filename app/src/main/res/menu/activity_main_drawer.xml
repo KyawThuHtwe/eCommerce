@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/homeFragment"
+            android:icon="@drawable/add_shopping_cart"
+            android:title="@string/home" />
+        <item
+            android:id="@+id/cartFragment"
+            android:icon="@drawable/add_shopping_cart"
+            android:title="@string/cart" />
+        <item
+            android:id="@+id/orderFragment"
+            android:icon="@drawable/order"
+            android:title="@string/orders" />
+        <item
+            android:id="@+id/categoryFragment"
+            android:icon="@drawable/category"
+            android:title="@string/category" />
+        <item
+            android:id="@+id/settingFragment"
+            android:icon="@drawable/settings"
+            android:title="@string/settings" />
+        <item
+            android:id="@+id/logoutFragment"
+            android:icon="@drawable/logout"
+            android:onClick="logout"
+            android:title="@string/logout" />
+
+    </group>
+
+</menu>

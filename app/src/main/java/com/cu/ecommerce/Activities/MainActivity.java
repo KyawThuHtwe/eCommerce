@@ -78,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
                         }else {
                             loadingBar.dismiss();
                             Toast.makeText(getApplicationContext(),"Password is incorrect", Toast.LENGTH_SHORT).show();
-
                         }
                     }
 
