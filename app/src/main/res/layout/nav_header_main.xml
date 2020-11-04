@@ -8,11 +8,13 @@
     android:background="@color/colorPrimary"
     android:orientation="vertical">
     <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profileImage"
         android:layout_marginTop="50dp"
         android:src="@drawable/ic_launcher_background"
         android:layout_width="100dp"
         android:layout_height="100dp"/>
     <TextView
+        android:id="@+id/username"
         android:padding="10dp"
         android:textColor="@color/colorWhite"
         android:textStyle="bold"

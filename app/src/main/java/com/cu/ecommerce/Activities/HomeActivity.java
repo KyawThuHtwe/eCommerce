@@ -9,6 +9,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
+import de.hdodenhof.circleimageview.CircleImageView;
 import io.paperdb.Paper;
 
 import android.content.Intent;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cu.ecommerce.Prevalent.Prevalent;
 import com.cu.ecommerce.R;
 import com.google.android.material.navigation.NavigationView;
 
@@ -49,6 +51,11 @@ public class HomeActivity extends AppCompatActivity {
                 textTitle.setText(destination.getLabel());
             }
         });
+        View headerView=navigationView.getHeaderView(0);
+        TextView username=headerView.findViewById(R.id.username);
+        CircleImageView profileImage=headerView.findViewById(R.id.profileImage);
+        username.setText(Prevalent.currentOnlineUser.getName());
+
     }
 
     public void logout(MenuItem item) {
