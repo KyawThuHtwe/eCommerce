@@ -25,9 +25,4 @@
         android:name="com.cu.ecommerce.Fragments.CategoryFragment"
         android:label="@string/category"
         tools:layout="@layout/fragment_category" />
-    <fragment
-        android:id="@+id/settingFragment"
-        android:name="com.cu.ecommerce.Fragments.SettingFragment"
-        android:label="@string/settings"
-        tools:layout="@layout/fragment_setting" />
 </navigation>

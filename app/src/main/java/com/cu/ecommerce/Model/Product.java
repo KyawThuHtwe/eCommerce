@@ -1,13 +1,13 @@
 package com.cu.ecommerce.Model;
 
 public class Product {
-    String pname,description,price,image,category,pid,date,time;
+    String name,description,price,image,category,pid,date,time;
 
     public Product() {
     }
 
-    public Product(String pname, String description, String price, String image, String category, String pid, String date, String time) {
-        this.pname = pname;
+    public Product(String name, String description, String price, String image, String category, String pid, String date, String time) {
+        this.name = name;
         this.description = description;
         this.price = price;
         this.image = image;
@@ -17,12 +17,12 @@ public class Product {
         this.time = time;
     }
 
-    public String getPname() {
-        return pname;
+    public String getName() {
+        return name;
     }
 
-    public void setPname(String pname) {
-        this.pname = pname;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {

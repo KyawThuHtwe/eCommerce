@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.cu.ecommerce.Prevalent.Prevalent;
 import com.cu.ecommerce.R;
 import com.google.android.material.navigation.NavigationView;
+import com.squareup.picasso.Picasso;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -54,13 +55,16 @@ public class HomeActivity extends AppCompatActivity {
         View headerView=navigationView.getHeaderView(0);
         TextView username=headerView.findViewById(R.id.username);
         CircleImageView profileImage=headerView.findViewById(R.id.profileImage);
-        username.setText(Prevalent.currentOnlineUser.getName());
-
+        username.setText(Prevalent.currentOnlineUser.getName()+"");
+        Picasso.get().load(Prevalent.currentOnlineUser.getImage()).placeholder(R.drawable.ic_launcher_foreground).into(profileImage);
     }
 
     public void logout(MenuItem item) {
         Paper.book().destroy();
         startActivity(new Intent(getApplicationContext(),MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK));
+    }
 
+    public void setting(MenuItem item) {
+        startActivity(new Intent(getApplicationContext(),SettingActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
     }
 }

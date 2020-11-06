@@ -1,5 +1,6 @@
 package com.cu.ecommerce.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,11 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.cu.ecommerce.Activities.CartActivity;
+import com.cu.ecommerce.Activities.ProductDetailActivity;
 import com.cu.ecommerce.Model.Product;
 import com.cu.ecommerce.R;
 import com.cu.ecommerce.ViewHolder.ProductViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
@@ -24,6 +28,7 @@ public class HomeFragment extends Fragment {
 
     RecyclerView recyclerView;
     DatabaseReference databaseReference;
+    FloatingActionButton cart;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,9 +47,18 @@ public class HomeFragment extends Fragment {
                 new FirebaseRecyclerAdapter<Product, ProductViewHolder>(options) {
                     @Override
                     protected void onBindViewHolder(@NonNull ProductViewHolder holder, int i, @NonNull Product product) {
-                        holder.name.setText(product.getPname());
-                        Picasso.get().load(product.getImage()).into(holder.image);
+                        holder.name.setText(product.getName());
+                        holder.price.setText(product.getPrice());
+                        Picasso.get().load(product.getImage()).placeholder(R.drawable.ic_launcher_foreground).error(R.drawable.ic_launcher_background).into(holder.image);
                         holder.description.setText(product.getDescription());
+                        holder.itemView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent=new Intent(getContext(), ProductDetailActivity.class);
+                                intent.putExtra("pid",product.getPid());
+                                startActivity(intent);
+                            }
+                        });
                     }
 
                     @NonNull
@@ -56,6 +70,16 @@ public class HomeFragment extends Fragment {
                 };
         recyclerView.setAdapter(adapter);
         adapter.startListening();
+
+        cart=view.findViewById(R.id.cart);
+        cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), CartActivity.class));
+            }
+        });
+
+
         return view;
     }
 }

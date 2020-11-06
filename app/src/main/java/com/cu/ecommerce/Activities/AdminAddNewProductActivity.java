@@ -1,15 +1,10 @@
 package com.cu.ecommerce.Activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -29,10 +24,12 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class AdminAddNewProductActivity extends AppCompatActivity {
 
@@ -112,8 +109,8 @@ public class AdminAddNewProductActivity extends AppCompatActivity {
         saveCurrentTime=currentTime.format(calendar.getTime());
 
         productRandomKey=saveCurrentDate+" "+saveCurrentTime;
-        StorageReference filePath=productImageRef.child(imageUri.getLastPathSegment()+productRandomKey);
-        final UploadTask uploadTask=filePath.putFile(imageUri);
+        StorageReference filePaths=productImageRef.child(imageUri.getLastPathSegment()+productRandomKey);
+        final UploadTask uploadTask=filePaths.putFile(imageUri);
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
@@ -130,15 +127,17 @@ public class AdminAddNewProductActivity extends AppCompatActivity {
                         if(!task.isSuccessful()){
                             throw task.getException();
                         }
-                        downloadImageUrl=filePath.getDownloadUrl().toString();
-
-                        return filePath.getDownloadUrl();
+                        return filePaths.getDownloadUrl();
                     }
                 }).addOnCompleteListener(new OnCompleteListener<Uri>() {
                     @Override
                     public void onComplete(@NonNull Task<Uri> task) {
-                        Toast.makeText(getApplicationContext(),"get Product Image Url Successfully...",Toast.LENGTH_SHORT).show();
-                        saveProductInfoToDatabase();
+                        if(task.isSuccessful()){
+                            downloadImageUrl=task.getResult().toString();
+                            Toast.makeText(getApplicationContext(),"got the Product Image Url Successfully..."+task.toString(),Toast.LENGTH_SHORT).show();
+                            saveProductInfoToDatabase();
+                        }
+
                     }
                 });
             }

@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
                     if(userData.getPhone().equals(phone)){
                         if(userData.getPassword().equals(password)){
                             Toast.makeText(getApplicationContext(),"Please wait, your already logged in...", Toast.LENGTH_SHORT).show();
+                            Prevalent.currentOnlineUser=userData;
                             loadingBar.dismiss();
                             startActivity(new Intent(getApplicationContext(),HomeActivity.class));
                         }else {
