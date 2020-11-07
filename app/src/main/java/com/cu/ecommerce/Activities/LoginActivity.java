@@ -15,6 +15,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cu.ecommerce.Admin.AdminHomeActivity;
+import com.cu.ecommerce.Sellers.SellerCategoryActivity;
+import com.cu.ecommerce.Buyers.ResetPasswordActivity;
 import com.cu.ecommerce.Model.User;
 import com.cu.ecommerce.Prevalent.Prevalent;
 import com.cu.ecommerce.R;
@@ -30,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     Button login;
     ProgressDialog loadingBar;
     CheckBox rememberMe;
-    TextView adminLink,notAdminLink;
+    TextView adminLink,notAdminLink,forgetPassword;
 
     String parentDbName="Users";
 
@@ -44,6 +47,14 @@ public class LoginActivity extends AppCompatActivity {
         rememberMe=findViewById(R.id.rememberMe);
         adminLink=findViewById(R.id.adminLink);
         notAdminLink=findViewById(R.id.notAdminLink);
+        forgetPassword=findViewById(R.id.forgetPassword);
+        forgetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent =new Intent(getApplicationContext(), ResetPasswordActivity.class);
+                intent.putExtra("check","login");
+                startActivity(intent);            }
+        });
 
         loadingBar=new ProgressDialog(this);
 
@@ -114,7 +125,7 @@ public class LoginActivity extends AppCompatActivity {
                            if(parentDbName.equals("Admins")){
                                Toast.makeText(getApplicationContext(),"Welcome Admin, your in Logged in Successfully", Toast.LENGTH_SHORT).show();
                                loadingBar.dismiss();
-                               startActivity(new Intent(getApplicationContext(),AdminCategoryActivity.class));
+                               startActivity(new Intent(getApplicationContext(), AdminHomeActivity.class));
                            }else if(parentDbName.equals("Users")){
                                Toast.makeText(getApplicationContext(),"Logged in Successfully", Toast.LENGTH_SHORT).show();
                                Prevalent.currentOnlineUser=userData;

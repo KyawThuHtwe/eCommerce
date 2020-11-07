@@ -5,13 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Admin.AdminUserProductsActivity">
+    tools:context=".Admin.AdminCheckNewProductsActivity">
     <TextView
-        android:background="@color/colorPrimary"
         android:gravity="center"
-        android:textSize="20sp"
+        android:background="@color/colorPrimary"
+        android:textSize="25sp"
+        android:textStyle="bold"
         android:textColor="@color/colorWhite"
-        android:text="@string/products"
+        android:text="Approve New Products"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"/>
     <androidx.recyclerview.widget.RecyclerView

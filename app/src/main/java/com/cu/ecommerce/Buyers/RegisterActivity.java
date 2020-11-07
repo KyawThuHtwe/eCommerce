@@ -1,4 +1,4 @@
-package com.cu.ecommerce.Activities;
+package com.cu.ecommerce.Buyers;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.cu.ecommerce.Activities.LoginActivity;
+import com.cu.ecommerce.Activities.MainActivity;
 import com.cu.ecommerce.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -93,7 +95,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     if(task.isSuccessful()){
                                         Toast.makeText(getApplicationContext(),"Congratulations, your account has been created.",Toast.LENGTH_SHORT).show();
                                         loadingBar.dismiss();
-                                        startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+                                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                                     }else {
                                         loadingBar.dismiss();
                                         Toast.makeText(getApplicationContext(),"Network Error: Please try again after some time...",Toast.LENGTH_SHORT).show();
@@ -105,7 +107,7 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"This "+phone+" already exist.",Toast.LENGTH_SHORT).show();
                     loadingBar.dismiss();
                     Toast.makeText(getApplicationContext(),"Please try again using another phone number",Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 }
             }
 

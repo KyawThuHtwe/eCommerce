@@ -1,4 +1,4 @@
-package com.cu.ecommerce.Activities;
+package com.cu.ecommerce.Buyers;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,11 +10,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cu.ecommerce.Activities.HomeActivity;
+import com.cu.ecommerce.Activities.MainActivity;
 import com.cu.ecommerce.Prevalent.Prevalent;
 import com.cu.ecommerce.R;
 import com.google.android.gms.tasks.Continuation;
@@ -29,12 +32,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 
-import java.net.URI;
 import java.util.HashMap;
 
 public class SettingActivity extends AppCompatActivity {
@@ -46,6 +47,7 @@ public class SettingActivity extends AppCompatActivity {
     Uri imageUri;
     String myUri="";
     String checker="";
+    Button security;
 
     StorageReference storageProfileReference;
 
@@ -95,6 +97,16 @@ public class SettingActivity extends AppCompatActivity {
                         .setAspectRatio(1,1)
                         .start(SettingActivity.this);
 
+            }
+        });
+
+        security=findViewById(R.id.security);
+        security.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent =new Intent(getApplicationContext(), ResetPasswordActivity.class);
+                intent.putExtra("check","settings");
+                startActivity(intent);
             }
         });
 
@@ -166,7 +178,7 @@ public class SettingActivity extends AppCompatActivity {
                                 reference.child(Prevalent.currentOnlineUser.getPhone()).updateChildren(userMap);
 
                                 progressDialog.dismiss();
-                                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                                startActivity(new Intent(getApplicationContext(), MainActivity.class));
                                 Toast.makeText(getApplicationContext(),"Profile Info update successfully",Toast.LENGTH_SHORT).show();
                                 finish();
                             }else {
@@ -192,7 +204,7 @@ public class SettingActivity extends AppCompatActivity {
         userMap.put("phoneOrder",phone.getText().toString());
         reference.child(Prevalent.currentOnlineUser.getPhone()).updateChildren(userMap);
 
-        startActivity(new Intent(getApplicationContext(),HomeActivity.class));
+        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
         Toast.makeText(getApplicationContext(),"Profile Info update successfully",Toast.LENGTH_SHORT).show();
         finish();
     }

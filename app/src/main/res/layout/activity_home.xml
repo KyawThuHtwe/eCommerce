@@ -44,6 +44,7 @@
                 android:layout_marginStart="15dp" />
         </LinearLayout>
         <fragment
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintTop_toBottomOf="@id/layoutToolBar"
@@ -52,7 +53,9 @@
             android:name="androidx.navigation.fragment.NavHostFragment"
             app:defaultNavHost="true"
             app:navGraph="@navigation/mobile_navigation"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"
         android:layout_width="wrap_content"

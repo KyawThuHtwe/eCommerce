@@ -57,4 +57,18 @@
     <string name="date_time">Date, Time</string>
     <string name="address_city">Address, City</string>
     <string name="products">Products</string>
+    <string name="search">Search</string>
+    <string name="maintain_products">Maintain Products</string>
+    <string name="change_apply">Change Apply</string>
+    <string name="delete_this_product">Delete This Product</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="seller_registration_form">Seller Registration Form</string>
+    <string name="seller_login_form">Seller Login Form</string>
+    <string name="title_activity_seller_home">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="add">Add</string>
+    <string name="approved">Approved</string>
+    <string name="product_state">Product State</string>
 </resources>

@@ -1,50 +1,68 @@
-package com.cu.ecommerce.Fragments;
-
-import android.content.Intent;
-import android.os.Bundle;
+package com.cu.ecommerce.Buyers;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 
-import com.cu.ecommerce.Buyers.CartActivity;
-import com.cu.ecommerce.Buyers.ProductDetailActivity;
-import com.cu.ecommerce.Buyers.SearchProductActivity;
 import com.cu.ecommerce.Model.Product;
 import com.cu.ecommerce.R;
 import com.cu.ecommerce.ViewHolder.ProductViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
-public class HomeFragment extends Fragment {
+public class SearchProductActivity extends AppCompatActivity {
 
-    RecyclerView recyclerView;
-    DatabaseReference databaseReference;
-    FloatingActionButton cart;
+    RecyclerView searchList;
+    EditText search_value;
+    Button search;
+    String searchInput="";
+    ImageView back;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_home, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_search_product);
+        search_value=findViewById(R.id.search_value);
+        search=findViewById(R.id.search);
+        searchList=findViewById(R.id.recyclerView);
+        searchList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchInput=search_value.getText().toString();
+                onStart();
+            }
+        });
+        back=findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
-        databaseReference= FirebaseDatabase.getInstance().getReference().child("Products");
-        recyclerView=view.findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        FirebaseRecyclerOptions<Product> options=new FirebaseRecyclerOptions
-                .Builder<Product>()
-                .setQuery(databaseReference.orderByChild("productState").equalTo("Approved"),Product.class)
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        DatabaseReference reference= FirebaseDatabase.getInstance().getReference().child("Products");
+        FirebaseRecyclerOptions<Product> options=
+                new FirebaseRecyclerOptions.Builder<Product>()
+                .setQuery(reference.orderByChild("pname").startAt(searchInput).endAt(searchInput),Product.class)
                 .build();
         FirebaseRecyclerAdapter<Product, ProductViewHolder> adapter=
                 new FirebaseRecyclerAdapter<Product, ProductViewHolder>(options) {
@@ -54,12 +72,10 @@ public class HomeFragment extends Fragment {
                         holder.price.setText(product.getPrice());
                         Picasso.get().load(product.getImage()).placeholder(R.drawable.ic_launcher_foreground).error(R.drawable.ic_launcher_background).into(holder.image);
                         holder.description.setText(product.getDescription());
-
                         holder.itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-
-                                Intent intent=new Intent(getContext(), ProductDetailActivity.class);
+                                Intent intent=new Intent(getApplicationContext(), ProductDetailActivity.class);
                                 intent.putExtra("pid",product.getPid());
                                 startActivity(intent);
                             }
@@ -73,24 +89,8 @@ public class HomeFragment extends Fragment {
                         return new ProductViewHolder(view1);
                     }
                 };
-        recyclerView.setAdapter(adapter);
+        searchList.setAdapter(adapter);
         adapter.startListening();
 
-        cart=view.findViewById(R.id.cart);
-        cart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getContext(), CartActivity.class));
-            }
-        });
-
-        Button search=view.findViewById(R.id.search);
-        search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getContext(), SearchProductActivity.class));
-            }
-        });
-        return view;
     }
 }

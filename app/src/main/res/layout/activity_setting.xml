@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Activities.SettingActivity">
+    tools:context=".Buyers.SettingActivity">
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_setting"
         android:background="@color/colorPrimary"
@@ -61,6 +61,7 @@
         android:layout_height="wrap_content"/>
     <EditText
         android:id="@+id/setting_phone_number"
+        android:background="@drawable/corner_border_background"
         android:textColor="@color/colorTextPrimary"
         android:layout_margin="15dp"
         android:padding="10dp"
@@ -69,6 +70,7 @@
         android:layout_height="wrap_content"/>
     <EditText
         android:id="@+id/setting_full_name"
+        android:background="@drawable/corner_border_background"
         android:textColor="@color/colorTextPrimary"
         android:layout_margin="15dp"
         android:padding="10dp"
@@ -78,10 +80,23 @@
 
     <EditText
         android:id="@+id/setting_address"
+        android:background="@drawable/corner_border_background"
         android:textColor="@color/colorTextPrimary"
         android:layout_margin="15dp"
         android:padding="10dp"
         android:hint="@string/address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/security"
+        android:background="@drawable/corner_solid_background"
+        android:textColor="@color/colorWhite"
+        android:layout_margin="15dp"
+        android:padding="10dp"
+        android:textSize="18sp"
+        android:textAllCaps="false"
+        android:text="Security Question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
 </LinearLayout>

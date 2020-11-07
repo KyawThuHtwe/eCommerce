@@ -48,7 +48,9 @@
     <Button
         android:id="@+id/login"
         android:padding="17dp"
-        android:layout_margin="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:backgroundTint="@color/colorPrimary"
         android:background="@drawable/corner_solid_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -56,5 +58,16 @@
         android:text="@string/already_have_an_account_login"
         android:textColor="@color/colorWhite"
         android:textSize="14sp"/>
+    <TextView
+        android:id="@+id/seller_begin"
+        android:layout_marginRight="15dp"
+        android:padding="10dp"
+        android:layout_gravity="right"
+        android:textColor="@color/colorTextPrimary"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:text="Want to become a Seller?"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

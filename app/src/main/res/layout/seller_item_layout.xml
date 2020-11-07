@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -43,6 +44,15 @@
             android:gravity="center_horizontal"
             android:textColor="@color/colorTextPrimary"
             android:text="@string/product_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/productState"
+            android:padding="10dp"
+            android:textSize="16sp"
+            android:gravity="center_horizontal"
+            android:textColor="@color/colorTextPrimary"
+            android:text="@string/product_state"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

@@ -17,8 +17,8 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.cu.ecommerce.Buyers.SettingActivity;
 import com.cu.ecommerce.Prevalent.Prevalent;
 import com.cu.ecommerce.R;
 import com.google.android.material.navigation.NavigationView;
@@ -52,11 +52,13 @@ public class HomeActivity extends AppCompatActivity {
                 textTitle.setText(destination.getLabel());
             }
         });
+
         View headerView=navigationView.getHeaderView(0);
         TextView username=headerView.findViewById(R.id.username);
         CircleImageView profileImage=headerView.findViewById(R.id.profileImage);
         username.setText(Prevalent.currentOnlineUser.getName()+"");
         Picasso.get().load(Prevalent.currentOnlineUser.getImage()).placeholder(R.drawable.ic_launcher_foreground).into(profileImage);
+
     }
 
     public void logout(MenuItem item) {
@@ -65,6 +67,6 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void setting(MenuItem item) {
-        startActivity(new Intent(getApplicationContext(),SettingActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+        startActivity(new Intent(getApplicationContext(), SettingActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
     }
 }

@@ -5,18 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Admin.AdminUserProductsActivity">
-    <TextView
-        android:background="@color/colorPrimary"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:textColor="@color/colorWhite"
-        android:text="@string/products"
+    tools:context=".Admin.AdminProductActivity">
+    <Button
+        android:id="@+id/search"
+        android:text="@string/search"
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"/>
+        android:layout_height="wrap_content"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-
 </LinearLayout>

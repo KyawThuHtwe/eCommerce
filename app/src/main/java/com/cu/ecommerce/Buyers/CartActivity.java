@@ -1,4 +1,4 @@
-package com.cu.ecommerce.Activities;
+package com.cu.ecommerce.Buyers;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -91,13 +91,13 @@ public class CartActivity extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 CharSequence options[]=new CharSequence[]{"Edit","Remove"};
-                                AlertDialog.Builder builder=new AlertDialog.Builder(getApplicationContext());
+                                AlertDialog.Builder builder=new AlertDialog.Builder(CartActivity.this);
                                 builder.setTitle("Cart Options");
                                 builder.setItems(options, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int con) {
                                         if(con==0){
-                                            Intent intent=new Intent(getApplicationContext(),ProductDetailActivity.class);
+                                            Intent intent=new Intent(getApplicationContext(), ProductDetailActivity.class);
                                             intent.putExtra("pid",cart.getPid());
                                             startActivity(intent);
                                         }else if(i==1){

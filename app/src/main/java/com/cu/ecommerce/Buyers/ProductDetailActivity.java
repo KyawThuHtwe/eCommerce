@@ -1,4 +1,4 @@
-package com.cu.ecommerce.Activities;
+package com.cu.ecommerce.Buyers;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
+import com.cu.ecommerce.Activities.HomeActivity;
 import com.cu.ecommerce.Model.Product;
 import com.cu.ecommerce.Prevalent.Prevalent;
 import com.cu.ecommerce.R;
@@ -98,7 +99,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if(task.isSuccessful()){
                                                 Toast.makeText(getApplicationContext(),"Added to Cart List.",Toast.LENGTH_SHORT).show();
-                                                startActivity(new Intent(getApplicationContext(),HomeActivity.class));
+                                                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                                                 finish();
                                             }
 

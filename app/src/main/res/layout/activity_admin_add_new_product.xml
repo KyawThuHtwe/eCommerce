@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Activities.AdminAddNewProductActivity">
+    tools:context=".Sellers.SellerAdminAddNewProductActivity">
     <ImageView
         android:id="@+id/image"
         android:src="@drawable/add_photo"
