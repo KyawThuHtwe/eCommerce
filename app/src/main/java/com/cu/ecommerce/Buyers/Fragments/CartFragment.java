@@ -1,10 +1,9 @@
-package com.cu.ecommerce.Fragments;
+package com.cu.ecommerce.Buyers.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.cu.ecommerce.R;
 

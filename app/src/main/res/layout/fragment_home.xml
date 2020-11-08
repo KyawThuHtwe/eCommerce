@@ -1,20 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.HomeFragment">
+    tools:context=".Buyers.Fragments.HomeFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <Button
-        android:id="@+id/search"
-        android:text="@string/search"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:padding="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textSize="20sp"
+                    android:textColor="@color/colorTextPrimary"
+                    android:text="Category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <View
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="10dp"/>
+                <ImageView
+                    android:id="@+id/search"
+                    android:padding="10dp"
+                    android:elevation="10dp"
+                    android:backgroundTint="@color/colorWhite"
+                    android:background="@drawable/corner_solid_background"
+                    android:src="@drawable/search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:tint="@color/colorTextPrimary" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:padding="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <RadioGroup
+                    android:id="@+id/radio_group"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <RadioButton
+                        android:checked="true"
+                        android:id="@+id/all"
+                        android:elevation="10dp"
+                        android:backgroundTint="@color/colorWhite"
+                        android:background="@drawable/corner_solid_background"
+                        android:textSize="17sp"
+                        android:padding="10dp"
+                        android:text="All"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <View
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"/>
+                    <RadioButton
+                        android:id="@+id/t_shirt"
+                        android:elevation="10dp"
+                        android:backgroundTint="@color/colorWhite"
+                        android:background="@drawable/corner_solid_background"
+                        android:textSize="17sp"
+                        android:padding="10dp"
+                        android:text="T-Shirt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <View
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"/>
+
+                    <RadioButton
+                        android:id="@+id/shirt"
+                        android:elevation="10dp"
+                        android:backgroundTint="@color/colorWhite"
+                        android:background="@drawable/corner_solid_background"
+                        android:textSize="17sp"
+                        android:padding="10dp"
+                        android:text="Shirt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </RadioGroup>
+            </LinearLayout>
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

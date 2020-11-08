@@ -82,7 +82,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
         String answer1=q1.getText().toString().toLowerCase();
         String answer2=q2.getText().toString().toLowerCase();
 
-        if(phoneNumber.equals("") && answer1.equals("") && answer2.equals("")){
+        if(!phoneNumber.equals("") && !answer1.equals("") && !answer2.equals("")){
             DatabaseReference reference= FirebaseDatabase.getInstance().getReference()
                     .child("Users")
                     .child(phoneNumber);

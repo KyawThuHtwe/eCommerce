@@ -1,4 +1,4 @@
-package com.cu.ecommerce.Fragments;
+package com.cu.ecommerce.Buyers.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.cu.ecommerce.Buyers.CartActivity;
 import com.cu.ecommerce.Buyers.ProductDetailActivity;
@@ -84,7 +85,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        Button search=view.findViewById(R.id.search);
+        ImageView search=view.findViewById(R.id.search);
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

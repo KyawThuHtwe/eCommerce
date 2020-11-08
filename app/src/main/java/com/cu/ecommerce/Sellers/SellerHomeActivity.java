@@ -4,26 +4,28 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.NumberPicker;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cu.ecommerce.Activities.MainActivity;
-import com.cu.ecommerce.Admin.AdminCheckNewProductsActivity;
 import com.cu.ecommerce.Model.Product;
 import com.cu.ecommerce.R;
 import com.cu.ecommerce.ViewHolder.ItemViewHolder;
-import com.cu.ecommerce.ViewHolder.ProductViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
@@ -36,38 +38,55 @@ public class SellerHomeActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     DatabaseReference unVerifyProductRef;
+    LinearLayout add,logout;
+    TextView seller_name;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seller_home);
-        BottomNavigationView navView = findViewById(R.id.nav_view);
-        navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        add=findViewById(R.id.add);
+        logout=findViewById(R.id.logout);
+        seller_name=findViewById(R.id.seller_name);
+        add.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
-
-                    case R.id.navigation_add:
-                        //LoadFragment(new SellerAddFragment());
-                        Toast.makeText(getApplicationContext(),"Add",Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getApplicationContext(), SellerCategoryActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));
-
-                        break;
-                    case R.id.navigation_logout:
-                        logout();
-                        break;
-                }
-                return true;
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), SellerCategoryActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));
+            }
+        });
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logoutSeller();
             }
         });
 
         unVerifyProductRef= FirebaseDatabase.getInstance().getReference().child("Products");
-
         recyclerView=findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
     }
     @Override
     protected void onStart() {
         super.onStart();
+        String sID= FirebaseAuth.getInstance().getCurrentUser().getUid();
+        final DatabaseReference reference= FirebaseDatabase.getInstance().getReference()
+                .child("Sellers")
+                .child(sID);
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                if(snapshot.exists()){
+                    seller_name.setText(snapshot.child("name").getValue().toString());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         FirebaseRecyclerOptions<Product> options=
                 new FirebaseRecyclerOptions.Builder<Product>()
                         .setQuery(unVerifyProductRef.orderByChild("sid").equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid()),Product.class)
@@ -89,7 +108,7 @@ public class SellerHomeActivity extends AppCompatActivity {
                                                 "Yes","No"
                                         };
                                 AlertDialog.Builder builder=new AlertDialog.Builder(SellerHomeActivity.this);
-                                builder.setTitle("Do you want to Approved this Product, Are you sure?");
+                                builder.setTitle("Do you want to delete this Product, Are you sure?");
                                 builder.setItems(opt, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int con) {
@@ -132,7 +151,7 @@ public class SellerHomeActivity extends AppCompatActivity {
                 });
     }
 
-    public void logout() {
+    public void logoutSeller() {
         FirebaseAuth firebaseAuth=FirebaseAuth.getInstance();
         firebaseAuth.signOut();
         startActivity(new Intent(getApplicationContext(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));

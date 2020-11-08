@@ -10,7 +10,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="40dp"/>
+        android:layout_height="100dp"/>
     <TextView
         android:textAlignment="center"
         android:layout_width="match_parent"
@@ -43,7 +43,7 @@
         android:textAllCaps="false"
         android:text="@string/join_now"
         android:textColor="@color/colorTextPrimary"
-        android:textSize="14sp"/>
+        android:textSize="17sp"/>
 
     <Button
         android:id="@+id/login"
@@ -57,17 +57,19 @@
         android:textAllCaps="false"
         android:text="@string/already_have_an_account_login"
         android:textColor="@color/colorWhite"
-        android:textSize="14sp"/>
+        android:textSize="17sp"/>
     <TextView
         android:id="@+id/seller_begin"
         android:layout_marginRight="15dp"
         android:padding="10dp"
         android:layout_gravity="right"
-        android:textColor="@color/colorTextPrimary"
+        android:textColor="@color/colorPrimary"
         android:textSize="17sp"
-        android:textStyle="bold"
         android:text="Want to become a Seller?"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="20dp"/>
 
 </LinearLayout>

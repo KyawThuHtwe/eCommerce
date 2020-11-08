@@ -1,4 +1,4 @@
-package com.cu.ecommerce.Fragments;
+package com.cu.ecommerce.Buyers.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

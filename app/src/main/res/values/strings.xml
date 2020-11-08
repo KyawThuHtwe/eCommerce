@@ -71,4 +71,5 @@
     <string name="add">Add</string>
     <string name="approved">Approved</string>
     <string name="product_state">Product State</string>
+    <string name="sellername">Sellername</string>
 </resources>
