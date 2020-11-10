@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,7 +31,7 @@ public class AdminNewOrdersActivity extends AppCompatActivity {
 
     RecyclerView orderList;
     DatabaseReference orderRef;
-
+    ImageView back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +40,13 @@ public class AdminNewOrdersActivity extends AppCompatActivity {
         orderRef= FirebaseDatabase.getInstance().getReference().child("Orders");
         orderList=findViewById(R.id.recyclerView);
         orderList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-
+        back=findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override
@@ -89,7 +96,7 @@ public class AdminNewOrdersActivity extends AppCompatActivity {
                                                 removeOrder(uID);
 
                                             } else {
-                                                finish();
+                                                dialog.dismiss();
                                             }
                                         }
                                     });

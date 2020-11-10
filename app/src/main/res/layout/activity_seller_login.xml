@@ -7,55 +7,82 @@
     android:orientation="vertical"
     tools:context=".Sellers.SellerLoginActivity">
     <ImageView
-        android:background="@drawable/ic_launcher_background"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"/>
-    <TextView
-        android:id="@+id/seller_title"
-        android:textStyle="bold"
+        android:id="@+id/back"
         android:padding="20dp"
-        android:layout_gravity="center"
-        android:textSize="25sp"
-        android:textColor="#FB8C00"
-        android:text="@string/seller_login_form"
+        android:scaleType="centerCrop"
+        android:background="?selectableItemBackgroundBorderless"
+        android:src="@drawable/back"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        app:tint="@color/colorTextPrimary"
+        android:contentDescription="@string/app_name" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/online_store_header"
+            android:scaleType="centerCrop"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:contentDescription="@string/app_name" />
+        <TextView
+            android:id="@+id/seller_title"
+            android:elevation="10dp"
+            android:textStyle="bold"
+            android:layout_margin="10dp"
+            android:layout_gravity="center"
+            android:textSize="25sp"
+            android:textColor="#FB8C00"
+            android:text="@string/seller_login_form"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <EditText
         android:id="@+id/seller_email"
         android:textSize="16sp"
         android:inputType="textEmailAddress"
         android:hint="Email..."
-        android:padding="10dp"
+        android:padding="15dp"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="15dp"
         android:layout_marginRight="15dp"
         android:background="@drawable/corner_border_background"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:autofillHints="" />
     <EditText
         android:id="@+id/seller_password"
         android:textSize="16sp"
-        android:inputType="text"
+        android:inputType="textPassword"
         android:hint="Password..."
-        android:padding="10dp"
+        android:padding="15dp"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="15dp"
         android:layout_marginRight="15dp"
         android:background="@drawable/corner_border_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
     <Button
         android:id="@+id/seller_login"
-        android:textSize="18sp"
+        android:textSize="17sp"
         android:textAllCaps="false"
-        android:text="@string/register"
-        android:padding="10dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="15dp"
+        android:text="@string/login"
+        android:padding="15dp"
+        android:layout_margin="15dp"
         android:textColor="@color/colorWhite"
-        android:backgroundTint="@color/colorPrimary"
-        android:background="@drawable/corner_border_background"
+        android:background="@drawable/corner_solid_background"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        tools:ignore="UnusedAttribute" />
 </LinearLayout>

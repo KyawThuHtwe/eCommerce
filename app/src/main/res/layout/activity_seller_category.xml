@@ -6,31 +6,30 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Sellers.SellerCategoryActivity">
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="20dp"/>
-    <TextView
-        android:textAlignment="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/add_new_product"
-        android:textColor="@color/colorTextPrimary"
-        android:textSize="20sp"
-        android:gravity="center_horizontal" />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="20dp"/>
-
     <LinearLayout
-        android:orientation="horizontal"
+        android:gravity="center_vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/watch"
-            android:src="@drawable/watch"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginLeft="15dp" />
-    </LinearLayout>
+        android:layout_height="?actionBarSize">
 
+        <ImageView
+            android:id="@+id/back"
+            android:background="?selectableItemBackgroundBorderless"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:tint="@color/colorTextPrimary" />
+        <TextView
+            android:textSize="20sp"
+            android:textColor="@color/colorTextPrimary"
+            android:text="@string/choose_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </LinearLayout>

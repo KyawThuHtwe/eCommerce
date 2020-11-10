@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.cu.ecommerce.Model.Product;
@@ -29,11 +30,19 @@ public class AdminCheckNewProductsActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     DatabaseReference unVerifyProductRef;
+    ImageView back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_check_new_products);
+        back=findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         unVerifyProductRef= FirebaseDatabase.getInstance().getReference().child("Products");
 

@@ -1,4 +1,4 @@
-package com.cu.ecommerce.Admin;
+package com.cu.ecommerce.Sellers;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,7 +14,6 @@ import android.widget.Toast;
 
 import com.cu.ecommerce.Model.Product;
 import com.cu.ecommerce.R;
-import com.cu.ecommerce.Sellers.SellerCategoryActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -25,65 +25,47 @@ import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 
-public class AdminMaintainProductActivity extends AppCompatActivity {
+public class SellerMaintainProductActivity extends AppCompatActivity {
 
     EditText name,description,price;
-    TextView update,delete;
-    ImageView imageView;
+    Button change_apply;
+    ImageView imageView,back;
     String productID="";
     DatabaseReference productRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_maintain_product);
+        setContentView(R.layout.activity_seller_maintain_product);
 
-        try {
-            imageView = findViewById(R.id.imageM);
-            name = findViewById(R.id.nameM);
-            description = findViewById(R.id.descriptionM);
-            price = findViewById(R.id.priceM);
-            update = findViewById(R.id.update_btn);
-            delete = findViewById(R.id.delete_btn);
-
-            productID = getIntent().getStringExtra("pid");
-
-            productRef =  FirebaseDatabase.getInstance().getReference().child("Products").child(productID);
-
-            displayProductInfo(productID);
-            Toast.makeText(getApplicationContext(),productID,Toast.LENGTH_SHORT).show();
-
-            update.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    updateProduct();
-                }
-            });
-
-            delete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    deleteThisProduct();
-                }
-            });
-        }catch (Exception e){
-            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void deleteThisProduct() {
-        productRef.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+        back = findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
-                    Toast.makeText(getApplicationContext(),"Delete this product successfully", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(), SellerCategoryActivity.class));
-                    finish();
-                }
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        imageView = findViewById(R.id.imageM);
+        name = findViewById(R.id.nameM);
+        description = findViewById(R.id.descriptionM);
+        price = findViewById(R.id.priceM);
+        change_apply = findViewById(R.id.change_apply);
+
+        productID = getIntent().getStringExtra("pid");
+
+        productRef =  FirebaseDatabase.getInstance().getReference().child("Products").child(productID);
+
+        displayProductInfo(productID);
+        Toast.makeText(getApplicationContext(),productID,Toast.LENGTH_SHORT).show();
+
+        change_apply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateProduct();
             }
         });
     }
-
     private void updateProduct() {
         String pName=name.getText().toString();
         String pDescription=description.getText().toString();
@@ -105,7 +87,6 @@ public class AdminMaintainProductActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<Void> task) {
                     if(task.isSuccessful()){
                         Toast.makeText(getApplicationContext(),"Change apply successfully", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getApplicationContext(), SellerCategoryActivity.class));
                         finish();
                     }
                 }
@@ -135,5 +116,4 @@ public class AdminMaintainProductActivity extends AppCompatActivity {
         });
 
     }
-
 }

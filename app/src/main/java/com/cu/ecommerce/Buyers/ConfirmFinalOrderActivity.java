@@ -10,9 +10,9 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.cu.ecommerce.Activities.HomeActivity;
 import com.cu.ecommerce.Prevalent.Prevalent;
 import com.cu.ecommerce.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,6 +29,7 @@ public class ConfirmFinalOrderActivity extends AppCompatActivity {
     EditText name,phone,address,city;
     Button confirm;
     String totalAmount="";
+    ImageView back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,7 @@ public class ConfirmFinalOrderActivity extends AppCompatActivity {
         totalAmount=getIntent().getStringExtra("Total Price");
         Toast.makeText(getApplicationContext(),"Total Price = "+totalAmount,Toast.LENGTH_SHORT).show();
 
+        back=findViewById(R.id.back);
         name=findViewById(R.id.name);
         phone=findViewById(R.id.phone);
         address=findViewById(R.id.address);
@@ -46,6 +48,12 @@ public class ConfirmFinalOrderActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 check();
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

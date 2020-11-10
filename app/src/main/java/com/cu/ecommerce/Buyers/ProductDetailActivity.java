@@ -7,12 +7,12 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
-import com.cu.ecommerce.Activities.HomeActivity;
 import com.cu.ecommerce.Model.Product;
 import com.cu.ecommerce.Prevalent.Prevalent;
 import com.cu.ecommerce.R;
@@ -32,10 +32,10 @@ import java.util.HashMap;
 
 public class ProductDetailActivity extends AppCompatActivity {
 
-    FloatingActionButton addToCart;
-    ImageView productImage;
+    ImageView productImage,back;
     ElegantNumberButton numberButton;
     TextView price,description,name;
+    Button addToCart;
 
     String productID="",state="Normal";
 
@@ -43,7 +43,15 @@ public class ProductDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_detail);
-        addToCart=findViewById(R.id.add_product_to_cart);
+
+        back=findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        addToCart=findViewById(R.id.add_to_cart);
         productImage=findViewById(R.id.image);
         price=findViewById(R.id.price);
         description=findViewById(R.id.description);

@@ -6,14 +6,28 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Admin.AdminUserProductsActivity">
-    <TextView
-        android:background="@color/colorPrimary"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:textColor="@color/colorWhite"
-        android:text="@string/products"
+    <LinearLayout
+        android:gravity="center_vertical"
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"/>
+        android:layout_height="?actionBarSize">
+        <ImageView
+            android:id="@+id/back"
+            android:scaleType="centerCrop"
+            android:background="?selectableItemBackgroundBorderless"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:tint="@color/colorTextPrimary" />
+        <TextView
+            android:textSize="20sp"
+            android:textColor="@color/colorTextPrimary"
+            android:text="@string/products"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"

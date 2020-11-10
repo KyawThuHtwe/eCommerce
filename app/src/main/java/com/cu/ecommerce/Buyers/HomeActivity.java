@@ -1,4 +1,4 @@
-package com.cu.ecommerce.Activities;
+package com.cu.ecommerce.Buyers;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.cu.ecommerce.Activities.MainActivity;
 import com.cu.ecommerce.Buyers.SettingActivity;
 import com.cu.ecommerce.Prevalent.Prevalent;
 import com.cu.ecommerce.R;
@@ -63,10 +64,14 @@ public class HomeActivity extends AppCompatActivity {
 
     public void logout(MenuItem item) {
         Paper.book().destroy();
-        startActivity(new Intent(getApplicationContext(),MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK));
+        startActivity(new Intent(getApplicationContext(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK));
     }
 
     public void setting(MenuItem item) {
         startActivity(new Intent(getApplicationContext(), SettingActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+    }
+
+    public void cart(MenuItem item) {
+        startActivity(new Intent(getApplicationContext(), CartActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
     }
 }

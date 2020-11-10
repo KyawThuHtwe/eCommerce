@@ -6,12 +6,40 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Buyers.ConfirmFinalOrderActivity">
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize">
+        <ImageView
+            android:id="@+id/back"
+            android:scaleType="centerCrop"
+            android:background="?selectableItemBackgroundBorderless"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:tint="@color/colorTextPrimary" />
+        <TextView
+            android:textSize="20sp"
+            android:textColor="@color/colorTextPrimary"
+            android:text="@string/order_form"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/image"
+        android:scaleType="centerCrop"
+        android:src="@drawable/online_store_header"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"/>
     <TextView
         android:textStyle="bold"
-        android:layout_margin="25dp"
         android:textAlignment="center"
-        android:textColor="@color/colorTextPrimary"
-        android:textSize="18sp"
+        android:elevation="10dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
         android:text="@string/please_confirm_your_shipment_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,14 +47,20 @@
     <EditText
         android:id="@+id/name"
         android:hint="@string/your_name"
+        android:padding="15dp"
+        android:background="@drawable/corner_border_background"
+        android:textSize="16sp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <EditText
         android:id="@+id/phone"
         android:hint="@string/your_phone_number"
+        android:padding="15dp"
+        android:background="@drawable/corner_border_background"
+        android:textSize="16sp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
@@ -35,6 +69,9 @@
     <EditText
         android:id="@+id/address"
         android:hint="@string/your_address"
+        android:padding="15dp"
+        android:background="@drawable/corner_border_background"
+        android:textSize="16sp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
@@ -43,6 +80,9 @@
     <EditText
         android:id="@+id/city"
         android:hint="@string/your_city"
+        android:padding="15dp"
+        android:background="@drawable/corner_border_background"
+        android:textSize="16sp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
@@ -56,8 +96,12 @@
     <Button
         android:id="@+id/confirm"
         android:textColor="@color/colorWhite"
-        android:background="@color/colorPrimary"
+        android:padding="15dp"
+        android:textAllCaps="false"
+        android:backgroundTint="@color/colorPrimary"
+        android:background="@drawable/corner_solid_background"
         android:text="@string/confirm"
+        android:textSize="20sp"
         android:layout_margin="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

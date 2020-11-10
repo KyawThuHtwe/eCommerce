@@ -96,6 +96,7 @@ public class RegisterActivity extends AppCompatActivity {
                                         Toast.makeText(getApplicationContext(),"Congratulations, your account has been created.",Toast.LENGTH_SHORT).show();
                                         loadingBar.dismiss();
                                         startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                                        finish();
                                     }else {
                                         loadingBar.dismiss();
                                         Toast.makeText(getApplicationContext(),"Network Error: Please try again after some time...",Toast.LENGTH_SHORT).show();

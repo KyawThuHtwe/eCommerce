@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.cu.ecommerce.R;
@@ -35,10 +36,11 @@ import java.util.HashMap;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class SellerAdminAddNewProductActivity extends AppCompatActivity {
+public class SellerAddNewProductActivity extends AppCompatActivity {
 
     public String category,name,description,price,saveCurrentDate,saveCurrentTime;
-    ImageView addProductImage;
+    ImageView image,back;
+    LinearLayout addProductImage;
     EditText inputProductName,inputProductDescription,inputProductPrice;
     Button addProduct;
     private static final int GalleryPick=1;
@@ -53,8 +55,20 @@ public class SellerAdminAddNewProductActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_add_new_product);
-        addProductImage=findViewById(R.id.image);
+        setContentView(R.layout.activity_seller_add_new_product);
+        back=findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(), SellerCategoryActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }
+        });
+
+
+        image=findViewById(R.id.image);
+        addProductImage=findViewById(R.id.addImage);
         inputProductName=findViewById(R.id.name);
         inputProductDescription=findViewById(R.id.description);
         inputProductPrice=findViewById(R.id.price);
@@ -117,7 +131,6 @@ public class SellerAdminAddNewProductActivity extends AppCompatActivity {
         }else if(TextUtils.isEmpty(price)){
             Toast.makeText(getApplicationContext(),"Please write product price",Toast.LENGTH_SHORT).show();
         }else {
-
             storeProductInformation();
         }
     }
@@ -176,6 +189,7 @@ public class SellerAdminAddNewProductActivity extends AppCompatActivity {
     private void saveProductInfoToDatabase() {
         HashMap<String,Object> productMap=new HashMap<>();
         productMap.put("pid",productRandomKey);
+        productMap.put("category",category);
         productMap.put("image",downloadImageUrl);
         productMap.put("name",name);
         productMap.put("description",description);
@@ -196,6 +210,7 @@ public class SellerAdminAddNewProductActivity extends AppCompatActivity {
                 if(task.isSuccessful()){
                     startActivity(new Intent(getApplicationContext(), SellerHomeActivity.class));
                     loadingBar.dismiss();
+                    finish();
                     Toast.makeText(getApplicationContext(),"Product is added successfully...",Toast.LENGTH_SHORT).show();
                 }else {
                     loadingBar.dismiss();
@@ -218,10 +233,14 @@ public class SellerAdminAddNewProductActivity extends AppCompatActivity {
                 && data != null && data.getData() != null )
         {
             imageUri = data.getData();
-            addProductImage.setImageURI(imageUri);
+            image.setImageURI(imageUri);
         }
     }
-    private void sellerInformation(){
 
+    @Override
+    public void onBackPressed() {
+        Intent intent=new Intent(getApplicationContext(), SellerCategoryActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 }

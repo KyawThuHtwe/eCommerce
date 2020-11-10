@@ -72,4 +72,23 @@
     <string name="approved">Approved</string>
     <string name="product_state">Product State</string>
     <string name="sellername">Sellername</string>
+    <string name="add_image">Add Image</string>
+    <string name="choose_category">Choose Category</string>
+    <string name="watch">Watch</string>
+    <string name="t_shirt">T-Shirt</string>
+    <string name="shirt">Shirt</string>
+    <string name="online_shop">Online Shop</string>
+    <string name="change_applied">Change Applied</string>
+    <string name="edit_and_change_details">Edit and Change Details</string>
+    <string name="order_form">Order Form</string>
+    <string name="add_to_cart">Add To Cart</string>
+    <string name="user_link">User Link?</string>
+    <string name="want_to_become_a_seller">Want to become a Seller?</string>
+    <string name="upload_image">Upload Image</string>
+    <string name="sellers">Sellers</string>
+    <string name="_0">0</string>
+    <string name="users">Users</string>
+    <string name="maintain">Maintain</string>
+    <string name="approve">Approve</string>
+    <string name="add_new_category">Add New Category</string>
 </resources>

@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cu.ecommerce.Buyers.HomeActivity;
 import com.cu.ecommerce.Buyers.RegisterActivity;
 import com.cu.ecommerce.Model.User;
 import com.cu.ecommerce.Prevalent.Prevalent;
@@ -72,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 loadingBar.setMessage("Please wait...");
                 loadingBar.setCanceledOnTouchOutside(false);
                 loadingBar.show();
+                finish();
 
             }
         }
@@ -88,10 +90,10 @@ public class MainActivity extends AppCompatActivity {
                     User userData=snapshot.child("Users").child(phone).getValue(User.class);
                     if(userData.getPhone().equals(phone)){
                         if(userData.getPassword().equals(password)){
-                            Toast.makeText(getApplicationContext(),"Please wait, your already logged in...", Toast.LENGTH_SHORT).show();
                             Prevalent.currentOnlineUser=userData;
+                            Toast.makeText(getApplicationContext(),"Please wait, your already logged in...", Toast.LENGTH_SHORT).show();
                             loadingBar.dismiss();
-                            startActivity(new Intent(getApplicationContext(),HomeActivity.class));
+                            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                         }else {
                             loadingBar.dismiss();
                             Toast.makeText(getApplicationContext(),"Password is incorrect", Toast.LENGTH_SHORT).show();

@@ -48,7 +48,7 @@
         android:id="@+id/setting_profile_image"
         android:layout_margin="15dp"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/ic_launcher_background"
+        android:src="@drawable/account_circle"
         android:layout_width="130dp"
         android:layout_height="130dp"/>
     <TextView
@@ -61,29 +61,38 @@
         android:layout_height="wrap_content"/>
     <EditText
         android:id="@+id/setting_phone_number"
+        android:textSize="16sp"
         android:background="@drawable/corner_border_background"
         android:textColor="@color/colorTextPrimary"
-        android:layout_margin="15dp"
-        android:padding="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:padding="15dp"
         android:hint="@string/phone_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <EditText
         android:id="@+id/setting_full_name"
+        android:textSize="16sp"
         android:background="@drawable/corner_border_background"
         android:textColor="@color/colorTextPrimary"
-        android:layout_margin="15dp"
-        android:padding="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:padding="15dp"
         android:hint="@string/full_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <EditText
         android:id="@+id/setting_address"
+        android:textSize="16sp"
         android:background="@drawable/corner_border_background"
         android:textColor="@color/colorTextPrimary"
-        android:layout_margin="15dp"
-        android:padding="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:padding="15dp"
         android:hint="@string/address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -92,7 +101,7 @@
         android:background="@drawable/corner_solid_background"
         android:textColor="@color/colorWhite"
         android:layout_margin="15dp"
-        android:padding="10dp"
+        android:padding="15dp"
         android:textSize="18sp"
         android:textAllCaps="false"
         android:text="Security Question"

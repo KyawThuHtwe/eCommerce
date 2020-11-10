@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".Buyers.Fragments.HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -20,80 +19,52 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                tools:ignore="UselessParent">
                 <TextView
                     android:textSize="20sp"
                     android:textColor="@color/colorTextPrimary"
-                    android:text="Category"
+                    android:text="@string/category"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <View
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="10dp"/>
-                <ImageView
-                    android:id="@+id/search"
-                    android:padding="10dp"
-                    android:elevation="10dp"
-                    android:backgroundTint="@color/colorWhite"
-                    android:background="@drawable/corner_solid_background"
-                    android:src="@drawable/search"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:tint="@color/colorTextPrimary" />
-
-            </LinearLayout>
-            <LinearLayout
-                android:padding="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <RadioGroup
-                    android:id="@+id/radio_group"
-                    android:orientation="horizontal"
+                <androidx.cardview.widget.CardView
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="10dp"
+                    android:layout_margin="1dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
-                    <RadioButton
-                        android:checked="true"
-                        android:id="@+id/all"
-                        android:elevation="10dp"
-                        android:backgroundTint="@color/colorWhite"
-                        android:background="@drawable/corner_solid_background"
-                        android:textSize="17sp"
+                    <ImageView
+                        android:id="@+id/search"
                         android:padding="10dp"
-                        android:text="All"
+                        android:src="@drawable/search"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                    <View
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"/>
-                    <RadioButton
-                        android:id="@+id/t_shirt"
-                        android:elevation="10dp"
-                        android:backgroundTint="@color/colorWhite"
-                        android:background="@drawable/corner_solid_background"
-                        android:textSize="17sp"
-                        android:padding="10dp"
-                        android:text="T-Shirt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                    <View
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"/>
+                        android:layout_height="wrap_content"
+                        app:tint="@color/colorTextPrimary"
+                        android:contentDescription="@string/app_name" />
 
-                    <RadioButton
-                        android:id="@+id/shirt"
-                        android:elevation="10dp"
-                        android:backgroundTint="@color/colorWhite"
-                        android:background="@drawable/corner_solid_background"
-                        android:textSize="17sp"
-                        android:padding="10dp"
-                        android:text="Shirt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                </androidx.cardview.widget.CardView>
 
-                </RadioGroup>
             </LinearLayout>
         </LinearLayout>
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/simpleTabLayout"
+            app:tabMode="scrollable"
+            app:tabGravity="center"
+            android:background="@color/colorWhite"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            app:tabBackground="@color/colorWhite"
+            app:tabIndicatorColor="@color/colorWhite"
+            app:tabSelectedTextColor="@color/colorTextPrimary"
+            app:tabTextColor="@color/colorTextSecondary" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorBottomBar"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
@@ -111,7 +82,8 @@
             android:background="@color/colorPrimary"
             android:src="@drawable/add_shopping_cart"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            tools:ignore="RtlHardcoded,UnusedAttribute" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </FrameLayout>

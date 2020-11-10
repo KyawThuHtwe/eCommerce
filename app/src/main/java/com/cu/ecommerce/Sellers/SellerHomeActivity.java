@@ -1,26 +1,15 @@
 package com.cu.ecommerce.Sellers;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.NumberPicker;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cu.ecommerce.Activities.MainActivity;
-import com.cu.ecommerce.Model.Product;
 import com.cu.ecommerce.R;
-import com.cu.ecommerce.ViewHolder.ItemViewHolder;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,45 +18,50 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
+import de.hdodenhof.circleimageview.CircleImageView;
+import io.paperdb.Paper;
 
 public class SellerHomeActivity extends AppCompatActivity {
 
-    RecyclerView recyclerView;
-    DatabaseReference unVerifyProductRef;
-    LinearLayout add,logout;
-    TextView seller_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seller_home);
-        add=findViewById(R.id.add);
-        logout=findViewById(R.id.logout);
-        seller_name=findViewById(R.id.seller_name);
-        add.setOnClickListener(new View.OnClickListener() {
+
+        Paper.init(this);
+
+        final DrawerLayout drawerLayout=findViewById(R.id.drawerLayout);
+        findViewById(R.id.imageMenu).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), SellerCategoryActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                drawerLayout.openDrawer(GravityCompat.START);
             }
         });
-        logout.setOnClickListener(new View.OnClickListener() {
+        drawerLayout.close();
+        NavigationView navigationView=findViewById(R.id.navigationView);
+        navigationView.setItemIconTintList(null);
+        NavController navController= Navigation.findNavController(this,R.id.navHostFragment);
+        NavigationUI.setupWithNavController(navigationView,navController);
+        final TextView textTitle=findViewById(R.id.textTitle);
+        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
             @Override
-            public void onClick(View v) {
-                logoutSeller();
+            public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
+                textTitle.setText(destination.getLabel());
             }
         });
 
-        unVerifyProductRef= FirebaseDatabase.getInstance().getReference().child("Products");
-        recyclerView=findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-    }
-    @Override
-    protected void onStart() {
-        super.onStart();
+        View headerView=navigationView.getHeaderView(0);
+        TextView seller_name=headerView.findViewById(R.id.username);
+        CircleImageView profileImage=headerView.findViewById(R.id.profileImage);
         String sID= FirebaseAuth.getInstance().getCurrentUser().getUid();
         final DatabaseReference reference= FirebaseDatabase.getInstance().getReference()
                 .child("Sellers")
@@ -77,7 +71,12 @@ public class SellerHomeActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 if(snapshot.exists()){
-                    seller_name.setText(snapshot.child("name").getValue().toString());
+                    String name_value=snapshot.child("name").getValue().toString();
+                    if(snapshot.child("image").exists()){
+                        String image_url=snapshot.child("image").getValue().toString();
+                        Picasso.get().load(image_url).into(profileImage);
+                    }
+                    seller_name.setText(name_value);
                 }
             }
 
@@ -87,74 +86,82 @@ public class SellerHomeActivity extends AppCompatActivity {
             }
         });
 
-        FirebaseRecyclerOptions<Product> options=
-                new FirebaseRecyclerOptions.Builder<Product>()
-                        .setQuery(unVerifyProductRef.orderByChild("sid").equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid()),Product.class)
-                        .build();
-        FirebaseRecyclerAdapter<Product, ItemViewHolder> adapter=
-                new FirebaseRecyclerAdapter<Product, ItemViewHolder>(options) {
-                    @Override
-                    protected void onBindViewHolder(@NonNull ItemViewHolder holder, int i, @NonNull Product product) {
-                        holder.name.setText(product.getName());
-                        holder.price.setText(product.getPrice());
-                        Picasso.get().load(product.getImage()).placeholder(R.drawable.ic_launcher_foreground).error(R.drawable.ic_launcher_background).into(holder.image);
-                        holder.description.setText(product.getDescription());
-                        holder.productState.setText(product.getProductState());
-                        holder.layout.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                CharSequence opt[]=new CharSequence[]
-                                        {
-                                                "Yes","No"
-                                        };
-                                AlertDialog.Builder builder=new AlertDialog.Builder(SellerHomeActivity.this);
-                                builder.setTitle("Do you want to delete this Product, Are you sure?");
-                                builder.setItems(opt, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int con) {
-                                        if(con==0){
-                                            deleteProduct(product.getPid());
-                                        }else if(con==1){
-                                            finish();
-                                        }
-                                    }
-                                });
-                                builder.show();
+    }
 
+    /*
+    private void uploadImage() {
+        final ProgressDialog progressDialog=new ProgressDialog(this);
+        progressDialog.setTitle("Update Profile");
+        progressDialog.setMessage("Please wait, while we are updating your account information");
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
+        final String sID= FirebaseAuth.getInstance().getCurrentUser().getUid();
+        if(imageUri!=null){
+            final StorageReference fileRef=storageProfileReference.child(sID+".jpg");
+            UploadTask uploadTask=fileRef.putFile(imageUri);
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getApplicationContext(),"Error : "+e.toString(),Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                }
+            }).addOnSuccessListener(new OnSuccessListener() {
+                @Override
+                public void onSuccess(Object o) {
+                    Toast.makeText(getApplicationContext(),"Profile Image Uploaded Successfully...",Toast.LENGTH_SHORT).show();
+                    Task<Uri> urlTask=uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                        @Override
+                        public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                            if(!task.isSuccessful()){
+                                throw task.getException();
                             }
-                        });
-
-                    }
-
-                    @NonNull
-                    @Override
-                    public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                        View view1= LayoutInflater.from(parent.getContext()).inflate(R.layout.seller_item_layout,parent,false);
-                        return new ItemViewHolder(view1);
-                    }
-                };
-        recyclerView.setAdapter(adapter);
-        adapter.startListening();
-    }
-
-    private void deleteProduct(String pid) {
-        unVerifyProductRef.child(pid)
-                .removeValue()
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()){
-                            Toast.makeText(getApplicationContext(),"",Toast.LENGTH_SHORT).show();
+                            return fileRef.getDownloadUrl();
                         }
+                    }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Uri> task) {
+                            if(task.isSuccessful()){
+                                Uri downloadUri=task.getResult();
+                                myUri=downloadUri.toString();
+                                String sID= FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                DatabaseReference reference=FirebaseDatabase.getInstance().getReference().child("Sellers");
+                                HashMap<String,Object> sellerMap=new HashMap<>();
+                                sellerMap.put("image",myUri);
+                                reference.child(sID).updateChildren(sellerMap)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if(task.isSuccessful()){
+                                                    progressDialog.dismiss();
+                                                    Toast.makeText(getApplicationContext(),"Profile Info update successfully",Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
 
-                    }
-                });
+                            }else {
+                                progressDialog.dismiss();
+                                Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                }
+            });
+        }
+        else {
+            progressDialog.dismiss();
+            Toast.makeText(getApplicationContext(),"Image is not selected.",Toast.LENGTH_SHORT).show();
+        }
     }
 
-    public void logoutSeller() {
+     */
+
+    public void logout(MenuItem item) {
         FirebaseAuth firebaseAuth=FirebaseAuth.getInstance();
         firebaseAuth.signOut();
         startActivity(new Intent(getApplicationContext(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));
+    }
 
+    public void setting(MenuItem item) {
+        startActivity(new Intent(getApplicationContext(), SellerSettingsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
     }
 }

@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cu.ecommerce.Activities.HomeActivity;
 import com.cu.ecommerce.Activities.MainActivity;
 import com.cu.ecommerce.Prevalent.Prevalent;
 import com.cu.ecommerce.R;
@@ -202,6 +201,7 @@ public class SettingActivity extends AppCompatActivity {
         userMap.put("name",name.getText().toString());
         userMap.put("address",address.getText().toString());
         userMap.put("phoneOrder",phone.getText().toString());
+
         reference.child(Prevalent.currentOnlineUser.getPhone()).updateChildren(userMap);
 
         startActivity(new Intent(getApplicationContext(), HomeActivity.class));
@@ -227,7 +227,6 @@ public class SettingActivity extends AppCompatActivity {
                         address.setText(address_value);
                     }
                 }
-
             }
 
             @Override

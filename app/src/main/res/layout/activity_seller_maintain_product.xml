@@ -5,9 +5,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Admin.AdminMaintainProductActivity">
+    tools:context=".Sellers.SellerMaintainProductActivity">
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize">
+
+        <ImageView
+            android:id="@+id/back"
+            android:scaleType="centerCrop"
+            android:background="?selectableItemBackgroundBorderless"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:tint="@color/colorTextPrimary" />
+        <TextView
+            android:textSize="20sp"
+            android:textColor="@color/colorTextPrimary"
+            android:text="@string/edit_and_change_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <View
+        android:background="@color/colorBottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
     <ImageView
         android:id="@+id/imageM"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/image_frame_background"
         android:scaleType="centerCrop"
         android:layout_width="match_parent"
         android:layout_height="300dp"/>
@@ -16,7 +47,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
-        android:padding="10dp"
+        android:padding="15dp"
         android:background="@drawable/corner_border_background"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -29,7 +60,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
-        android:padding="10dp"
+        android:padding="15dp"
         android:background="@drawable/corner_border_background"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -42,7 +73,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
-        android:padding="10dp"
+        android:padding="15dp"
         android:background="@drawable/corner_border_background"
         android:textSize="15sp"
         android:textStyle="bold"
@@ -54,30 +85,18 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"/>
-    <TextView
-        android:id="@+id/update_btn"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        android:padding="10dp"
-        android:background="@drawable/corner_solid_background"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:gravity="center_horizontal"
-        android:textColor="@color/colorWhite"
-        android:text="@string/change_apply"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:id="@+id/delete_btn"
+    <Button
+        android:id="@+id/change_apply"
+        android:textAllCaps="false"
         android:layout_margin="20dp"
-        android:padding="10dp"
+        android:padding="15dp"
+        android:backgroundTint="@color/colorPrimary"
         android:background="@drawable/corner_solid_background"
         android:textSize="18sp"
         android:textStyle="bold"
         android:gravity="center_horizontal"
         android:textColor="@color/colorWhite"
-        android:text="@string/delete_this_product"
+        android:text="@string/change_applied"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.cu.ecommerce.Buyers.CartActivity;
 import com.cu.ecommerce.Buyers.ProductDetailActivity;
@@ -23,6 +24,7 @@ import com.cu.ecommerce.ViewHolder.ProductViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
@@ -32,17 +34,69 @@ public class HomeFragment extends Fragment {
     RecyclerView recyclerView;
     DatabaseReference databaseReference;
     FloatingActionButton cart;
+    TabLayout category_tabLayout;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_home, container, false);
+        category_tabLayout=view.findViewById(R.id.simpleTabLayout);
+        category_tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+
+        TabLayout.Tab firstTab = category_tabLayout.newTab();
+        firstTab.setText("All");
+        category_tabLayout.addTab(firstTab);
+        TabLayout.Tab secondTab = category_tabLayout.newTab();
+        secondTab.setText("T-Shirt");
+        category_tabLayout.addTab(secondTab);
+        TabLayout.Tab thirdTab = category_tabLayout.newTab();
+        thirdTab.setText("Shirt");
+        category_tabLayout.addTab(thirdTab);
 
         databaseReference= FirebaseDatabase.getInstance().getReference().child("Products");
+
         recyclerView=view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        category_tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                Toast.makeText(getContext(), tab.getText().toString(), Toast.LENGTH_SHORT).show();
+                loading(tab.getText().toString());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+        loading("All");
+
+        cart=view.findViewById(R.id.cart);
+        cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), CartActivity.class));
+            }
+        });
+
+        ImageView search=view.findViewById(R.id.search);
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), SearchProductActivity.class));
+            }
+        });
+        return view;
+    }
+    public void loading(String category){
         FirebaseRecyclerOptions<Product> options=new FirebaseRecyclerOptions
                 .Builder<Product>()
                 .setQuery(databaseReference.orderByChild("productState").equalTo("Approved"),Product.class)
@@ -76,22 +130,5 @@ public class HomeFragment extends Fragment {
                 };
         recyclerView.setAdapter(adapter);
         adapter.startListening();
-
-        cart=view.findViewById(R.id.cart);
-        cart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getContext(), CartActivity.class));
-            }
-        });
-
-        ImageView search=view.findViewById(R.id.search);
-        search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getContext(), SearchProductActivity.class));
-            }
-        });
-        return view;
     }
 }

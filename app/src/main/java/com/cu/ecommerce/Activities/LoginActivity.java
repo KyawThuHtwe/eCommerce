@@ -16,7 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cu.ecommerce.Admin.AdminHomeActivity;
-import com.cu.ecommerce.Sellers.SellerCategoryActivity;
+import com.cu.ecommerce.Buyers.HomeActivity;
 import com.cu.ecommerce.Buyers.ResetPasswordActivity;
 import com.cu.ecommerce.Model.User;
 import com.cu.ecommerce.Prevalent.Prevalent;
@@ -61,7 +61,6 @@ public class LoginActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 loginUser();
             }
         });
@@ -109,7 +108,6 @@ public class LoginActivity extends AppCompatActivity {
         if(rememberMe.isChecked()){
             Paper.book().write(Prevalent.UserPhoneKey,phone);
             Paper.book().write(Prevalent.UserPasswordKey,password);
-
         }
 
         final DatabaseReference rootRef;
@@ -120,22 +118,27 @@ public class LoginActivity extends AppCompatActivity {
                 if(snapshot.child(parentDbName).child(phone).exists()){
 
                     User userData=snapshot.child(parentDbName).child(phone).getValue(User.class);
+                    String exist_phone=snapshot.child(parentDbName).child(phone).child("phone").getValue().toString();
                     if(userData.getPhone().equals(phone)){
                         if(userData.getPassword().equals(password)){
                            if(parentDbName.equals("Admins")){
+                               User user=new User();
+                               user.setPhone(exist_phone);
                                Toast.makeText(getApplicationContext(),"Welcome Admin, your in Logged in Successfully", Toast.LENGTH_SHORT).show();
+                               Prevalent.currentOnlineUser=user;
                                loadingBar.dismiss();
                                startActivity(new Intent(getApplicationContext(), AdminHomeActivity.class));
+                               finish();
                            }else if(parentDbName.equals("Users")){
                                Toast.makeText(getApplicationContext(),"Logged in Successfully", Toast.LENGTH_SHORT).show();
                                Prevalent.currentOnlineUser=userData;
                                loadingBar.dismiss();
-                               startActivity(new Intent(getApplicationContext(),HomeActivity.class));
+                               startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                               finish();
                            }
                         }else {
                             loadingBar.dismiss();
                             Toast.makeText(getApplicationContext(),"Password is incorrect", Toast.LENGTH_SHORT).show();
-
                         }
                     }
 

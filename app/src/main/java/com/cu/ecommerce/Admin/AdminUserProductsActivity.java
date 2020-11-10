@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.cu.ecommerce.Model.Cart;
 import com.cu.ecommerce.Model.Product;
@@ -24,11 +25,19 @@ public class AdminUserProductsActivity extends AppCompatActivity {
     RecyclerView productList;
     DatabaseReference productRef;
     String userID="";
+    ImageView back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_user_products);
+        back=findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         userID=getIntent().getStringExtra("uid");
         productList=findViewById(R.id.recyclerView);
         productList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
