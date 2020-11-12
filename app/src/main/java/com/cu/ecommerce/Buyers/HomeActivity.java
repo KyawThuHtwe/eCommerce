@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cu.ecommerce.Activities.MainActivity;
@@ -59,7 +60,13 @@ public class HomeActivity extends AppCompatActivity {
         CircleImageView profileImage=headerView.findViewById(R.id.profileImage);
         username.setText(Prevalent.currentOnlineUser.getName()+"");
         Picasso.get().load(Prevalent.currentOnlineUser.getImage()).placeholder(R.drawable.ic_launcher_foreground).into(profileImage);
-
+        ImageView search=findViewById(R.id.search);
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), SearchProductActivity.class));
+            }
+        });
     }
 
     public void logout(MenuItem item) {

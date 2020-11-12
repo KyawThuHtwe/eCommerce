@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Admin.AdminCategoryActivity">
+    tools:context=".Admin.AdminUsersViewActivity">
     <LinearLayout
         android:gravity="center_vertical"
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
         <TextView
             android:textSize="20sp"
             android:textColor="@color/colorTextPrimary"
-            android:text="@string/category"
+            android:text="@string/users"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
@@ -33,22 +33,8 @@
         android:layout_height="1dp"
         android:background="@color/colorBottomBar"/>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:padding="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/add_category"
-            android:layout_margin="20dp"
-            android:layout_gravity="bottom|right"
-            android:src="@drawable/add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
+        android:layout_height="match_parent"/>
 </LinearLayout>

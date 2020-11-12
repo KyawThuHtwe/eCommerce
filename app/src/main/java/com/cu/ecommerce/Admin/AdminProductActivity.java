@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.cu.ecommerce.Model.Product;
+import com.cu.ecommerce.Prevalent.Prevalent;
 import com.cu.ecommerce.R;
 import com.cu.ecommerce.Sellers.SellerMaintainProductActivity;
 import com.cu.ecommerce.ViewHolder.ProductViewHolder;
@@ -50,7 +51,7 @@ public class AdminProductActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         FirebaseRecyclerOptions<Product> options=new FirebaseRecyclerOptions
                 .Builder<Product>()
-                .setQuery(databaseReference,Product.class)
+                .setQuery(databaseReference.orderByChild("sid").equalTo(Prevalent.currentOnlineUser.getPhone()),Product.class)
                 .build();
         FirebaseRecyclerAdapter<Product, ProductViewHolder> adapter=
                 new FirebaseRecyclerAdapter<Product, ProductViewHolder>(options) {

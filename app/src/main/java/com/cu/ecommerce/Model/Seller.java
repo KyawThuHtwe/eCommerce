@@ -1,19 +1,30 @@
 package com.cu.ecommerce.Model;
 
-public class User {
-    String name,phone,password,image,address,date,time;
+public class Seller {
+    String sid,name,phone,password,image,address,phoneOrder,email,date,time;
 
-    public User() {
+    public Seller() {
     }
 
-    public User(String name, String phone, String password, String image, String address, String date, String time) {
+    public Seller(String sid, String name, String phone, String password, String image, String address, String phoneOrder, String email, String date, String time) {
+        this.sid = sid;
         this.name = name;
         this.phone = phone;
         this.password = password;
         this.image = image;
         this.address = address;
+        this.phoneOrder = phoneOrder;
+        this.email = email;
         this.date = date;
         this.time = time;
+    }
+
+    public String getSid() {
+        return sid;
+    }
+
+    public void setSid(String sid) {
+        this.sid = sid;
     }
 
     public String getName() {
@@ -54,6 +65,22 @@ public class User {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getPhoneOrder() {
+        return phoneOrder;
+    }
+
+    public void setPhoneOrder(String phoneOrder) {
+        this.phoneOrder = phoneOrder;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getDate() {

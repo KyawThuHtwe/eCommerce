@@ -119,27 +119,37 @@ public class LoginActivity extends AppCompatActivity {
 
                     User userData=snapshot.child(parentDbName).child(phone).getValue(User.class);
                     String exist_phone=snapshot.child(parentDbName).child(phone).child("phone").getValue().toString();
+                    String exist_image=snapshot.child(parentDbName).child(phone).child("image").getValue().toString();
                     if(userData.getPhone().equals(phone)){
-                        if(userData.getPassword().equals(password)){
-                           if(parentDbName.equals("Admins")){
-                               User user=new User();
-                               user.setPhone(exist_phone);
-                               Toast.makeText(getApplicationContext(),"Welcome Admin, your in Logged in Successfully", Toast.LENGTH_SHORT).show();
-                               Prevalent.currentOnlineUser=user;
-                               loadingBar.dismiss();
-                               startActivity(new Intent(getApplicationContext(), AdminHomeActivity.class));
-                               finish();
-                           }else if(parentDbName.equals("Users")){
-                               Toast.makeText(getApplicationContext(),"Logged in Successfully", Toast.LENGTH_SHORT).show();
-                               Prevalent.currentOnlineUser=userData;
-                               loadingBar.dismiss();
-                               startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-                               finish();
-                           }
-                        }else {
-                            loadingBar.dismiss();
-                            Toast.makeText(getApplicationContext(),"Password is incorrect", Toast.LENGTH_SHORT).show();
+                        if(parentDbName.equals("Admins")){
+                            if(userData.getPassword().equals(password)) {
+                                User user = new User();
+                                user.setPhone(exist_phone);
+                                user.setImage(exist_image);
+                                Toast.makeText(getApplicationContext(), "Welcome Admin, your in Logged in Successfully", Toast.LENGTH_SHORT).show();
+                                Prevalent.currentOnlineUser = user;
+                                loadingBar.dismiss();
+                                startActivity(new Intent(getApplicationContext(), AdminHomeActivity.class));
+                                finish();
+                            }
+                            else {
+                                loadingBar.dismiss();
+                                Toast.makeText(getApplicationContext(),"Password is incorrect", Toast.LENGTH_SHORT).show();
+                            }
+                        }else if(parentDbName.equals("Users")){
+                            if(userData.getPassword().equals(password)) {
+                                Toast.makeText(getApplicationContext(), "Logged in Successfully", Toast.LENGTH_SHORT).show();
+                                Prevalent.currentOnlineUser = userData;
+                                loadingBar.dismiss();
+                                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                                finish();
+                            }
+                            else {
+                                loadingBar.dismiss();
+                                Toast.makeText(getApplicationContext(),"Password is incorrect", Toast.LENGTH_SHORT).show();
+                            }
                         }
+
                     }
 
                 }else {

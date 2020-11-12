@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Admin.DetailsActivity">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/bg"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/image_frame_background"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"/>
+        <LinearLayout
+            app:layout_constraintTop_toTopOf="parent"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize">
+
+            <ImageView
+                android:id="@+id/back"
+                android:scaleType="centerCrop"
+                android:background="?selectableItemBackgroundBorderless"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:tint="@color/colorTextPrimary" />
+            <TextView
+                android:textSize="20sp"
+                android:textColor="@color/colorTextPrimary"
+                android:text="@string/details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profileImage"
+            android:elevation="10dp"
+            android:padding="2dp"
+            android:background="@drawable/round_background"
+            app:layout_constraintBottom_toBottomOf="@id/bg"
+            app:layout_constraintTop_toBottomOf="@id/bg"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/account_circle"
+            android:layout_width="150dp"
+            android:layout_height="150dp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/username"
+        android:layout_gravity="center_horizontal"
+        android:textStyle="bold"
+        android:layout_margin="10dp"
+        android:textSize="16sp"
+        android:textColor="@color/colorTextPrimary"
+        android:text="@string/user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/data"
+        android:padding="20dp"
+        android:layout_gravity="center_vertical"
+        android:textSize="16sp"
+        android:textColor="@color/colorTextPrimary"
+        android:text="@string/phone_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

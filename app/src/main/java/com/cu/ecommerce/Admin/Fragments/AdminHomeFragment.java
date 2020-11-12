@@ -16,11 +16,14 @@ import com.cu.ecommerce.Admin.AdminCategoryActivity;
 import com.cu.ecommerce.Admin.AdminCheckNewProductsActivity;
 import com.cu.ecommerce.Admin.AdminNewOrdersActivity;
 import com.cu.ecommerce.Admin.AdminProductActivity;
+import com.cu.ecommerce.Admin.AdminSellersViewActivity;
+import com.cu.ecommerce.Admin.AdminUsersViewActivity;
 import com.cu.ecommerce.R;
+import com.cu.ecommerce.Sellers.SellerCategoryActivity;
 
 public class AdminHomeFragment extends Fragment {
 
-    LinearLayout maintain,order,approve,category;
+    LinearLayout maintain,order,approve,category,add_new_product,seller,user;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,6 +34,25 @@ public class AdminHomeFragment extends Fragment {
         order=view.findViewById(R.id.order);
         approve=view.findViewById(R.id.approve);
         category=view.findViewById(R.id.category);
+        add_new_product=view.findViewById(R.id.add_new_product);
+        seller=view.findViewById(R.id.seller);
+        user=view.findViewById(R.id.user);
+
+        seller.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getContext(), AdminSellersViewActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        user.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getContext(), AdminUsersViewActivity.class);
+                startActivity(intent);
+            }
+        });
 
         order.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +80,14 @@ public class AdminHomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(getContext(), AdminCategoryActivity.class);
+                startActivity(intent);
+            }
+        });
+        add_new_product.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getContext(), SellerCategoryActivity.class);
+                intent.putExtra("type","admin");
                 startActivity(intent);
             }
         });

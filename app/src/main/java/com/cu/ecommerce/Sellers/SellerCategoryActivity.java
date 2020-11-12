@@ -36,18 +36,23 @@ public class SellerCategoryActivity extends AppCompatActivity {
     ImageView back;
     RecyclerView categoryList;
     DatabaseReference categoryRef;
-    private String chooseCategory="";
+    private String chooseCategory="",type="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seller_category);
 
+        type=getIntent().getExtras().get("type").toString();
+
         back=findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), SellerHomeActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                if(!type.equals("admin")){
+                    Intent intent=new Intent(getApplicationContext(), SellerHomeActivity.class);
+                    startActivity(intent);
+                }
                 finish();
             }
         });
@@ -59,8 +64,11 @@ public class SellerCategoryActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent=new Intent(getApplicationContext(), SellerHomeActivity.class);
-        startActivity(intent);
+        type=getIntent().getExtras().get("type").toString();
+        if(!type.equals("admin")){
+            Intent intent=new Intent(getApplicationContext(), SellerHomeActivity.class);
+            startActivity(intent);
+        }
         finish();
     }
 
@@ -86,6 +94,7 @@ public class SellerCategoryActivity extends AppCompatActivity {
                                 chooseCategory=category.getName();
                                 Toast.makeText(getApplicationContext(),chooseCategory,Toast.LENGTH_SHORT).show();
                                 Intent intent=new Intent(getApplicationContext(), SellerAddNewProductActivity.class);
+                                intent.putExtra("type",type);
                                 intent.putExtra("category",chooseCategory);
                                 startActivity(intent);
                                 finish();

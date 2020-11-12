@@ -3,6 +3,7 @@ package com.cu.ecommerce.Buyers;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +24,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -30,6 +33,7 @@ public class RegisterActivity extends AppCompatActivity {
     EditText inputName,inputPhone,inputPassword;
     Button register;
     ProgressDialog loadingBar;
+    String saveCurrentDate,saveCurrentTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +81,14 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void validatePhoneNumber(String name, String phone, String password) {
+
+        Calendar calendar=Calendar.getInstance();
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat currentDate=new SimpleDateFormat("MMM dd, yyyy");
+        saveCurrentDate=currentDate.format(calendar.getTime());
+
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat currentTime=new SimpleDateFormat("HH:mm:ss a");
+        saveCurrentTime=currentTime.format(calendar.getTime());
+
         final DatabaseReference rootRef;
         rootRef= FirebaseDatabase.getInstance().getReference();
         rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -88,6 +100,9 @@ public class RegisterActivity extends AppCompatActivity {
                     userdataMap.put("name",name);
                     userdataMap.put("phone",phone);
                     userdataMap.put("password",password);
+                    userdataMap.put("date",saveCurrentDate);
+                    userdataMap.put("time",saveCurrentTime);
+
                     rootRef.child("Users").child(phone).updateChildren(userdataMap)
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override

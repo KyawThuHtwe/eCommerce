@@ -67,7 +67,7 @@ public class AdminHomeActivity extends AppCompatActivity {
         TextView username=headerView.findViewById(R.id.username);
         CircleImageView profileImage=headerView.findViewById(R.id.profileImage);
         username.setText(Prevalent.currentOnlineUser.getPhone()+"");
-        Picasso.get().load(Prevalent.currentOnlineUser.getImage()).placeholder(R.drawable.ic_launcher_foreground).into(profileImage);
+        Picasso.get().load(Prevalent.currentOnlineUser.getImage()).placeholder(R.drawable.account_circle).into(profileImage);
 
     }
 

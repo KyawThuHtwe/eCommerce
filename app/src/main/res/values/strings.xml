@@ -91,4 +91,6 @@
     <string name="maintain">Maintain</string>
     <string name="approve">Approve</string>
     <string name="add_new_category">Add New Category</string>
+    <string name="details">Details</string>
+    <string name="favorites">Favorites</string>
 </resources>

@@ -1,18 +1,18 @@
 package com.cu.ecommerce.Model;
 
 public class Product {
-    String name,description,price,image,category,pid,date,time,productState;
+    String pid,name,description,price,image,category,date,time,productState;
 
     public Product() {
     }
 
-    public Product(String name, String description, String price, String image, String category, String pid, String date, String time, String productState) {
+    public Product(String pid, String name, String description, String price, String image, String category, String date, String time, String productState) {
+        this.pid = pid;
         this.name = name;
         this.description = description;
         this.price = price;
         this.image = image;
         this.category = category;
-        this.pid = pid;
         this.date = date;
         this.time = time;
         this.productState = productState;

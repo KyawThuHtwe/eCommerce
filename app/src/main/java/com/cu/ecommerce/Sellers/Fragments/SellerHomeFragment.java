@@ -47,7 +47,9 @@ public class SellerHomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 try {
-                    startActivity(new Intent(getContext(), SellerCategoryActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                    Intent intent=new Intent(getContext(), SellerCategoryActivity.class);
+                    intent.putExtra("type","seller");
+                    startActivity(intent);
                 }catch (Exception e){
                     Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
                 }

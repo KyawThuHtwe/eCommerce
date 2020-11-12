@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.cu.ecommerce.Admin.AdminHomeActivity;
+import com.cu.ecommerce.Prevalent.Prevalent;
 import com.cu.ecommerce.R;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -47,26 +49,17 @@ public class SellerAddNewProductActivity extends AppCompatActivity {
     private Uri imageUri;
     private String productRandomKey,downloadImageUrl;
     StorageReference productImageRef;
-    DatabaseReference productRef,sellerRef;
+    DatabaseReference productRef,sellerRef,adminRef;
     ProgressDialog loadingBar;
 
     String sName,sAddress,sEmail,sPhone,sID;
+    String type="",productState="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seller_add_new_product);
         back=findViewById(R.id.back);
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(), SellerCategoryActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-            }
-        });
-
-
         image=findViewById(R.id.image);
         addProductImage=findViewById(R.id.addImage);
         inputProductName=findViewById(R.id.name);
@@ -75,12 +68,23 @@ public class SellerAddNewProductActivity extends AppCompatActivity {
         addProduct=findViewById(R.id.addProduct);
 
         category=getIntent().getExtras().get("category").toString();
+        type=getIntent().getExtras().get("type").toString();
+
         loadingBar=new ProgressDialog(this);
 
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(), SellerCategoryActivity.class);
+                intent.putExtra("type",type);
+                startActivity(intent);
+                finish();
+            }
+        });
         productImageRef= FirebaseStorage.getInstance().getReference().child("Product Images");
         productRef=FirebaseDatabase.getInstance().getReference().child("Products");
         sellerRef=FirebaseDatabase.getInstance().getReference().child("Sellers");
-
+        adminRef=FirebaseDatabase.getInstance().getReference().child("Admins");
 
         addProductImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,29 +100,53 @@ public class SellerAddNewProductActivity extends AppCompatActivity {
             }
         });
 
-        sellerRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                        if(snapshot.exists()){
-                            sName=snapshot.child("name").getValue().toString();
-                            sAddress=snapshot.child("address").getValue().toString();
-                            sPhone=snapshot.child("phone").getValue().toString();
-                            sEmail=snapshot.child("email").getValue().toString();
-                            sID=snapshot.child("sid").getValue().toString();
+        if(type.equals("admin")){
+            adminRef.child(Prevalent.currentOnlineUser.getPhone())
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if(snapshot.exists()){
+                                sName=snapshot.child("name").getValue().toString();
+                                sPhone=snapshot.child("phone").getValue().toString();
+                                sAddress=snapshot.child("address").getValue().toString();
+                                sID=Prevalent.currentOnlineUser.getPhone();
+                                productState="Approved";
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
 
-                    }
-                });
+                        }
+                    });
+
+        }else {
+
+            sellerRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                            if(snapshot.exists()){
+                                sName=snapshot.child("name").getValue().toString();
+                                sAddress=snapshot.child("address").getValue().toString();
+                                sPhone=snapshot.child("phone").getValue().toString();
+                                sEmail=snapshot.child("email").getValue().toString();
+                                sID=snapshot.child("sid").getValue().toString();
+                                productState="Not Approved";
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+        }
 
     }
-
-    private void validateProductData() {
+        private void validateProductData() {
         name=inputProductName.getText().toString();
         description=inputProductDescription.getText().toString();
         price=inputProductPrice.getText().toString();
@@ -189,7 +217,7 @@ public class SellerAddNewProductActivity extends AppCompatActivity {
     private void saveProductInfoToDatabase() {
         HashMap<String,Object> productMap=new HashMap<>();
         productMap.put("pid",productRandomKey);
-        productMap.put("category",category);
+        productMap.put("category",category.toLowerCase());
         productMap.put("image",downloadImageUrl);
         productMap.put("name",name);
         productMap.put("description",description);
@@ -202,13 +230,17 @@ public class SellerAddNewProductActivity extends AppCompatActivity {
         productMap.put("sellerEmail",sEmail);
         productMap.put("sellerPhone",sPhone);
         productMap.put("sid",sID);
-        productMap.put("productState","Not Approved");
+        productMap.put("productState",productState);
 
         productRef.child(productRandomKey).updateChildren(productMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
-                    startActivity(new Intent(getApplicationContext(), SellerHomeActivity.class));
+                    if(type.equals("admin")){
+                        startActivity(new Intent(getApplicationContext(), AdminHomeActivity.class));
+                    }else{
+                        startActivity(new Intent(getApplicationContext(), SellerHomeActivity.class));
+                    }
                     loadingBar.dismiss();
                     finish();
                     Toast.makeText(getApplicationContext(),"Product is added successfully...",Toast.LENGTH_SHORT).show();
@@ -240,7 +272,8 @@ public class SellerAddNewProductActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intent=new Intent(getApplicationContext(), SellerCategoryActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra("type",type);
         startActivity(intent);
+        finish();
     }
 }
