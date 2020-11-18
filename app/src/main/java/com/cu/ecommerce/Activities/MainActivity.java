@@ -13,12 +13,15 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cu.ecommerce.Admin.AdminHomeActivity;
+import com.cu.ecommerce.Admin.AdminMainActivity;
 import com.cu.ecommerce.Buyers.HomeActivity;
 import com.cu.ecommerce.Buyers.RegisterActivity;
 import com.cu.ecommerce.Model.User;
 import com.cu.ecommerce.Prevalent.Prevalent;
 import com.cu.ecommerce.R;
 import com.cu.ecommerce.Sellers.SellerHomeActivity;
+import com.cu.ecommerce.Sellers.SellerMainActivity;
 import com.cu.ecommerce.Sellers.SellerRegistrationActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -50,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         loadingBar=new ProgressDialog(this);
+
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,38 +66,44 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
             }
         });
-
-        Paper.init(getApplicationContext());
-        String userPhoneKey=Paper.book().read(Prevalent.UserPhoneKey);
-        String userPasswordKey=Paper.book().read(Prevalent.UserPasswordKey);
-        if(userPhoneKey!="" && userPasswordKey!=""){
-            if(!TextUtils.isEmpty(userPhoneKey) && !TextUtils.isEmpty(userPasswordKey)){
-                allowAccess(userPhoneKey,userPasswordKey);
+        try {
+            Paper.init(this);
+            String userPhoneKey = Paper.book().read(Prevalent.UserPhoneKey);
+            String userPasswordKey = Paper.book().read(Prevalent.UserPasswordKey);
+            String userTypeKey = Paper.book().read(Prevalent.UserTypeKey);
+            if (!TextUtils.isEmpty(userPhoneKey) && !TextUtils.isEmpty(userPasswordKey) && !TextUtils.isEmpty(userTypeKey)) {
+                allowAccess(userPhoneKey, userPasswordKey, userTypeKey);
                 loadingBar.setTitle("Already Logged in");
                 loadingBar.setMessage("Please wait...");
                 loadingBar.setCanceledOnTouchOutside(false);
                 loadingBar.show();
-                finish();
-
             }
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void allowAccess(String phone, String password) {
+    private void allowAccess(String phone, String password,String typeKey) {
         final DatabaseReference rootRef;
         rootRef= FirebaseDatabase.getInstance().getReference();
         rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.child("Users").child(phone).exists()){
+                if(snapshot.child(typeKey).child(phone).exists()){
 
-                    User userData=snapshot.child("Users").child(phone).getValue(User.class);
+                    User userData=snapshot.child(typeKey).child(phone).getValue(User.class);
                     if(userData.getPhone().equals(phone)){
                         if(userData.getPassword().equals(password)){
                             Prevalent.currentOnlineUser=userData;
                             Toast.makeText(getApplicationContext(),"Please wait, your already logged in...", Toast.LENGTH_SHORT).show();
                             loadingBar.dismiss();
-                            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                            if(typeKey.equals("Admins")){
+                                startActivity(new Intent(getApplicationContext(), AdminMainActivity.class));
+                            }else if(typeKey.equals("Users")){
+                                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                            }
+                            finish();
+
                         }else {
                             loadingBar.dismiss();
                             Toast.makeText(getApplicationContext(),"Password is incorrect", Toast.LENGTH_SHORT).show();
@@ -118,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         FirebaseUser firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
         if(firebaseUser!=null){
-            startActivity(new Intent(getApplicationContext(), SellerHomeActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));
+            startActivity(new Intent(getApplicationContext(), SellerMainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));
         }
     }
 }

@@ -1,10 +1,6 @@
 package com.cu.ecommerce.Admin;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,19 +8,25 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.cu.ecommerce.Model.Cart;
-import com.cu.ecommerce.Model.Product;
+import com.cu.ecommerce.Prevalent.Prevalent;
 import com.cu.ecommerce.R;
 import com.cu.ecommerce.ViewHolder.CartViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class AdminUserProductsActivity extends AppCompatActivity {
 
     RecyclerView productList;
     DatabaseReference productRef;
-    String userID="";
+    String oID="",agentID="",type="",cID="";
     ImageView back;
 
     @Override
@@ -38,13 +40,27 @@ public class AdminUserProductsActivity extends AppCompatActivity {
                 finish();
             }
         });
-        userID=getIntent().getStringExtra("uid");
+        agentID=getIntent().getStringExtra("agentID");
+        cID=getIntent().getStringExtra("cid");
+        oID=getIntent().getStringExtra("oid");
+        type=getIntent().getStringExtra("type");
+
         productList=findViewById(R.id.recyclerView);
         productList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        productRef= FirebaseDatabase.getInstance().getReference()
-                .child("Cart List")
-                .child("Admin View")
-                .child(userID).child("Products");
+        if(type.equals("new")){
+            productRef= FirebaseDatabase.getInstance().getReference()
+                    .child("Cart List")
+                    .child("Admin View")
+                    .child(agentID)
+                    .child(oID).child("Products");
+        }else if(type.equals("older")){
+            productRef= FirebaseDatabase.getInstance().getReference()
+                    .child("Older Order")
+                    .child(agentID)
+                    .child(cID)
+                    .child(oID)
+                    .child("Cart List");
+        }
 
     }
 
@@ -57,11 +73,13 @@ public class AdminUserProductsActivity extends AppCompatActivity {
                 .build();
         FirebaseRecyclerAdapter<Cart, CartViewHolder> adapter=
                 new FirebaseRecyclerAdapter<Cart, CartViewHolder>(options) {
+                    @SuppressLint("SetTextI18n")
                     @Override
                     protected void onBindViewHolder(@NonNull CartViewHolder holder, int i, @NonNull Cart cart) {
-                        holder.name.setText(cart.getPname());
+                        holder.name.setText("Name = "+cart.getPname());
                         holder.quantity.setText("Quantity = "+cart.getQuantity());
-                        holder.price.setText("Price = "+cart.getPrice()+"$");
+                        holder.price.setText("Price = "+cart.getPrice()+" Kyats");
+                        Picasso.get().load(cart.getImage()).placeholder(R.drawable.ic_launcher_foreground).error(R.drawable.ic_launcher_background).into(holder.image);
 
                     }
 

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:paddingLeft="10dp"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
+            android:paddingRight="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/seller_profile"
+                android:src="@drawable/account_circle"
+                android:layout_width="50dp"
+                android:layout_height="50dp"/>
+            <TextView
+                android:id="@+id/seller_name"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="16sp"
+                android:text="@string/agent_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+        <View
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorBottomBar"/>
+
+        <TextView
+            android:id="@+id/name"
+            android:maxLines="1"
+            android:textSize="18sp"
+            android:paddingLeft="10dp"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
+            android:paddingRight="10dp"
+            android:textColor="@color/colorTextPrimary"
+            android:text="@string/product_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/image"
+            android:background="@drawable/image_frame_background"
+            android:src="@drawable/ic_launcher_foreground"
+            android:scaleType="centerCrop"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"/>
+
+        <TextView
+            android:id="@+id/price"
+            android:paddingTop="10dp"
+            android:paddingLeft="10dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:gravity="center_vertical"
+            android:textColor="@color/colorTextPrimary"
+            android:text="@string/price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/description"
+            android:maxLines="2"
+            android:padding="10dp"
+            android:textSize="16sp"
+            android:gravity="center_vertical"
+            android:textColor="@color/colorTextPrimary"
+            android:text="@string/product_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <View
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorBottomBar"/>
+
+        <TextView
+            android:id="@+id/approve"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:padding="15dp"
+            android:gravity="center"
+            android:background="?selectableItemBackground"
+            android:text="@string/approve"
+            android:textColor="@color/colorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:targetApi="lollipop" />
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@color/colorBottomBar"/>
+
+</LinearLayout>

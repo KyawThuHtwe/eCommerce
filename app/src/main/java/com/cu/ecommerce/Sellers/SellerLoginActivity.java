@@ -69,7 +69,7 @@ public class SellerLoginActivity extends AppCompatActivity {
                             if(task.isSuccessful()){
                                 loadingBar.dismiss();
                                 Toast.makeText(getApplicationContext(),"you are login successfully",Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(getApplicationContext(), SellerHomeActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                                startActivity(new Intent(getApplicationContext(), SellerMainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));
                             }
 
                         }

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activities.AboutActivity">
+    <LinearLayout
+        android:background="@color/colorPrimary"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize">
+
+        <ImageView
+            android:id="@+id/back"
+            android:scaleType="centerCrop"
+            android:background="?selectableItemBackgroundBorderless"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:tint="@color/colorWhite" />
+        <TextView
+            android:textSize="20sp"
+            android:textColor="@color/colorWhite"
+            android:text="@string/about"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <TextView
+        android:padding="20dp"
+        android:textSize="18sp"
+        android:background="?selectableItemBackground"
+        android:textColor="@color/colorTextPrimary"
+        android:text="Application Name : G Shop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <View
+        android:background="@color/colorBottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+    <TextView
+        android:padding="20dp"
+        android:textSize="18sp"
+        android:background="?selectableItemBackground"
+        android:textColor="@color/colorTextPrimary"
+        android:text="Build Date : 2.11.2020"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <View
+        android:background="@color/colorBottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+    <TextView
+        android:padding="20dp"
+        android:textSize="18sp"
+        android:background="?selectableItemBackground"
+        android:textColor="@color/colorTextPrimary"
+        android:text="Version : 1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <View
+        android:background="@color/colorBottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+    <TextView
+        android:padding="20dp"
+        android:textSize="18sp"
+        android:background="?selectableItemBackground"
+        android:textColor="@color/colorTextPrimary"
+        android:text="Developed By : Kyaw Thu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <View
+        android:background="@color/colorBottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+    <TextView
+        android:padding="20dp"
+        android:textSize="18sp"
+        android:background="?selectableItemBackground"
+        android:textColor="@color/colorTextPrimary"
+        android:text="Contact No : 09750534996"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <View
+        android:background="@color/colorBottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+    <TextView
+        android:padding="20dp"
+        android:textSize="18sp"
+        android:background="?selectableItemBackground"
+        android:textColor="@color/colorTextPrimary"
+        android:text="Email Address : copypaste673@gmail.com"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <View
+        android:background="@color/colorBottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+    <View
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+
+    <TextView
+        android:padding="20dp"
+        android:textSize="18sp"
+        android:textColor="@color/colorTextPrimary"
+        android:text="Credit By Google Websites, Facebook Sources"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

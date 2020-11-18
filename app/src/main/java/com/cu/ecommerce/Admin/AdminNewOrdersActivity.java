@@ -1,151 +1,104 @@
 package com.cu.ecommerce.Admin;
 
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+
+import com.cu.ecommerce.Adapter.AdminOrderAdapter;
+import com.cu.ecommerce.Adapter.OlderOrderAdapter;
+import com.cu.ecommerce.Model.Order;
+import com.cu.ecommerce.Prevalent.Prevalent;
+import com.cu.ecommerce.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.cu.ecommerce.Model.AdminOrders;
-import com.cu.ecommerce.R;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 public class AdminNewOrdersActivity extends AppCompatActivity {
 
-    RecyclerView orderList;
-    DatabaseReference orderRef;
-    ImageView back;
+    RecyclerView new_orderList,older_orderList;
+    ArrayList<Order> orders,older_orders;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_new_orders);
-        orderRef= FirebaseDatabase.getInstance().getReference().child("Orders");
-        orderList=findViewById(R.id.recyclerView);
-        orderList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        back=findViewById(R.id.back);
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        new_orderList=findViewById(R.id.new_recyclerView);
+        new_orderList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        older_orderList=findViewById(R.id.older_recyclerView);
+        older_orderList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
     }
 
     @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
-        FirebaseRecyclerOptions<AdminOrders> options=
-                new FirebaseRecyclerOptions.Builder<AdminOrders>()
-                .setQuery(orderRef,AdminOrders.class)
-                .build();
-        FirebaseRecyclerAdapter<AdminOrders,AdminOrdersViewHolder> adapter=
-                new FirebaseRecyclerAdapter<AdminOrders, AdminOrdersViewHolder>(options) {
-                    @Override
-                    protected void onBindViewHolder(@NonNull AdminOrdersViewHolder holder,final int i, @NonNull AdminOrders adminOrders) {
-                        holder.name.setText("Name : "+adminOrders.getName());
-                        holder.phone.setText("Phone : "+adminOrders.getPhone());
-                        holder.price.setText("Total Amount : "+adminOrders.getTotalAmount());
-                        holder.date_time.setText("Order at : "+adminOrders.getDate()+" "+adminOrders.getTime());
-                        holder.address_city.setText("Shipping Address : "+adminOrders.getAddress()+", "+adminOrders.getCity());
-
-                        holder.showOrderBtn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-
-                                String uID=getRef(i).getKey();
-                                Intent intent=new Intent(getApplicationContext(),AdminUserProductsActivity.class);
-                                intent.putExtra("uid",uID);
-                                startActivity(intent);
-
-                            }
-                        });
-
-                        holder.layout.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                try {
-                                    CharSequence opt[] = new CharSequence[]
-                                            {
-                                                    "Yes", "No"
-                                            };
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(AdminNewOrdersActivity.this);
-                                    builder.setTitle("Have you shipped this order products?");
-                                    builder.setItems(opt, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int con) {
-                                            if (con == 0) {
-                                                String uID = getRef(i).getKey().toString();
-                                                removeOrder(uID);
-
-                                            } else {
-                                                dialog.dismiss();
-                                            }
-                                        }
-                                    });
-                                    builder.show();
-                                }catch (Exception e){
-                                    Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-                    }
-
-                    @NonNull
-                    @Override
-                    public AdminOrdersViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.order_layout,parent,false);
-                        return new AdminOrdersViewHolder(view);
-                    }
-                };
-        orderList.setAdapter(adapter);
-        adapter.startListening();
+       orderLoadingNew();
+       orderLoadingOlder();
     }
+    public void orderLoadingOlder(){
+        DatabaseReference reference= FirebaseDatabase.getInstance().getReference().child("Older Order");
 
-    private void removeOrder(String uID) {
-        orderRef.child(uID).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
-                    Toast.makeText(getApplicationContext(),"Success",Toast.LENGTH_SHORT).show();
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                older_orders=new ArrayList<>();
+                older_orders.clear();
+                if(snapshot.exists()){
+                    for(DataSnapshot snap:snapshot.getChildren()) {
+                        for(DataSnapshot dataSnapshot:snap.getChildren()){
+                            for(DataSnapshot value:dataSnapshot.getChildren()){
+                                Order order=value.child("Order").getValue(Order.class);
+                                if(order.getSid().equals(Prevalent.currentOnlineUser.getPhone())){
+                                    older_orders.add(order);
+                                }
+
+                            }
+                            OlderOrderAdapter olderOrderAdapter=new OlderOrderAdapter(getApplicationContext(),older_orders,0);
+                            older_orderList.setAdapter(olderOrderAdapter);
+                            olderOrderAdapter.notifyDataSetChanged();
+                        }
+                    }
                 }
             }
-        });
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
-    public static class AdminOrdersViewHolder extends RecyclerView.ViewHolder{
+    public void orderLoadingNew(){
+        DatabaseReference reference=FirebaseDatabase.getInstance().getReference().child("Orders").child(Prevalent.currentOnlineUser.getPhone());;
 
-        public TextView name,phone,price,date_time,address_city;
-        public Button showOrderBtn;
-        public LinearLayout layout;
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                orders=new ArrayList<>();
+                orders.clear();
+                if(snapshot.exists()){
+                    for(DataSnapshot dataSnapshot:snapshot.getChildren()){
+                        Order order=dataSnapshot.getValue(Order.class);
+                        orders.add(order);
+                    }
+                    AdminOrderAdapter adminOrderAdapter=new AdminOrderAdapter(getApplicationContext(),orders);
+                    new_orderList.setAdapter(adminOrderAdapter);
+                    adminOrderAdapter.notifyDataSetChanged();
+                }
+            }
 
-        public AdminOrdersViewHolder(@NonNull View itemView) {
-            super(itemView);
-            this.name=itemView.findViewById(R.id.name);
-            this.phone=itemView.findViewById(R.id.phone);
-            this.price=itemView.findViewById(R.id.price);
-            this.address_city=itemView.findViewById(R.id.address_city);
-            this.date_time=itemView.findViewById(R.id.date_time);
-            this.showOrderBtn=itemView.findViewById(R.id.show_all_products);
-            this.layout=itemView.findViewById(R.id.layout);
-        }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

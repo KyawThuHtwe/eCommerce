@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="?selectableItemBackground"
+    android:layout_width="85dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:gravity="center">
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/category_profile"
+        android:elevation="5dp"
+        android:backgroundTint="@color/colorBottomBar"
+        android:background="@drawable/round_background"
+        android:src="@drawable/account_circle"
+        android:layout_width="60dp"
+        android:layout_height="60dp"/>
+    <TextView
+        android:id="@+id/category_name"
+        android:maxLines="2"
+        android:gravity="center"
+        android:textColor="@color/colorTextPrimary"
+        android:textSize="14sp"
+        android:text="@string/agent_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

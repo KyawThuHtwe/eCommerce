@@ -9,7 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Admin.DetailsActivity"></activity>
+        <activity android:name=".Sellers.SellerNewActivity"></activity>
+        <activity android:name=".Sellers.SellerMainActivity" />
+        <activity android:name=".Admin.AdminMainActivity" />
+        <activity android:name=".Buyers.AgentsActivity" />
+        <activity android:name=".Activities.AboutActivity" />
+        <activity android:name=".Sellers.SellerNewOrderActivity" />
+        <activity android:name=".Buyers.FavoriteActivity" />
+        <activity android:name=".Buyers.OrderActivity" />
+        <activity android:name=".Admin.DetailsActivity" />
         <activity android:name=".Admin.AdminUsersViewActivity" />
         <activity android:name=".Admin.AdminSellersViewActivity" />
         <activity android:name=".Admin.AdminAddNewCategoryActivity" />
@@ -24,7 +32,6 @@
         <activity android:name=".Sellers.SellerLoginActivity" />
         <activity android:name=".Sellers.SellerRegistrationActivity" />
         <activity android:name=".Buyers.ResetPasswordActivity" />
-        <activity android:name=".Admin.AdminProductActivity" />
         <activity android:name=".Sellers.SellerMaintainProductActivity" />
         <activity android:name=".Buyers.SearchProductActivity" />
         <activity android:name=".Admin.AdminUserProductsActivity" />
@@ -49,9 +56,9 @@
             </intent-filter>
         </activity>
     </application>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 </manifest>

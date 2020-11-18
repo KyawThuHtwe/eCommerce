@@ -56,16 +56,17 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHole
         holder.name.setText(product.get(position).getName());
         holder.price.setText(product.get(position).getPrice()+" Kyats");
         Picasso.get().load(product.get(position).getImage()).placeholder(R.drawable.ic_launcher_foreground).error(R.drawable.ic_launcher_background).into(holder.image);
-        holder.description.setText(product.get(position).getDescription());
+        //holder.description.setText(product.get(position).getDescription());
 
         DatabaseReference favRef= FirebaseDatabase.getInstance().getReference().child("Favorite");
-        favRef.child(Prevalent.currentOnlineUser.getPhone()).child(product.get(position).getPid())
+        favRef.child(Prevalent.currentOnlineUser.getPhone()).child(product.get(position).getSid()).child(product.get(position).getPid())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.exists()){
                             is_fav=true;
-                            holder.favorite.setImageResource(R.drawable.favorite);
+                            holder.favorite.setVisibility(View.VISIBLE);
+                            holder.unfavorite.setVisibility(View.GONE);
                         }
                     }
 
@@ -74,36 +75,55 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHole
 
                     }
                 });
+        if(is_fav){
+            holder.favorite.setVisibility(View.VISIBLE);
+            holder.unfavorite.setVisibility(View.GONE);
+        }else {
+            holder.unfavorite.setVisibility(View.VISIBLE);
+            holder.favorite.setVisibility(View.GONE);
+        }
 
         holder.favorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(is_fav){
-                    is_fav=false;
-                    holder.favorite.setImageResource(R.drawable.favorite_border);
-                    removeFav(product.get(position).getPid());
-                }else {
-                    is_fav=true;
-                    holder.favorite.setImageResource(R.drawable.favorite);
-                    addFav(product.get(position).getPid());
-                }
+                removeFav(product.get(position).getSid(),product.get(position).getPid());
+                holder.unfavorite.setVisibility(View.VISIBLE);
+                holder.favorite.setVisibility(View.GONE);
+            }
+        });
+        holder.unfavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addFav(product.get(position).getSid(),product.get(position).getPid());
+                holder.unfavorite.setVisibility(View.GONE);
+                holder.favorite.setVisibility(View.VISIBLE);
             }
         });
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+          holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent intent=new Intent(context, ProductDetailActivity.class);
-                intent.putExtra("pid",product.get(position).getPid());
-                context.startActivity(intent);
+                try {
+                    Toast.makeText(context,product.get(position).getSid(),Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(context, ProductDetailActivity.class);
+                    intent.putExtra("agentID", product.get(position).getSid());
+                    intent.putExtra("pid", product.get(position).getPid());
+                    intent.putExtra("qty", "1");
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+
+                }catch (Exception e){
+                    Toast.makeText(context,e.getMessage(),Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
 
-    private void removeFav(String pid) {
+
+    private void removeFav(String sid,String pid) {
         DatabaseReference favRef= FirebaseDatabase.getInstance().getReference().child("Favorite");
-        favRef.child(Prevalent.currentOnlineUser.getPhone()).child(pid)
+        favRef.child(Prevalent.currentOnlineUser.getPhone()).child(sid).child(pid)
                 .removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -114,11 +134,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHole
         });
     }
 
-    private void addFav(String pid) {
+    private void addFav(String sid, String pid) {
         DatabaseReference favRef= FirebaseDatabase.getInstance().getReference().child("Favorite");
         HashMap<String,Object> favMap=new HashMap<>();
-        favMap.put("pid",pid);
-        favRef.child(Prevalent.currentOnlineUser.getPhone()).updateChildren(favMap)
+        favMap.put(pid,pid);
+        favRef.child(Prevalent.currentOnlineUser.getPhone()).child(sid).updateChildren(favMap)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -137,7 +157,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHole
 
     public class ViewHoler extends RecyclerView.ViewHolder {
         public TextView name,price,description;
-        public ImageView image,favorite;
+        public ImageView image,favorite,unfavorite;
         public LinearLayout layout;
         public ViewHoler(@NonNull View itemView) {
             super(itemView);
@@ -146,6 +166,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHole
             this.description=itemView.findViewById(R.id.description);
             this.image=itemView.findViewById(R.id.image);
             this.favorite=itemView.findViewById(R.id.favorite);
+            this.unfavorite=itemView.findViewById(R.id.unfavorite);
             this.layout=itemView.findViewById(R.id.layout);
         }
     }

@@ -28,13 +28,15 @@ public class ConfirmFinalOrderActivity extends AppCompatActivity {
 
     EditText name,phone,address,city;
     Button confirm;
-    String totalAmount="";
+    String totalAmount="",agentID="";
     ImageView back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm_final_order);
+
+        agentID=getIntent().getStringExtra("agentID");
         totalAmount=getIntent().getStringExtra("Total Price");
         Toast.makeText(getApplicationContext(),"Total Price = "+totalAmount,Toast.LENGTH_SHORT).show();
 
@@ -86,8 +88,10 @@ public class ConfirmFinalOrderActivity extends AppCompatActivity {
 
         final DatabaseReference orderRef= FirebaseDatabase.getInstance().getReference()
                 .child("Orders")
+                .child(agentID)
                 .child(Prevalent.currentOnlineUser.getPhone());
         HashMap<String,Object> orderMap=new HashMap<>();
+        orderMap.put("oid",Prevalent.currentOnlineUser.getPhone());
         orderMap.put("totalAmount",totalAmount);
         orderMap.put("name",name.getText().toString());
         orderMap.put("phone",phone.getText().toString());
@@ -96,6 +100,7 @@ public class ConfirmFinalOrderActivity extends AppCompatActivity {
         orderMap.put("date",saveCurrentDate);
         orderMap.put("time",saveCurrentTime);
         orderMap.put("state","not shipped");
+        orderMap.put("sid",agentID);
 
         orderRef.updateChildren(orderMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -103,6 +108,7 @@ public class ConfirmFinalOrderActivity extends AppCompatActivity {
                 if(task.isSuccessful()){
                     FirebaseDatabase.getInstance().getReference().child("Cart List")
                             .child("User View")
+                            .child(agentID)
                             .child(Prevalent.currentOnlineUser.getPhone())
                             .removeValue()
                             .addOnCompleteListener(new OnCompleteListener<Void>() {

@@ -44,12 +44,11 @@ public class AdminSettingsActivity extends AppCompatActivity {
 
     CircleImageView profile_image;
     EditText name,phone,address;
-    ImageView back;
-    TextView update,image_change;
+    TextView image_change;
     Uri imageUri;
     String myUri="";
     String checker="";
-    Button security;
+    Button update;
 
     StorageReference storageProfileReference;
 
@@ -59,7 +58,6 @@ public class AdminSettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin_settings);
         storageProfileReference= FirebaseStorage.getInstance().getReference().child("Profile pictures");
 
-        back=findViewById(R.id.back);
         update=findViewById(R.id.update);
         profile_image=findViewById(R.id.setting_profile_image);
         image_change=findViewById(R.id.setting_image_change);
@@ -68,13 +66,6 @@ public class AdminSettingsActivity extends AppCompatActivity {
         address=findViewById(R.id.setting_address);
 
         adminInfoDisplay(profile_image,name,phone,address);
-
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
 
         update.setOnClickListener(new View.OnClickListener() {
             @Override

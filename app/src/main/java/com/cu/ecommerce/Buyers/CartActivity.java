@@ -1,19 +1,14 @@
 package com.cu.ecommerce.Buyers;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,29 +16,44 @@ import com.cu.ecommerce.Model.Cart;
 import com.cu.ecommerce.Prevalent.Prevalent;
 import com.cu.ecommerce.R;
 import com.cu.ecommerce.ViewHolder.CartViewHolder;
+import com.cu.ecommerce.ViewHolder.UserCardView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class CartActivity extends AppCompatActivity {
 
     RecyclerView cart_list;
-    TextView total_price,msg;
+    TextView msg;
     Button next;
+    ImageView back;
+    TextView total_price;
 
     private int overTotalPrice=0;
+    String agentID="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
 
+        agentID=getIntent().getStringExtra("agentID");
+
+        cart_list=findViewById(R.id.recyclerView);
         cart_list=findViewById(R.id.recyclerView);
         total_price=findViewById(R.id.totalPrice);
         msg=findViewById(R.id.msg);
@@ -55,10 +65,17 @@ public class CartActivity extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                total_price.setText("Total Price = "+overTotalPrice+"$");
                 Intent intent=new Intent(getApplicationContext(),ConfirmFinalOrderActivity.class);
+                intent.putExtra("agentID",agentID);
                 intent.putExtra("Total Price",String.valueOf(overTotalPrice));
                 startActivity(intent);
+                finish();
+            }
+        });
+        back=findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 finish();
             }
         });
@@ -67,78 +84,118 @@ public class CartActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        try {
+            overTotalPrice=0;
+            checkOrderState();
+            DatabaseReference cartRef= FirebaseDatabase.getInstance().getReference();
+            cartRef= FirebaseDatabase.getInstance().getReference()
+                    .child("Cart List")
+                    .child("User View")
+                    .child(agentID)
+                    .child(Prevalent.currentOnlineUser.getPhone()).child("Products");
+            FirebaseRecyclerOptions<Cart> options =
+                    new FirebaseRecyclerOptions.Builder<Cart>()
+                            .setQuery(cartRef.orderByChild("sid").equalTo(agentID), Cart.class)
+                            .build();
+            FirebaseRecyclerAdapter<Cart, UserCardView> adapter =
+                    new FirebaseRecyclerAdapter<Cart, UserCardView>(options) {
+                        @SuppressLint("SetTextI18n")
+                        @Override
+                        protected void onBindViewHolder(@NonNull UserCardView holder, int i, @NonNull Cart cart) {
+                            try {
+                                holder.name.setText("Name = " + cart.getPname());
+                                holder.quantity.setText("Quantity = " + cart.getQuantity());
+                                holder.price.setText("Price = " + cart.getPrice() + " Kyats");
+                                Picasso.get().load(cart.getImage()).placeholder(R.drawable.ic_launcher_foreground).error(R.drawable.ic_launcher_background).into(holder.image);
 
-        checkOrderState();
+                                int p = Integer.parseInt(cart.getPrice().split(" ")[0]);
+                                overTotalPrice += p * Integer.parseInt(cart.getQuantity());
+                                total_price.setText(overTotalPrice + " Kyats");
 
-        final DatabaseReference cartRef= FirebaseDatabase.getInstance().getReference().child("Cart List");
-        FirebaseRecyclerOptions<Cart> options=
-                new FirebaseRecyclerOptions.Builder<Cart>()
-                .setQuery(cartRef.child("User View")
-                .child(Prevalent.currentOnlineUser.getPhone())
-                .child("Products"),Cart.class)
-                .build();
-        FirebaseRecyclerAdapter<Cart, CartViewHolder> adapter=
-                new FirebaseRecyclerAdapter<Cart, CartViewHolder>(options) {
-                    @Override
-                    protected void onBindViewHolder(@NonNull CartViewHolder holder, int i, @NonNull Cart cart) {
-                        holder.name.setText(cart.getPname());
-                        holder.quantity.setText("Quantity = "+cart.getQuantity());
-                        holder.price.setText("Price = "+cart.getPrice()+"$");
-
-                        int oneTypeProductPrice=Integer.valueOf(cart.getPrice())*Integer.valueOf(cart.getQuantity());
-                        overTotalPrice+=oneTypeProductPrice;
-
-                        holder.itemView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                CharSequence options[]=new CharSequence[]{"Edit","Remove"};
-                                AlertDialog.Builder builder=new AlertDialog.Builder(CartActivity.this);
-                                builder.setTitle("Cart Options");
-                                builder.setItems(options, new DialogInterface.OnClickListener() {
+                                holder.edit.setOnClickListener(new View.OnClickListener() {
                                     @Override
-                                    public void onClick(DialogInterface dialog, int con) {
-                                        if(con==0){
-                                            Intent intent=new Intent(getApplicationContext(), ProductDetailActivity.class);
-                                            intent.putExtra("pid",cart.getPid());
+                                    public void onClick(View v) {
+                                        try {
+                                            Intent intent = new Intent(getApplicationContext(), ProductDetailActivity.class);
+                                            intent.putExtra("agentID", cart.getSid());
+                                            intent.putExtra("pid", cart.getPid());
+                                            intent.putExtra("qty", cart.getQuantity());
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                             startActivity(intent);
-                                        }else if(i==1){
-                                            cartRef.child("User View")
-                                                    .child(Prevalent.currentOnlineUser.getPhone())
-                                                    .child("Products")
-                                                    .child(cart.getPid())
-                                                    .removeValue()
-                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                        @Override
-                                                        public void onComplete(@NonNull Task<Void> task) {
-                                                            if(task.isSuccessful()){
-                                                                Toast.makeText(getApplicationContext(),"Item remove successfully",Toast.LENGTH_SHORT).show();
-                                                            }
-                                                        }
-                                                    });
+                                        } catch (Exception e) {
+                                            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 });
-                                builder.show();
 
+                                holder.remove.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        final DatabaseReference cartRef = FirebaseDatabase.getInstance().getReference().child("Cart List");
+                                        cartRef.child("User View")
+                                                .child(cart.getSid())
+                                                .child(Prevalent.currentOnlineUser.getPhone())
+                                                .child("Products")
+                                                .child(cart.getPid())
+                                                .removeValue()
+                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        if (task.isSuccessful()) {
+                                                            cartRef.child("Admin View")
+                                                                    .child(cart.getSid())
+                                                                    .child(Prevalent.currentOnlineUser.getPhone())
+                                                                    .child("Products")
+                                                                    .child(cart.getPid())
+                                                                    .removeValue()
+                                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                        @Override
+                                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                                            if (task.isSuccessful()) {
+                                                                                onStart();
+                                                                                Toast.makeText(getApplicationContext(), "Item remove successfully", Toast.LENGTH_SHORT).show();
+                                                                            }
+                                                                        }
+                                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                                @Override
+                                                                public void onFailure(@NonNull Exception e) {
+                                                                    Toast.makeText(getApplicationContext(), "Error : " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            });
+                                                        }
+                                                    }
+                                                }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(getApplicationContext(), "Error : " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }
+                                });
+
+                            }catch (Exception e){
+                                Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
                             }
-                        });
-                    }
+                        }
 
-                    @NonNull
-                    @Override
-                    public CartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.card_item_layout,parent,false);
-                        return new CartViewHolder(view);
-                    }
-                };
-
-        cart_list.setAdapter(adapter);
-        adapter.startListening();
+                        @NonNull
+                        @Override
+                        public UserCardView onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_card_item_layout, parent, false);
+                            return new UserCardView(view);
+                        }
+                    };
+            cart_list.setAdapter(adapter);
+            adapter.startListening();
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void checkOrderState(){
-        DatabaseReference orderRef=FirebaseDatabase.getInstance().getReference().child("Orders").child(Prevalent.currentOnlineUser.getPhone());
+        DatabaseReference orderRef=FirebaseDatabase.getInstance().getReference().child("Orders").child(agentID).child(Prevalent.currentOnlineUser.getPhone());
         orderRef.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){

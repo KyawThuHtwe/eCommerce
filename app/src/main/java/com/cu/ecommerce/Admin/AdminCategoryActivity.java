@@ -1,15 +1,8 @@
 package com.cu.ecommerce.Admin;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,9 +20,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class AdminCategoryActivity extends AppCompatActivity {
 
@@ -89,18 +86,18 @@ public class AdminCategoryActivity extends AppCompatActivity {
                                 try {
                                     CharSequence opt[] = new CharSequence[]
                                             {
-                                                    "Edit", "Delete"
+                                                    "Yes", "No"
                                             };
                                     AlertDialog.Builder builder = new AlertDialog.Builder(AdminCategoryActivity.this);
-                                    builder.setTitle("Have you shipped this order products?");
+                                    builder.setTitle("Cart Options, Are you sure want to delete?");
                                     builder.setItems(opt, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int con) {
                                             if (con == 0) {
-                                                dialog.dismiss();
-                                            } else if(con==1){
                                                 String uID = getRef(i).getKey().toString();
                                                 removeCategory(uID);
+                                                dialog.dismiss();
+                                            } else if(con==1){
                                                 dialog.dismiss();
                                             }
                                         }

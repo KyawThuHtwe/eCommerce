@@ -22,10 +22,12 @@ public class BannerProductPagerAdapter extends PagerAdapter {
 
     Context context;
     ArrayList<Product> products;
+    int i;
 
-    public BannerProductPagerAdapter(Context context, ArrayList<Product> products) {
+    public BannerProductPagerAdapter(Context context, ArrayList<Product> products,int i) {
         this.context = context;
         this.products = products;
+        this.i=i;
     }
 
     @Override
@@ -52,9 +54,18 @@ public class BannerProductPagerAdapter extends PagerAdapter {
         bannerImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(context, ProductDetailActivity.class);
-                intent.putExtra("pid",products.get(position).getPid());
-                context.startActivity(intent);
+                try {
+                    if(i==0){
+                        Intent intent = new Intent(context, ProductDetailActivity.class);
+                        intent.putExtra("agentID", products.get(position).getSid());
+                        intent.putExtra("pid", products.get(position).getPid());
+                        intent.putExtra("qty", "1");
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+                    }
+                }catch (Exception e){
+                    Toast.makeText(context,e.getMessage(),Toast.LENGTH_SHORT).show();
+                }
             }
         });
         container.addView(view);

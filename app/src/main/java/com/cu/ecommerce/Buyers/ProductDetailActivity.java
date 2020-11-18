@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
+import com.cu.ecommerce.Model.Cart;
 import com.cu.ecommerce.Model.Product;
 import com.cu.ecommerce.Prevalent.Prevalent;
 import com.cu.ecommerce.R;
@@ -32,12 +34,13 @@ import java.util.HashMap;
 
 public class ProductDetailActivity extends AppCompatActivity {
 
-    ImageView productImage,back;
+    ImageView productImage,back,favorite,unfavorite;
     ElegantNumberButton numberButton;
     TextView price,description,name;
-    Button addToCart;
+    TextView addToCart,buyNow;
+    boolean is_fav=false;
 
-    String productID="",state="Normal";
+    String productID="",state="Normal",agentID="",qty="1",getImageString="",getPriceString="",getCategory="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,21 @@ public class ProductDetailActivity extends AppCompatActivity {
                 finish();
             }
         });
+        buyNow=findViewById(R.id.buy_now);
+
+        buyNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(state.equals("Order Shipped") || state.equals("Order Placed")){
+                    Toast.makeText(getApplicationContext(),"you can add purchase more products, once your order is shipped or confirmed.",Toast.LENGTH_LONG).show();
+                }else {
+                    addingToCart("now");
+                }
+
+            }
+        });
+
+
         addToCart=findViewById(R.id.add_to_cart);
         productImage=findViewById(R.id.image);
         price=findViewById(R.id.price);
@@ -58,8 +76,55 @@ public class ProductDetailActivity extends AppCompatActivity {
         name=findViewById(R.id.name);
         numberButton=findViewById(R.id.number);
 
+        agentID=getIntent().getStringExtra("agentID");
         productID=getIntent().getStringExtra("pid");
-        getProductDetail(productID);
+        qty=getIntent().getStringExtra("qty");
+
+        getProductDetail(agentID,productID,qty);
+
+        favorite=findViewById(R.id.favorite);
+        unfavorite=findViewById(R.id.unfavorite);
+        favorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeFav(agentID,productID);
+                unfavorite.setVisibility(View.VISIBLE);
+                favorite.setVisibility(View.GONE);
+            }
+        });
+        unfavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addFav(agentID,productID);
+                favorite.setVisibility(View.VISIBLE);
+                unfavorite.setVisibility(View.GONE);
+            }
+        });
+        DatabaseReference favRef= FirebaseDatabase.getInstance().getReference().child("Favorite");
+        favRef.child(Prevalent.currentOnlineUser.getPhone()).child(agentID).child(productID)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.exists()){
+                           is_fav=true;
+                            favorite.setVisibility(View.VISIBLE);
+                            unfavorite.setVisibility(View.GONE);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+        if(is_fav){
+            favorite.setVisibility(View.VISIBLE);
+            unfavorite.setVisibility(View.GONE);
+        }else {
+            unfavorite.setVisibility(View.VISIBLE);
+            favorite.setVisibility(View.GONE);
+        }
+
 
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,13 +132,43 @@ public class ProductDetailActivity extends AppCompatActivity {
                 if(state.equals("Order Shipped") || state.equals("Order Placed")){
                     Toast.makeText(getApplicationContext(),"you can add purchase more products, once your order is shipped or confirmed.",Toast.LENGTH_LONG).show();
                 }else {
-                    addingToCart();
+                    addingToCart("later");
                 }
             }
         });
     }
 
-    private void addingToCart() {
+
+    private void removeFav(String agentID, String pid) {
+        DatabaseReference favRef= FirebaseDatabase.getInstance().getReference().child("Favorite");
+        favRef.child(Prevalent.currentOnlineUser.getPhone()).child(agentID).child(pid)
+                .removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                     Toast.makeText(getApplicationContext(),"Remove Favorite",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+    }
+
+    private void addFav(String agentID, String pid) {
+        DatabaseReference favRef= FirebaseDatabase.getInstance().getReference().child("Favorite");
+        HashMap<String,Object> favMap=new HashMap<>();
+        favMap.put(pid,pid);
+        favRef.child(Prevalent.currentOnlineUser.getPhone()).child(agentID).updateChildren(favMap)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                             Toast.makeText(getApplicationContext(),"Favorite",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    private void addingToCart(String str) {
         String saveCurrentTime,saveCurrentDate;
         Calendar calendar=Calendar.getInstance();
         @SuppressLint("SimpleDateFormat") SimpleDateFormat currentDate=new SimpleDateFormat("MMM dd, yyyy");
@@ -84,51 +179,71 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         final DatabaseReference cartListRef=FirebaseDatabase.getInstance().getReference().child("Cart List");
         final HashMap<String,Object> cartMap=new HashMap<>();
+        cartMap.put("sid",agentID);
         cartMap.put("pid",productID);
         cartMap.put("pname",name.getText().toString());
-        cartMap.put("price",price.getText().toString());
+        cartMap.put("image",getImageString);
+        cartMap.put("price",getPriceString);
         cartMap.put("date",saveCurrentDate);
         cartMap.put("time",saveCurrentTime);
         cartMap.put("quantity",numberButton.getNumber());
         cartMap.put("discount","");
+        cartMap.put("category",getCategory);
 
-        cartListRef.child("User View").child(Prevalent.currentOnlineUser.getPhone()).child("Products")
+        cartListRef.child("User View").child(agentID).child(Prevalent.currentOnlineUser.getPhone()).child("Products")
                 .child(productID)
                 .updateChildren(cartMap)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
-                            cartListRef.child("Admin View").child(Prevalent.currentOnlineUser.getPhone()).child("Products")
+
+                            cartListRef.child("Admin View").child(agentID).child(Prevalent.currentOnlineUser.getPhone()).child("Products")
                                     .child(productID)
                                     .updateChildren(cartMap)
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if(task.isSuccessful()){
-                                                Toast.makeText(getApplicationContext(),"Added to Cart List.",Toast.LENGTH_SHORT).show();
-                                                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-                                                finish();
+                                                if(str.equals("now")){
+                                                    Intent intent = new Intent(getApplicationContext(), CartActivity.class);
+                                                    intent.putExtra("agentID", agentID);
+                                                    startActivity(intent);
+                                                    finish();
+                                                }else{
+                                                    Toast.makeText(getApplicationContext(),"Added to Cart List.",Toast.LENGTH_SHORT).show();
+                                                    finish();
+                                                }
                                             }
 
                                         }
                                     });
+
                         }
                     }
                 });
+
     }
 
-    private void getProductDetail(String productID) {
+    public void getProductDetail(String agentID, String productID, String qty) {
         DatabaseReference productRef= FirebaseDatabase.getInstance().getReference().child("Products");
-        productRef.child(productID).addValueEventListener(new ValueEventListener() {
+        productRef.child(agentID).child(productID).addValueEventListener(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     Product product=snapshot.getValue(Product.class);
-                    name.setText(product.getName());
-                    description.setText(product.getDescription());
-                    price.setText(product.getPrice());
-                    Picasso.get().load(product.getImage()).into(productImage);
+                    if(product.getSid().equals(agentID) && product.getPid().equals(productID)){
+                        name.setText("Name : "+product.getName());
+                        description.setText("Description : "+"\n\n"+product.getDescription());
+                        price.setText("Price : "+product.getPrice()+" Kyats");
+                        numberButton.setNumber(String.valueOf(qty));
+                        Picasso.get().load(product.getImage()).into(productImage);
+                        getPriceString=product.getPrice();
+                        getImageString=product.getImage();
+                        getCategory=product.getCategory();
+                    }
+
                 }
             }
 
@@ -139,8 +254,9 @@ public class ProductDetailActivity extends AppCompatActivity {
         });
 
     }
+
     private void checkOrderState(){
-        DatabaseReference orderRef=FirebaseDatabase.getInstance().getReference().child("Orders").child(Prevalent.currentOnlineUser.getPhone());
+        DatabaseReference orderRef=FirebaseDatabase.getInstance().getReference().child("Orders").child(agentID).child(Prevalent.currentOnlineUser.getPhone());
         orderRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

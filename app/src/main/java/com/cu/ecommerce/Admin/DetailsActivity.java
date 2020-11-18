@@ -1,16 +1,11 @@
 package com.cu.ecommerce.Admin;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import de.hdodenhof.circleimageview.CircleImageView;
-
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.cu.ecommerce.Model.Product;
 import com.cu.ecommerce.Model.Seller;
 import com.cu.ecommerce.Model.User;
 import com.cu.ecommerce.R;
@@ -20,6 +15,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DetailsActivity extends AppCompatActivity {
 

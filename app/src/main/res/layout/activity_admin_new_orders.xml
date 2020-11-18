@@ -6,35 +6,25 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Admin.AdminNewOrdersActivity">
-    <LinearLayout
-        android:gravity="center_vertical"
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize">
-        <ImageView
-            android:id="@+id/back"
-            android:scaleType="centerCrop"
-            android:background="?selectableItemBackgroundBorderless"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:src="@drawable/back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:tint="@color/colorTextPrimary" />
-        <TextView
-            android:textSize="20sp"
-            android:textColor="@color/colorTextPrimary"
-            android:text="@string/new_orders"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorBottomBar"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/new_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/older_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

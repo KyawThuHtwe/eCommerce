@@ -7,6 +7,7 @@
     android:orientation="vertical"
     tools:context=".Sellers.SellerCategoryActivity">
     <LinearLayout
+        android:background="@color/colorPrimary"
         android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize">
@@ -19,14 +20,19 @@
             android:src="@drawable/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:tint="@color/colorTextPrimary" />
+            app:tint="@color/colorWhite" />
         <TextView
             android:textSize="20sp"
-            android:textColor="@color/colorTextPrimary"
+            android:textColor="@color/colorWhite"
             android:text="@string/choose_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorBottomBar"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:padding="10dp"

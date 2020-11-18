@@ -9,10 +9,10 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <ImageView
+        <View
             android:id="@+id/bg"
             app:layout_constraintTop_toTopOf="parent"
-            android:background="@drawable/image_frame_background"
+            android:background="@color/colorPrimary"
             android:layout_width="match_parent"
             android:layout_height="150dp"/>
         <LinearLayout
@@ -30,10 +30,10 @@
                 android:src="@drawable/back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:tint="@color/colorTextPrimary" />
+                app:tint="@color/colorWhite" />
             <TextView
                 android:textSize="20sp"
-                android:textColor="@color/colorTextPrimary"
+                android:textColor="@color/colorWhite"
                 android:text="@string/details"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
@@ -64,6 +64,7 @@
         android:layout_height="wrap_content"/>
     <TextView
         android:id="@+id/data"
+        android:layout_marginTop="10dp"
         android:padding="20dp"
         android:layout_gravity="center_vertical"
         android:textSize="16sp"

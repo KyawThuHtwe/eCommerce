@@ -1,27 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardMaxElevation="10dp"
-    android:layout_marginLeft="15dp"
-    android:layout_marginRight="15dp"
-    android:layout_marginTop="10dp"
-    android:layout_marginBottom="10dp">
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/deliver"
+        android:layout_marginTop="30dp"
+        android:padding="10dp"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:background="@color/colorAccent"
+        android:textColor="@color/colorWhite"
+        android:text="@string/delivered"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <LinearLayout
         android:id="@+id/layout"
+        android:background="?selectableItemBackground"
         android:orientation="vertical"
-        android:padding="20dp"
-        android:background="@color/colorPrimary"
+        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/agentID"
+            android:textStyle="bold"
+            android:textSize="17sp"
+            android:textColor="@color/colorTextPrimary"
+            android:paddingBottom="10dp"
+            android:text="@string/agent_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorBottomBar"/>
+
         <LinearLayout
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/name"
                 android:textSize="16sp"
-                android:textColor="@color/colorWhite"
+                android:textColor="@color/colorTextPrimary"
                 android:text="@string/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
@@ -32,50 +55,82 @@
             <TextView
                 android:id="@+id/phone"
                 android:textSize="16sp"
-                android:textColor="@color/colorWhite"
+                android:textColor="@color/colorTextPrimary"
                 android:text="@string/phone_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
         <TextView
             android:id="@+id/price"
-            android:padding="10dp"
-            android:layout_gravity="center"
+            android:paddingTop="10dp"
             android:textSize="16sp"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/colorTextPrimary"
             android:text="@string/price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
             android:id="@+id/address_city"
-            android:padding="10dp"
-            android:layout_gravity="center"
+            android:paddingTop="10dp"
             android:textSize="16sp"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/colorTextPrimary"
             android:text="@string/address_city"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
             android:id="@+id/date_time"
-            android:padding="10dp"
-            android:layout_gravity="center"
+            android:paddingTop="10dp"
             android:textSize="16sp"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/colorTextPrimary"
             android:text="@string/date_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-        <Button
+        <View
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorBottomBar"/>
+
+        <TextView
             android:id="@+id/show_all_products"
             android:textAllCaps="false"
-            android:padding="10dp"
-            android:layout_gravity="center"
-            android:textSize="16sp"
-            android:background="@color/colorWhite"
+            android:padding="15dp"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:background="?selectableItemBackground"
             android:textColor="@color/colorPrimary"
-            android:text="Show This Order Products"
+            android:text="@string/show_this_order_products"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:id="@+id/send"
+            android:padding="10dp"
+            android:orientation="vertical"
+            android:background="?selectableItemBackgroundBorderless"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:src="@drawable/send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:tint="@color/colorAccent" />
+            <TextView
+                android:textSize="20sp"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:text="Send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
 
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@color/colorBottomBar"/>
 
-</androidx.cardview.widget.CardView>
+</LinearLayout>

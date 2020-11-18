@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="1dp"
+    android:layout_marginRight="10dp">
+    <LinearLayout
+        android:id="@+id/layout"
+        android:background="?selectableItemBackground"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:padding="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/name"
+                android:textSize="16sp"
+                android:textColor="@color/colorTextPrimary"
+                android:text="@string/product_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="10dp"
+                android:layout_weight="1"/>
+
+            <ImageView
+                android:id="@+id/remove"
+                android:src="@drawable/close"
+                android:background="?selectableItemBackgroundBorderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:tint="@color/colorTextSecondary"
+                tools:targetApi="lollipop"
+                android:contentDescription="@string/app_name" />
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/image"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher_foreground"
+            android:background="@drawable/image_frame_background"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:contentDescription="@string/app_name" />
+        <LinearLayout
+            android:padding="15dp"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/quantity"
+                android:textSize="16sp"
+                android:textColor="@color/colorTextPrimary"
+                android:text="@string/product_quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="10dp"
+                android:layout_weight="1"/>
+
+            <ImageView
+                android:id="@+id/edit"
+                android:background="?selectableItemBackgroundBorderless"
+                android:src="@drawable/edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:tint="@color/colorTextSecondary"
+                android:contentDescription="@string/app_name" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/price"
+            android:paddingLeft="15dp"
+            android:paddingBottom="15dp"
+            android:textSize="16sp"
+            android:textColor="@color/colorTextPrimary"
+            android:text="@string/product_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:ignore="RtlSymmetry" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

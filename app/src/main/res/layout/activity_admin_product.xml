@@ -5,8 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Admin.AdminProductActivity">
+    tools:context=".Admin.AdminProductMaintainActivity">
     <LinearLayout
+        android:background="@color/colorPrimary"
         android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize">
@@ -19,10 +20,10 @@
             android:src="@drawable/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:tint="@color/colorTextPrimary" />
+            app:tint="@color/colorWhite" />
         <TextView
             android:textSize="20sp"
-            android:textColor="@color/colorTextPrimary"
+            android:textColor="@color/colorWhite"
             android:text="@string/maintain_products"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>

@@ -13,9 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 public class CartViewHolder extends  RecyclerView.ViewHolder {
     public TextView name,price,quantity;
     public LinearLayout layout;
+    public ImageView image;
     public CartViewHolder(@NonNull View itemView) {
         super(itemView);
         this.name=itemView.findViewById(R.id.name);
+        this.image=itemView.findViewById(R.id.image);
         this.price=itemView.findViewById(R.id.price);
         this.quantity=itemView.findViewById(R.id.quantity);
         this.layout=itemView.findViewById(R.id.layout);

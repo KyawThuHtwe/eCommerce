@@ -3,6 +3,7 @@ package com.cu.ecommerce.Buyers;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.paperdb.Paper;
 
 import android.app.ProgressDialog;
 import android.content.Intent;

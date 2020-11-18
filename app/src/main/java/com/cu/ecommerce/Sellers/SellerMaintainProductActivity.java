@@ -30,7 +30,7 @@ public class SellerMaintainProductActivity extends AppCompatActivity {
     EditText name,description,price;
     Button change_apply;
     ImageView imageView,back;
-    String productID="";
+    String productID="",agentID="";
     DatabaseReference productRef;
 
     @Override
@@ -53,10 +53,11 @@ public class SellerMaintainProductActivity extends AppCompatActivity {
         change_apply = findViewById(R.id.change_apply);
 
         productID = getIntent().getStringExtra("pid");
+        agentID = getIntent().getStringExtra("sid");
 
-        productRef =  FirebaseDatabase.getInstance().getReference().child("Products").child(productID);
+        productRef =  FirebaseDatabase.getInstance().getReference().child("Products").child(agentID).child(productID);
 
-        displayProductInfo(productID);
+        displayProductInfo(agentID,productID);
         Toast.makeText(getApplicationContext(),productID,Toast.LENGTH_SHORT).show();
 
         change_apply.setOnClickListener(new View.OnClickListener() {
@@ -95,8 +96,8 @@ public class SellerMaintainProductActivity extends AppCompatActivity {
         }
 
     }
-    private void displayProductInfo(String productID) {
-        DatabaseReference productRef= FirebaseDatabase.getInstance().getReference().child("Products");
+    private void displayProductInfo(String agentID,String productID) {
+        DatabaseReference productRef= FirebaseDatabase.getInstance().getReference().child("Products").child(agentID);
         productRef.child(productID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

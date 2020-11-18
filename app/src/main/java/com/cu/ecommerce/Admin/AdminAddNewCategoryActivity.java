@@ -1,8 +1,5 @@
 package com.cu.ecommerce.Admin;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -15,7 +12,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.cu.ecommerce.Prevalent.Prevalent;
 import com.cu.ecommerce.R;
 import com.cu.ecommerce.Sellers.SellerHomeActivity;
 import com.google.android.gms.tasks.Continuation;
@@ -33,6 +29,9 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class AdminAddNewCategoryActivity extends AppCompatActivity {
 
@@ -162,7 +161,7 @@ public class AdminAddNewCategoryActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
-                    startActivity(new Intent(getApplicationContext(), SellerHomeActivity.class));
+                    //startActivity(new Intent(getApplicationContext(), SellerHomeActivity.class));
                     loadingBar.dismiss();
                     finish();
                     Toast.makeText(getApplicationContext(),"Product is added successfully...",Toast.LENGTH_SHORT).show();

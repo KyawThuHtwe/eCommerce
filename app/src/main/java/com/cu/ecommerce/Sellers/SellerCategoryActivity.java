@@ -49,8 +49,8 @@ public class SellerCategoryActivity extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!type.equals("admin")){
-                    Intent intent=new Intent(getApplicationContext(), SellerHomeActivity.class);
+                if(type.equals("seller")){
+                    Intent intent=new Intent(getApplicationContext(), SellerMainActivity.class);
                     startActivity(intent);
                 }
                 finish();
@@ -65,8 +65,8 @@ public class SellerCategoryActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         type=getIntent().getExtras().get("type").toString();
-        if(!type.equals("admin")){
-            Intent intent=new Intent(getApplicationContext(), SellerHomeActivity.class);
+        if(type.equals("seller")){
+            Intent intent=new Intent(getApplicationContext(), SellerMainActivity.class);
             startActivity(intent);
         }
         finish();

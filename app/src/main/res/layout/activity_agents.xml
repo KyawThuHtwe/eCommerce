@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Buyers.AgentsActivity">
+    <androidx.cardview.widget.CardView
+        app:cardCornerRadius="0dp"
+        android:layout_marginBottom="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:padding="10dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/back"
+                    android:layout_margin="10dp"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:src="@drawable/arrow_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:tint="@color/colorTextPrimary" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/agent_profile"
+                    android:backgroundTint="@color/colorBottomBar"
+                    android:background="@drawable/round_background"
+                    android:src="@drawable/account_circle"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    tools:ignore="UnusedAttribute" />
+                <TextView
+                    android:id="@+id/agent_name"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorTextPrimary"
+                    android:text="@string/agent_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/search"
+                    android:padding="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="30dp"
+                    android:background="@drawable/corner_radius_background"
+                    android:text="Search"
+                    android:layout_weight="1"
+                    android:textColor="@color/colorTextSecondary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <ImageView
+                    android:id="@+id/favorite"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:src="@drawable/favorite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:tint="#FF0000" />
+                <View
+                    android:layout_width="30dp"
+                    android:layout_height="10dp"/>
+                <ImageView
+                    android:id="@+id/order"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:src="@drawable/order"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:tint="@color/colorTextPrimary" />
+                <View
+                    android:layout_width="20dp"
+                    android:layout_height="10dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <RelativeLayout
+                    android:background="@color/colorBottomBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp">
+                    <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/banner_viewPager"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp">
+
+                    </androidx.viewpager.widget.ViewPager>
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tabLayout"
+                        android:background="@android:color/transparent"
+                        app:tabBackground="@drawable/indicator_selector"
+                        app:tabIndicatorHeight="0dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </RelativeLayout>
+
+                <TextView
+                    android:padding="15dp"
+                    android:textSize="18sp"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textStyle="bold"
+                    android:text="@string/category"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/category_recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:padding="15dp"
+                    android:textSize="18sp"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textStyle="bold"
+                    android:text="@string/products"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/cart"
+            android:layout_margin="20dp"
+            android:layout_gravity="bottom|right"
+            android:tint="@color/colorWhite"
+            android:src="@drawable/add_shopping_cart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+
+</LinearLayout>

@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -42,8 +43,8 @@ public class SellerSettingsActivity extends AppCompatActivity {
 
     CircleImageView profile_image;
     EditText name,phone,address;
-    ImageView back;
-    TextView update,image_change;
+    TextView image_change;
+    Button update;
     Uri imageUri;
     String myUri="";
     String checker="";
@@ -56,7 +57,6 @@ public class SellerSettingsActivity extends AppCompatActivity {
 
         storageProfileReference= FirebaseStorage.getInstance().getReference().child("Seller pictures");
 
-        back=findViewById(R.id.back);
         update=findViewById(R.id.update);
         profile_image=findViewById(R.id.setting_profile_image);
         image_change=findViewById(R.id.setting_image_change);
@@ -65,13 +65,6 @@ public class SellerSettingsActivity extends AppCompatActivity {
         address=findViewById(R.id.setting_address);
 
         userInfoDisplay(profile_image,name,phone,address);
-
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
 
         update.setOnClickListener(new View.OnClickListener() {
             @Override

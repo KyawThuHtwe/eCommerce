@@ -1,42 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginTop="20dp"
-    android:layout_marginStart="15dp"
-    android:layout_marginEnd="15dp"
-    app:cardElevation="15dp">
+    android:orientation="vertical">
     <LinearLayout
-        android:id="@+id/layout"
+        android:background="#F3EEEE"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/name"
-            android:padding="15dp"
-            android:textSize="20sp"
-            android:gravity="center_horizontal"
-            android:textColor="@color/colorTextPrimary"
-            android:text="@string/product_name"
+        <LinearLayout
+            android:paddingLeft="10dp"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
+            android:paddingRight="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/name"
+                android:maxLines="1"
+                android:textSize="18sp"
+                android:textColor="@color/colorTextPrimary"
+                android:text="@string/product_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <View
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="10dp"/>
+            <ImageView
+                android:id="@+id/more"
+                android:background="?selectableItemBackgroundBorderless"
+                android:src="@drawable/more_vert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:tint="@color/colorTextPrimary" />
+        </LinearLayout>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <LinearLayout
                 android:background="@drawable/image_frame_background"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <ImageView
                     android:id="@+id/image"
-                    android:layout_margin="2dp"
-                    android:src="@drawable/ic_launcher_background"
+                    android:src="@drawable/ic_launcher_foreground"
                     android:scaleType="centerCrop"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"/>
@@ -74,8 +89,10 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
         <TextView
             android:id="@+id/price"
-            android:padding="10dp"
-            android:textSize="16sp"
+            android:paddingTop="10dp"
+            android:paddingLeft="10dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
             android:gravity="center_vertical"
             android:textColor="@color/colorTextPrimary"
             android:text="@string/price"
@@ -83,6 +100,7 @@
             android:layout_height="wrap_content"/>
         <TextView
             android:id="@+id/description"
+            android:maxLines="2"
             android:padding="10dp"
             android:textSize="16sp"
             android:gravity="center_vertical"
@@ -92,5 +110,9 @@
             android:layout_height="wrap_content"/>
 
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@color/colorBottomBar"/>
 
-</androidx.cardview.widget.CardView>
+</LinearLayout>

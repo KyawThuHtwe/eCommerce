@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cu.ecommerce.Admin.AdminHomeActivity;
+import com.cu.ecommerce.Admin.AdminMainActivity;
 import com.cu.ecommerce.Buyers.HomeActivity;
 import com.cu.ecommerce.Buyers.ResetPasswordActivity;
 import com.cu.ecommerce.Model.User;
@@ -58,13 +59,6 @@ public class LoginActivity extends AppCompatActivity {
 
         loadingBar=new ProgressDialog(this);
 
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loginUser();
-            }
-        });
-
         adminLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,9 +78,16 @@ public class LoginActivity extends AppCompatActivity {
                 notAdminLink.setVisibility(View.GONE);
             }
         });
+
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loginUser(parentDbName);
+            }
+        });
     }
 
-    private void loginUser() {
+    private void loginUser(String parentDbName) {
         String phone=inputPhone.getText().toString();
         String password=inputPassword.getText().toString();
         if(TextUtils.isEmpty(phone)){
@@ -99,15 +100,16 @@ public class LoginActivity extends AppCompatActivity {
             loadingBar.setCanceledOnTouchOutside(false);
             loadingBar.show();
 
-            allowAccessToAccount(phone,password);
+            allowAccessToAccount(phone,password,parentDbName);
         }
     }
 
-    private void allowAccessToAccount(String phone, String password) {
+    private void allowAccessToAccount(String phone, String password, String type) {
 
         if(rememberMe.isChecked()){
             Paper.book().write(Prevalent.UserPhoneKey,phone);
             Paper.book().write(Prevalent.UserPasswordKey,password);
+            Paper.book().write(Prevalent.UserTypeKey,type);
         }
 
         final DatabaseReference rootRef;
@@ -115,13 +117,13 @@ public class LoginActivity extends AppCompatActivity {
         rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.child(parentDbName).child(phone).exists()){
+                if(snapshot.child(type).child(phone).exists()){
 
-                    User userData=snapshot.child(parentDbName).child(phone).getValue(User.class);
-                    String exist_phone=snapshot.child(parentDbName).child(phone).child("phone").getValue().toString();
-                    String exist_image=snapshot.child(parentDbName).child(phone).child("image").getValue().toString();
+                    User userData=snapshot.child(type).child(phone).getValue(User.class);
+                    String exist_phone=snapshot.child(type).child(phone).child("phone").getValue().toString();
+                    String exist_image=snapshot.child(type).child(phone).child("image").getValue().toString();
                     if(userData.getPhone().equals(phone)){
-                        if(parentDbName.equals("Admins")){
+                        if(type.equals("Admins")){
                             if(userData.getPassword().equals(password)) {
                                 User user = new User();
                                 user.setPhone(exist_phone);
@@ -129,14 +131,14 @@ public class LoginActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), "Welcome Admin, your in Logged in Successfully", Toast.LENGTH_SHORT).show();
                                 Prevalent.currentOnlineUser = user;
                                 loadingBar.dismiss();
-                                startActivity(new Intent(getApplicationContext(), AdminHomeActivity.class));
+                                startActivity(new Intent(getApplicationContext(), AdminMainActivity.class));
                                 finish();
                             }
                             else {
                                 loadingBar.dismiss();
                                 Toast.makeText(getApplicationContext(),"Password is incorrect", Toast.LENGTH_SHORT).show();
                             }
-                        }else if(parentDbName.equals("Users")){
+                        }else if(type.equals("Users")){
                             if(userData.getPassword().equals(password)) {
                                 Toast.makeText(getApplicationContext(), "Logged in Successfully", Toast.LENGTH_SHORT).show();
                                 Prevalent.currentOnlineUser = userData;

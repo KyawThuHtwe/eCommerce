@@ -10,12 +10,12 @@ import com.cu.ecommerce.R;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ProductViewHolder extends  RecyclerView.ViewHolder{
+public class ProductViewHolder extends RecyclerView.ViewHolder{
     public TextView name,price,description;
     public ImageView image;
     public LinearLayout layout;
 
-    public ProductViewHolder(@NonNull View itemView) {
+    public ProductViewHolder(@NonNull View itemView){
         super(itemView);
         this.name=itemView.findViewById(R.id.name);
         this.price=itemView.findViewById(R.id.price);
@@ -23,5 +23,4 @@ public class ProductViewHolder extends  RecyclerView.ViewHolder{
         this.image=itemView.findViewById(R.id.image);
         this.layout=itemView.findViewById(R.id.layout);
     }
-
 }

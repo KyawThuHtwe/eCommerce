@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.cu.ecommerce.Admin.AdminHomeActivity;
+import com.cu.ecommerce.Admin.AdminMainActivity;
 import com.cu.ecommerce.Prevalent.Prevalent;
 import com.cu.ecommerce.R;
 import com.google.android.gms.tasks.Continuation;
@@ -52,8 +53,7 @@ public class SellerAddNewProductActivity extends AppCompatActivity {
     DatabaseReference productRef,sellerRef,adminRef;
     ProgressDialog loadingBar;
 
-    String sName,sAddress,sEmail,sPhone,sID;
-    String type="",productState="";
+    String type="",productState="",agentID="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,10 +106,7 @@ public class SellerAddNewProductActivity extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if(snapshot.exists()){
-                                sName=snapshot.child("name").getValue().toString();
-                                sPhone=snapshot.child("phone").getValue().toString();
-                                sAddress=snapshot.child("address").getValue().toString();
-                                sID=Prevalent.currentOnlineUser.getPhone();
+                                agentID=Prevalent.currentOnlineUser.getPhone();
                                 productState="Approved";
                             }
                         }
@@ -128,11 +125,7 @@ public class SellerAddNewProductActivity extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                             if(snapshot.exists()){
-                                sName=snapshot.child("name").getValue().toString();
-                                sAddress=snapshot.child("address").getValue().toString();
-                                sPhone=snapshot.child("phone").getValue().toString();
-                                sEmail=snapshot.child("email").getValue().toString();
-                                sID=snapshot.child("sid").getValue().toString();
+                                agentID=snapshot.child("sid").getValue().toString();
                                 productState="Not Approved";
                             }
                         }
@@ -217,7 +210,7 @@ public class SellerAddNewProductActivity extends AppCompatActivity {
     private void saveProductInfoToDatabase() {
         HashMap<String,Object> productMap=new HashMap<>();
         productMap.put("pid",productRandomKey);
-        productMap.put("category",category.toLowerCase());
+        productMap.put("category",category);
         productMap.put("image",downloadImageUrl);
         productMap.put("name",name);
         productMap.put("description",description);
@@ -225,21 +218,18 @@ public class SellerAddNewProductActivity extends AppCompatActivity {
         productMap.put("date",saveCurrentDate);
         productMap.put("time",saveCurrentTime);
 
-        productMap.put("sellerName",sName);
-        productMap.put("sellerAddress",sAddress);
-        productMap.put("sellerEmail",sEmail);
-        productMap.put("sellerPhone",sPhone);
-        productMap.put("sid",sID);
+        productMap.put("sid",agentID);
         productMap.put("productState",productState);
 
-        productRef.child(productRandomKey).updateChildren(productMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+        type=getIntent().getExtras().get("type").toString();
+        productRef.child(agentID).child(productRandomKey).updateChildren(productMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
                     if(type.equals("admin")){
-                        startActivity(new Intent(getApplicationContext(), AdminHomeActivity.class));
+                        startActivity(new Intent(getApplicationContext(), AdminMainActivity.class));
                     }else{
-                        startActivity(new Intent(getApplicationContext(), SellerHomeActivity.class));
+                        startActivity(new Intent(getApplicationContext(), SellerMainActivity.class));
                     }
                     loadingBar.dismiss();
                     finish();
