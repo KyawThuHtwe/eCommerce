@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.cu.ecommerce.Activities.LoginActivity;
 import com.cu.ecommerce.Activities.MainActivity;
+import com.cu.ecommerce.Prevalent.Prevalent;
 import com.cu.ecommerce.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -99,6 +100,7 @@ public class RegisterActivity extends AppCompatActivity {
                     HashMap<String,Object> userdataMap=new HashMap<>();
                     userdataMap.put("name",name);
                     userdataMap.put("phone",phone);
+                    userdataMap.put("image","default");
                     userdataMap.put("password",password);
                     userdataMap.put("date",saveCurrentDate);
                     userdataMap.put("time",saveCurrentTime);
@@ -108,10 +110,12 @@ public class RegisterActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
+
                                         Toast.makeText(getApplicationContext(),"Congratulations, your account has been created.",Toast.LENGTH_SHORT).show();
                                         loadingBar.dismiss();
-                                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                                         finish();
+                                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+
                                     }else {
                                         loadingBar.dismiss();
                                         Toast.makeText(getApplicationContext(),"Network Error: Please try again after some time...",Toast.LENGTH_SHORT).show();

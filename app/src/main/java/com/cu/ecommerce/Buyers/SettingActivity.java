@@ -66,7 +66,7 @@ public class SettingActivity extends AppCompatActivity {
         phone=findViewById(R.id.setting_phone_number);
         address=findViewById(R.id.setting_address);
 
-        userInfoDisplay(profile_image,name,phone,address);
+        userInfoDisplay();
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,7 +178,7 @@ public class SettingActivity extends AppCompatActivity {
                                 reference.child(Prevalent.currentOnlineUser.getPhone()).updateChildren(userMap);
 
                                 progressDialog.dismiss();
-                                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                //startActivity(new Intent(getApplicationContext(), MainActivity.class));
                                 Toast.makeText(getApplicationContext(),"Profile Info update successfully",Toast.LENGTH_SHORT).show();
                                 finish();
                             }else {
@@ -204,29 +204,29 @@ public class SettingActivity extends AppCompatActivity {
         userMap.put("phoneOrder",phone.getText().toString());
 
         reference.child(Prevalent.currentOnlineUser.getPhone()).updateChildren(userMap);
-
-        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-        Toast.makeText(getApplicationContext(),"Profile Info update successfully",Toast.LENGTH_SHORT).show();
         finish();
+        Toast.makeText(getApplicationContext(),"Profile Info update successfully",Toast.LENGTH_SHORT).show();
     }
 
-    private void userInfoDisplay(CircleImageView profile_image, EditText name, EditText phone, EditText address) {
+    private void userInfoDisplay() {
         DatabaseReference userRef= FirebaseDatabase.getInstance().getReference().child("Users").child(Prevalent.currentOnlineUser.getPhone());
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
-                    if(snapshot.child("image").exists()){
-                        String image=snapshot.child("image").getValue().toString();
-                        String name_value=snapshot.child("name").getValue().toString();
-                        String phone_value=snapshot.child("phone").getValue().toString();
-                        String address_value=snapshot.child("address").getValue().toString();
-
-                        Picasso.get().load(image).into(profile_image);
-                        name.setText(name_value);
-                        phone.setText(phone_value);
-                        address.setText(address_value);
+                    String name_value=snapshot.child("name").getValue().toString();
+                    String phone_value=snapshot.child("phone").getValue().toString();
+                    if(snapshot.child("address").exists()){
+                        address.setText(snapshot.child("address").getValue().toString());
                     }
+
+                    if(!snapshot.child("image").getValue().equals("default")){
+                        String image=snapshot.child("image").getValue().toString();
+                        Picasso.get().load(image).into(profile_image);
+                    }
+                    name.setText(name_value);
+                    phone.setText(phone_value);
+
                 }
             }
 

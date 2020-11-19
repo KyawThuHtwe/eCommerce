@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Sellers.SellerNewActivity"></activity>
+        <activity android:name=".Sellers.SellerMoreActivity"></activity>
+        <activity android:name=".Admin.AdminMoreActivity" />
+        <activity android:name=".Buyers.AgentDetailActivity" />
+        <activity android:name=".Sellers.SellerNewActivity" />
         <activity android:name=".Sellers.SellerMainActivity" />
         <activity android:name=".Admin.AdminMainActivity" />
         <activity android:name=".Buyers.AgentsActivity" />

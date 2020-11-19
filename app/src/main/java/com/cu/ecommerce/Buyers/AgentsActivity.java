@@ -51,7 +51,7 @@ public class AgentsActivity extends AppCompatActivity {
     String agentID="",category_choose="All";
 
     CircleImageView agent_profile;
-    TextView agent_name;
+    TextView agent_name,agent_id;
     ImageView back;
 
     TextView search;
@@ -96,6 +96,33 @@ public class AgentsActivity extends AppCompatActivity {
 
         agent_profile=findViewById(R.id.agent_profile);
         agent_name=findViewById(R.id.agent_name);
+        agent_id=findViewById(R.id.agent_id);
+        agent_id.setText("ID:"+agentID);
+
+        agent_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(),AgentDetailActivity.class);
+                intent.putExtra("sid",agentID);
+                startActivity(intent);
+            }
+        });
+        agent_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(),AgentDetailActivity.class);
+                intent.putExtra("sid",agentID);
+                startActivity(intent);
+            }
+        });
+        agent_id.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(),AgentDetailActivity.class);
+                intent.putExtra("sid",agentID);
+                startActivity(intent);            }
+        });
+
         back=findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,7 +131,7 @@ public class AgentsActivity extends AppCompatActivity {
             }
         });
 
-        agentLoading(agentID);
+       // agentLoading(agentID);
 
         viewPager=findViewById(R.id.banner_viewPager);
         tabLayout=findViewById(R.id.tabLayout);
@@ -133,14 +160,13 @@ public class AgentsActivity extends AppCompatActivity {
         category_recyclerView=findViewById(R.id.category_recyclerView);
         category_recyclerView.setHasFixedSize(true);
         category_recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.HORIZONTAL,false));
-        loadingCategory();
 
         recyclerView=findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
 
-        loading(agentID,category_choose);
-        bannerProductLoading(agentID,category_choose);
+        //loading(agentID,category_choose);
+        //bannerProductLoading(agentID,category_choose);
 
         cart=findViewById(R.id.cart);
         cart.setOnClickListener(new View.OnClickListener() {
@@ -152,6 +178,19 @@ public class AgentsActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        loadingCategory();
+        agentLoading(agentID);
+        loading(agentID,category_choose);
+        bannerProductLoading(agentID,category_choose);
+
+    }
+
+
     public void agentLoading(String agentID){
         final DatabaseReference rootRef;
         rootRef= FirebaseDatabase.getInstance().getReference().child("Sellers").child(agentID);
@@ -162,8 +201,6 @@ public class AgentsActivity extends AppCompatActivity {
                     Seller seller=snapshot.getValue(Seller.class);
                     Picasso.get().load(seller.getImage()).into(agent_profile);
                     agent_name.setText(seller.getName());
-                }else {
-                    Toast.makeText(getApplicationContext(),"Not exist.",Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -189,23 +226,10 @@ public class AgentsActivity extends AppCompatActivity {
 
                         categories.add(category);
 
-                        /*
-                        try {
-                            TabLayout.Tab firstTab = category_tabLayout.newTab();
-                            //firstTab.setIcon(Drawable.createFromPath(category.getImage()));
-                            firstTab.setText(category.getName());
-                            category_tabLayout.addTab(firstTab);
-                        }catch (Exception e){
-                            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
-                        }
-
-                         */
                     }
                     CategoryAdapter categoryAdapter=new CategoryAdapter(getApplicationContext(),categories);
                     category_recyclerView.setAdapter(categoryAdapter);
 
-                }else {
-                    Toast.makeText(getApplicationContext(),"Not exist.",Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -217,19 +241,19 @@ public class AgentsActivity extends AppCompatActivity {
     }
 
     public void loading(String agent, String category){
+        bannerProduct=new ArrayList<>();
+        bannerProduct.clear();
         final DatabaseReference rootRef;
         rootRef= FirebaseDatabase.getInstance().getReference().child("Products").child(agent);
         rootRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                bannerProduct=new ArrayList<>();
-                bannerProduct.clear();
                 if(snapshot.exists()){
                     for(DataSnapshot snap:snapshot.getChildren()){
                         Product product=snap.getValue(Product.class);
-                        if(product.getSid().equals(agent) && product.getProductState().equals("Approved") && category.toLowerCase().equals("all")){
+                        if(product.getSid().equals(agent) && product.getProductState().equals("Approved") && category.equals("All")){
                             bannerProduct.add(product);
-                        }else if(product.getSid().equals(agent) && product.getProductState().equals("Approved") && product.getCategory().equals(category.toLowerCase())){
+                        }else if(product.getSid().equals(agent) && product.getProductState().equals("Approved") && product.getCategory().equals(category)){
                             bannerProduct.add(product);
                         }
                     }
@@ -237,8 +261,6 @@ public class AgentsActivity extends AppCompatActivity {
                     recyclerView.setAdapter(productAdapter);
                     productAdapter.notifyDataSetChanged();
 
-                }else {
-                    Toast.makeText(getApplicationContext(),"Not exist.",Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -281,8 +303,6 @@ public class AgentsActivity extends AppCompatActivity {
                     bannerMoviePagerAdapter=new BannerProductPagerAdapter(getApplicationContext(),bannerProduct,0);
                     viewPager.setAdapter(bannerMoviePagerAdapter);
 
-                }else {
-                    Toast.makeText(getApplicationContext(),"Not exist.",Toast.LENGTH_SHORT).show();
                 }
             }
 

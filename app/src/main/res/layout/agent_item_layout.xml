@@ -10,7 +10,6 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/agent_profile"
         android:elevation="5dp"
-        android:backgroundTint="@color/colorBottomBar"
         android:background="@drawable/round_background"
         android:src="@drawable/account_circle"
         android:layout_width="60dp"

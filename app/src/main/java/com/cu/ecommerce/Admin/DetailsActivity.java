@@ -2,6 +2,7 @@ package com.cu.ecommerce.Admin;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,7 +24,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class DetailsActivity extends AppCompatActivity {
 
     CircleImageView profileImage;
-    TextView username,data;
+    TextView username,data,date;
     ImageView back;
     String ID="",view="";
 
@@ -34,6 +35,7 @@ public class DetailsActivity extends AppCompatActivity {
         profileImage=findViewById(R.id.profileImage);
         username=findViewById(R.id.username);
         data=findViewById(R.id.data);
+        date=findViewById(R.id.date);
         back=findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,10 +67,10 @@ public class DetailsActivity extends AppCompatActivity {
                     username.setText(user.getName());
                     data.setText("Phone Number : "+user.getPhone()+"\n\n"+
                             "Password : "+user.getPassword()+"\n\n"+
-                            "Address : "+user.getAddress()+"\n\n"+
-                            "Created Date : "+user.getDate()+", "+user.getTime());
+                            "Address : "+user.getAddress());
 
                     Picasso.get().load(user.getImage()).into(profileImage);
+                    date.setText("Created Date : "+user.getDate()+", "+user.getTime());
                 }
             }
 
@@ -92,10 +94,11 @@ public class DetailsActivity extends AppCompatActivity {
                             "Other Phone : "+seller.getPhoneOrder()+"\n\n"+
                             "Email : "+seller.getEmail()+"\n\n"+
                             "Password : "+seller.getPassword()+"\n\n"+
-                            "Address : "+seller.getAddress()+"\n\n"+
-                            "Created Date : "+seller.getDate()+", "+seller.getTime());
+                            "Address : "+seller.getAddress());
 
                     Picasso.get().load(seller.getImage()).into(profileImage);
+                    date.setText("Created Date : "+seller.getDate()+", "+seller.getTime());
+
                 }
             }
 

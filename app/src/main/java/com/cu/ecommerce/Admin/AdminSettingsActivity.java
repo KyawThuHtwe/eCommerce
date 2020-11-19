@@ -1,12 +1,17 @@
 package com.cu.ecommerce.Admin;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -22,6 +27,7 @@ import com.cu.ecommerce.Buyers.ResetPasswordActivity;
 import com.cu.ecommerce.Buyers.SettingActivity;
 import com.cu.ecommerce.Prevalent.Prevalent;
 import com.cu.ecommerce.R;
+import com.cu.ecommerce.Sellers.SellerSettingsActivity;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -37,6 +43,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.util.HashMap;
 
@@ -44,11 +51,11 @@ public class AdminSettingsActivity extends AppCompatActivity {
 
     CircleImageView profile_image;
     EditText name,phone,address;
-    TextView image_change;
+    TextView image_change,update;
     Uri imageUri;
     String myUri="";
     String checker="";
-    Button update;
+    ImageView back;
 
     StorageReference storageProfileReference;
 
@@ -64,8 +71,15 @@ public class AdminSettingsActivity extends AppCompatActivity {
         name=findViewById(R.id.setting_full_name);
         phone=findViewById(R.id.setting_phone_number);
         address=findViewById(R.id.setting_address);
+        back=findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
-        adminInfoDisplay(profile_image,name,phone,address);
+        adminInfoDisplay();
 
         update.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,7 +116,7 @@ public class AdminSettingsActivity extends AppCompatActivity {
             profile_image.setImageURI(imageUri);
         }else {
             Toast.makeText(getApplicationContext(),"Error, try again",Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(getApplicationContext(),AdminSettingsActivity.class));
+            startActivity(new Intent(getApplicationContext(),AdminMainActivity.class));
             finish();
         }
     }
@@ -163,14 +177,13 @@ public class AdminSettingsActivity extends AppCompatActivity {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if(task.isSuccessful()){
-                                                    Toast.makeText(getApplicationContext(),"Updated successfully",Toast.LENGTH_SHORT).show();
+                                                    finish();
+                                                    progressDialog.dismiss();
+                                                    Toast.makeText(getApplicationContext(),"Profile Info update successfully",Toast.LENGTH_SHORT).show();
                                                 }
                                             }
                                         });
 
-                                progressDialog.dismiss();
-                                Toast.makeText(getApplicationContext(),"Profile Info update successfully",Toast.LENGTH_SHORT).show();
-                                finish();
                             }else {
                                 progressDialog.dismiss();
                                 Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_SHORT).show();
@@ -197,6 +210,7 @@ public class AdminSettingsActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
+                            finish();
                             Toast.makeText(getApplicationContext(),"Admin information update successfully",Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -204,13 +218,13 @@ public class AdminSettingsActivity extends AppCompatActivity {
 
     }
 
-    private void adminInfoDisplay(CircleImageView profile_image, EditText name, EditText phone, EditText address) {
+    private void adminInfoDisplay() {
         DatabaseReference userRef= FirebaseDatabase.getInstance().getReference().child("Admins").child(Prevalent.currentOnlineUser.getPhone());
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
-                    if(snapshot.child("image").exists()){
+                    if(!snapshot.child("image").getValue().equals("default")){
                         String image=snapshot.child("image").getValue().toString();
                         Picasso.get().load(image).into(profile_image);
                     }

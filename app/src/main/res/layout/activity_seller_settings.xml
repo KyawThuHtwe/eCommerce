@@ -6,11 +6,50 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Sellers.SellerSettingsActivity">
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_setting"
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_setting"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize">
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/back"
+                    android:src="@drawable/arrow_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:tint="@color/colorWhite" />
+                <View
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/update"
+                    android:textColor="@color/colorWhite"
+                    android:textStyle="bold"
+                    android:textSize="17sp"
+                    android:text="@string/update"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <View
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"/>
+            </LinearLayout>
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/setting_profile_image"
         android:layout_margin="15dp"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/ic_launcher_background"
+        android:src="@drawable/account_circle"
         android:layout_width="130dp"
         android:layout_height="130dp"/>
     <TextView
@@ -29,9 +68,11 @@
         android:layout_marginRight="15dp"
         android:layout_marginTop="15dp"
         android:padding="15dp"
+        android:inputType="phone"
         android:hint="@string/phone_number"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:autofillHints="" />
     <EditText
         android:id="@+id/setting_full_name"
         android:background="@drawable/corner_border_background"
@@ -45,6 +86,21 @@
         android:layout_height="wrap_content"/>
 
     <EditText
+        android:id="@+id/setting_email"
+        android:background="@drawable/corner_border_background"
+        android:textColor="@color/colorTextPrimary"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:padding="15dp"
+        android:hint="@string/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints=""
+        android:inputType="textEmailAddress" />
+
+
+    <EditText
         android:id="@+id/setting_address"
         android:background="@drawable/corner_border_background"
         android:textColor="@color/colorTextPrimary"
@@ -54,19 +110,11 @@
         android:padding="15dp"
         android:hint="@string/address"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:autofillHints=""
+        android:inputType="text" />
     <View
         android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"/>
-    <Button
-        android:id="@+id/update"
-        android:layout_margin="15dp"
-        android:background="@drawable/corner_solid_background"
-        android:textColor="@color/colorWhite"
-        android:textStyle="bold"
-        android:textSize="17sp"
-        android:text="@string/update"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="0dp"/>
 </LinearLayout>

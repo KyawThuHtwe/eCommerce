@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Admin.DetailsActivity">
+    tools:context=".Buyers.AgentDetailActivity">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -34,7 +34,7 @@
             <TextView
                 android:textSize="20sp"
                 android:textColor="@color/colorWhite"
-                android:text="@string/details"
+                android:text="Agent Information"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
@@ -51,9 +51,10 @@
             android:src="@drawable/account_circle"
             android:layout_width="150dp"
             android:layout_height="150dp"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
     <TextView
-        android:id="@+id/username"
+        android:id="@+id/agent_name"
         android:layout_gravity="center_horizontal"
         android:textStyle="bold"
         android:layout_margin="10dp"
@@ -72,15 +73,55 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <TextView
-                android:id="@+id/data"
-                android:layout_marginTop="10dp"
+                android:id="@+id/agent_id"
                 android:padding="20dp"
-                android:layout_gravity="center_vertical"
-                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:background="?selectableItemBackground"
                 android:textColor="@color/colorTextPrimary"
-                android:text="@string/phone_number"
-                android:layout_width="wrap_content"
+                android:text="ID:"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <View
+                android:background="@color/colorBottomBar"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+            <TextView
+                android:id="@+id/agent_email"
+                android:padding="20dp"
+                android:textSize="16sp"
+                android:background="?selectableItemBackground"
+                android:textColor="@color/colorTextPrimary"
+                android:text="Email:"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <View
+                android:background="@color/colorBottomBar"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+            <TextView
+                android:id="@+id/agent_phone"
+                android:padding="20dp"
+                android:textSize="16sp"
+                android:background="?selectableItemBackground"
+                android:textColor="@color/colorTextPrimary"
+                android:text="Contact:"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <View
+                android:background="@color/colorBottomBar"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+            <TextView
+                android:id="@+id/agent_address"
+                android:padding="20dp"
+                android:textSize="16sp"
+                android:background="?selectableItemBackground"
+                android:textColor="@color/colorTextPrimary"
+                android:text="Address:"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
             <View
                 android:layout_weight="1"
@@ -88,13 +129,12 @@
                 android:layout_height="0dp"/>
 
             <TextView
-                android:id="@+id/date"
-                android:layout_marginTop="10dp"
+                android:id="@+id/agent_create"
                 android:padding="20dp"
-                android:layout_gravity="center_vertical"
                 android:textSize="16sp"
+                android:background="?selectableItemBackground"
                 android:textColor="@color/colorTextPrimary"
-                android:text="@string/phone_number"
+                android:text="Created Date:"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </LinearLayout>

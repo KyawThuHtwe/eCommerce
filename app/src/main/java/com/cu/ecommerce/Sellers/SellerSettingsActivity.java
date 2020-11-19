@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cu.ecommerce.Activities.MainActivity;
+import com.cu.ecommerce.Admin.AdminSettingsActivity;
 import com.cu.ecommerce.Buyers.HomeActivity;
 import com.cu.ecommerce.Buyers.SettingActivity;
 import com.cu.ecommerce.R;
@@ -42,13 +43,13 @@ import java.util.HashMap;
 public class SellerSettingsActivity extends AppCompatActivity {
 
     CircleImageView profile_image;
-    EditText name,phone,address;
-    TextView image_change;
-    Button update;
+    EditText name,phone,address,email;
+    TextView image_change,update;
     Uri imageUri;
     String myUri="";
     String checker="";
     StorageReference storageProfileReference;
+    ImageView back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +64,16 @@ public class SellerSettingsActivity extends AppCompatActivity {
         name=findViewById(R.id.setting_full_name);
         phone=findViewById(R.id.setting_phone_number);
         address=findViewById(R.id.setting_address);
+        email=findViewById(R.id.setting_email);
+        back=findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
-        userInfoDisplay(profile_image,name,phone,address);
+        userInfoDisplay();
 
         update.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,10 +107,9 @@ public class SellerSettingsActivity extends AppCompatActivity {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             imageUri= result.getUri();
             profile_image.setImageURI(imageUri);
+
         }else {
             Toast.makeText(getApplicationContext(),"Error, try again",Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(getApplicationContext(),SettingActivity.class));
-            finish();
         }
     }
     private void userInfoSave() {
@@ -111,6 +119,8 @@ public class SellerSettingsActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Address write",Toast.LENGTH_SHORT).show();
         }else if(TextUtils.isEmpty(phone.getText().toString())){
             Toast.makeText(getApplicationContext(),"Phone write",Toast.LENGTH_SHORT).show();
+        }else if(TextUtils.isEmpty(email.getText().toString())){
+            Toast.makeText(getApplicationContext(),"Email write",Toast.LENGTH_SHORT).show();
         }else if(checker.equals("clicked")){
             uploadImage();
         }
@@ -153,15 +163,20 @@ public class SellerSettingsActivity extends AppCompatActivity {
                                 DatabaseReference reference=FirebaseDatabase.getInstance().getReference().child("Sellers");
                                 HashMap<String,Object> userMap=new HashMap<>();
                                 userMap.put("name",name.getText().toString());
+                                userMap.put("email",email.getText().toString());
                                 userMap.put("address",address.getText().toString());
                                 userMap.put("phoneOrder",phone.getText().toString());
                                 userMap.put("image",myUri);
-                                reference.child(sID).updateChildren(userMap);
-
-                                progressDialog.dismiss();
-                                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                                Toast.makeText(getApplicationContext(),"Profile Info update successfully",Toast.LENGTH_SHORT).show();
-                                finish();
+                                reference.child(sID).updateChildren(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful()){
+                                            finish();
+                                            progressDialog.dismiss();
+                                            Toast.makeText(getApplicationContext(),"Profile Info update successfully",Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
                             }else {
                                 progressDialog.dismiss();
                                 Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_SHORT).show();
@@ -181,32 +196,48 @@ public class SellerSettingsActivity extends AppCompatActivity {
         DatabaseReference reference=FirebaseDatabase.getInstance().getReference().child("Sellers");
         HashMap<String,Object> userMap=new HashMap<>();
         userMap.put("name",name.getText().toString());
+        userMap.put("email",email.getText().toString());
         userMap.put("address",address.getText().toString());
         userMap.put("phoneOrder",phone.getText().toString());
-        reference.child(sID).updateChildren(userMap);
+        reference.child(sID).updateChildren(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    finish();
+                    Toast.makeText(getApplicationContext(),"Seller information update successfully",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
-        startActivity(new Intent(getApplicationContext(), SellerHomeActivity.class));
-        Toast.makeText(getApplicationContext(),"Profile Info update successfully",Toast.LENGTH_SHORT).show();
-        finish();
     }
-    private void userInfoDisplay(CircleImageView profile_image, EditText name, EditText phone, EditText address) {
+    private void userInfoDisplay() {
         String sID= FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference userRef= FirebaseDatabase.getInstance().getReference().child("Sellers").child(sID);
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
-                    if(snapshot.child("image").exists()){
-                        String image=snapshot.child("image").getValue().toString();
-                        String name_value=snapshot.child("name").getValue().toString();
-                        String phone_value=snapshot.child("phone").getValue().toString();
-                        String address_value=snapshot.child("address").getValue().toString();
+                    if(!snapshot.child("image").getValue().equals("default")) {
+                        Picasso.get().load(snapshot.child("image").getValue().toString()).into(profile_image);
+                    }
+                    String name_value=snapshot.child("name").getValue().toString();
+                    String phone_value=snapshot.child("phone").getValue().toString();
+                    String address_value=snapshot.child("address").getValue().toString();
+                    String email_value=snapshot.child("email").getValue().toString();
 
-                        Picasso.get().load(image).into(profile_image);
+                    if(!TextUtils.isEmpty(name_value)){
                         name.setText(name_value);
+                    }
+                    if(!TextUtils.isEmpty(phone_value)){
                         phone.setText(phone_value);
+                    }
+                    if(!TextUtils.isEmpty(address_value)){
                         address.setText(address_value);
                     }
+                    if(!TextUtils.isEmpty(email_value)){
+                        email.setText(email_value);
+                    }
+
                 }
 
             }

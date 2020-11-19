@@ -46,19 +46,9 @@ public class AdminMainActivity extends AppCompatActivity {
         spec.setContent(new Intent(getApplicationContext(), AdminNewOrdersActivity.class));
         tabHost.addTab(spec);
 
-        spec=tabHost.newTabSpec("Seller");
-        spec.setIndicator(createTabIndicater(tabHost,"Seller",R.drawable.seller));
-        spec.setContent(new Intent(getApplicationContext(), AdminSellersViewActivity.class));
-        tabHost.addTab(spec);
-
-        spec=tabHost.newTabSpec("User");
-        spec.setIndicator(createTabIndicater(tabHost,"User",R.drawable.user));
-        spec.setContent(new Intent(getApplicationContext(), AdminUsersViewActivity.class));
-        tabHost.addTab(spec);
-
-        spec=tabHost.newTabSpec("Account");
-        spec.setIndicator(createTabIndicater(tabHost,"Account",R.drawable.account));
-        spec.setContent(new Intent(getApplicationContext(), AdminSettingsActivity.class));
+        spec=tabHost.newTabSpec("More");
+        spec.setIndicator(createTabIndicater(tabHost,"More",R.drawable.more));
+        spec.setContent(new Intent(getApplicationContext(), AdminMoreActivity.class));
         tabHost.addTab(spec);
 
 

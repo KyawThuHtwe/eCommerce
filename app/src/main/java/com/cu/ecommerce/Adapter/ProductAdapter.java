@@ -105,7 +105,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHole
             public void onClick(View v) {
 
                 try {
-                    Toast.makeText(context,product.get(position).getSid(),Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(context, ProductDetailActivity.class);
                     intent.putExtra("agentID", product.get(position).getSid());
                     intent.putExtra("pid", product.get(position).getPid());

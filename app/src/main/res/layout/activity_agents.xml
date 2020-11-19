@@ -31,21 +31,39 @@
                     app:tint="@color/colorTextPrimary" />
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/agent_profile"
+                    android:layout_marginLeft="10dp"
                     android:backgroundTint="@color/colorBottomBar"
                     android:background="@drawable/round_background"
                     android:src="@drawable/account_circle"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     tools:ignore="UnusedAttribute" />
-                <TextView
-                    android:id="@+id/agent_name"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorTextPrimary"
-                    android:text="@string/agent_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                <LinearLayout
+                    android:background="?selectableItemBackground"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/agent_name"
+                        android:background="?selectableItemBackground"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorTextPrimary"
+                        android:text="@string/agent_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/agent_id"
+                        android:background="?selectableItemBackground"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="10sp"
+                        android:textColor="@color/colorTextSecondary"
+                        android:text="ID"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
             </LinearLayout>
             <LinearLayout
                 android:orientation="horizontal"
@@ -103,6 +121,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/colorBottomBar"
                 android:orientation="vertical">
                 <RelativeLayout
                     android:background="@color/colorBottomBar"
@@ -166,7 +185,5 @@
             android:layout_height="wrap_content"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-
 
 </LinearLayout>

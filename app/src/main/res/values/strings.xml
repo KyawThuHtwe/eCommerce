@@ -108,4 +108,5 @@
     <string name="g_shop">G Shop</string>
     <string name="add_product">Add Product</string>
     <string name="add_category">Add Category</string>
+    <string name="email">Email</string>
 </resources>

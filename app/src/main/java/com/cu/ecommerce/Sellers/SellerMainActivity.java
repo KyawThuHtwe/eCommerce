@@ -54,9 +54,9 @@ public class SellerMainActivity extends AppCompatActivity {
         spec.setContent(new Intent(getApplicationContext(), SellerNewOrderActivity.class));
         tabHost.addTab(spec);
 
-        spec=tabHost.newTabSpec("Account");
-        spec.setIndicator(createTabIndicater(tabHost,"Account",R.drawable.account));
-        spec.setContent(new Intent(getApplicationContext(), SellerSettingsActivity.class));
+        spec=tabHost.newTabSpec("More");
+        spec.setIndicator(createTabIndicater(tabHost,"More",R.drawable.more));
+        spec.setContent(new Intent(getApplicationContext(), SellerMoreActivity.class));
         tabHost.addTab(spec);
 
         settings = findViewById(R.id.settings);

@@ -1,39 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorWhite"
+    tools:context=".Sellers.SellerMoreActivity">
     <LinearLayout
+        android:id="@+id/account"
+        android:background="?selectableItemBackground"
         android:padding="10dp"
-        android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/user_profile"
-            android:elevation="10dp"
-            android:padding="1dp"
+            android:id="@+id/account_profile"
+            android:backgroundTint="@color/colorBottomBar"
             android:background="@drawable/round_background"
             android:src="@drawable/account_circle"
             android:layout_width="60dp"
             android:layout_height="60dp"/>
         <LinearLayout
             android:layout_marginLeft="10dp"
+            android:gravity="center_vertical"
             android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
             <TextView
-                android:id="@+id/username"
+                android:id="@+id/account_name"
+                android:textSize="16sp"
                 android:textColor="@color/colorTextPrimary"
-                android:textSize="18sp"
-                android:text="@string/user_name"
+                android:textStyle="bold"
+                android:text="@string/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
-                android:id="@+id/date_time"
+                android:id="@+id/account_id"
+                android:textSize="10sp"
                 android:textColor="@color/colorTextSecondary"
-                android:textSize="12sp"
-                android:text="@string/date_time"
+                android:text="ID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
@@ -43,5 +48,4 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/colorBottomBar"/>
-
 </LinearLayout>

@@ -54,7 +54,7 @@ public class HomeActivity extends AppCompatActivity {
     ArrayList<Product> bannerProduct=new ArrayList<>();
     ArrayList<Seller> sellers=new ArrayList<>();
     BannerProductPagerAdapter bannerMoviePagerAdapter;
-    String agent_choose="",category_choose="All";
+    String agent_choose="09",category_choose="All";
 
     CircleImageView account_profile;
     TextView search;
@@ -68,7 +68,6 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         Paper.init(this);
-        agent_choose=Prevalent.currentOnlineUser.getPhone();
 
         account_profile=findViewById(R.id.account_profile);
         search=findViewById(R.id.search);
@@ -108,8 +107,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        loadingAccount();
-
         viewPager=findViewById(R.id.banner_viewPager);
         tabLayout=findViewById(R.id.tabLayout);
 
@@ -141,15 +138,14 @@ public class HomeActivity extends AppCompatActivity {
         category_recyclerView=findViewById(R.id.category_recyclerView);
         category_recyclerView.setHasFixedSize(true);
         category_recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.HORIZONTAL,false));
-        loadingCategory();
 
         recyclerView=findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
 
-        agentLoading();
-        loading(agent_choose,category_choose);
-        bannerProductLoading(agent_choose,category_choose);
+       // agentLoading();
+        //loading(category_choose);
+        //bannerProductLoading(category_choose);
 
         cart=findViewById(R.id.cart);
         cart.setOnClickListener(new View.OnClickListener() {
@@ -182,6 +178,18 @@ public class HomeActivity extends AppCompatActivity {
                 });
             }
         });
+        //loadingAccount();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        loadingCategory();
+        loadingAccount();
+        agentLoading();
+        loading(category_choose);
+        bannerProductLoading(category_choose);
 
     }
 
@@ -216,8 +224,10 @@ public class HomeActivity extends AppCompatActivity {
         rootRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.child("image").exists()){
-                    Picasso.get().load(snapshot.child("image").getValue().toString()).into(account_profile);
+                if(snapshot.exists()){
+                    if(!snapshot.child("image").getValue().equals("default")){
+                        Picasso.get().load(snapshot.child("image").getValue().toString()).into(account_profile);
+                    }
                 }
             }
 
@@ -247,8 +257,6 @@ public class HomeActivity extends AppCompatActivity {
                     CategoryAdapter categoryAdapter=new CategoryAdapter(getApplicationContext(),categories);
                     category_recyclerView.setAdapter(categoryAdapter);
 
-                }else {
-                    Toast.makeText(getApplicationContext(),"Not exist.",Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -259,25 +267,32 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    public void loading(String agent, String category){
+    public void loading(String category){
+        products=new ArrayList<>();
+        products.clear();
         final DatabaseReference rootRef;
-        rootRef= FirebaseDatabase.getInstance().getReference().child("Products").child(agent);
+        rootRef= FirebaseDatabase.getInstance().getReference().child("Products").child("09");
         rootRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                products=new ArrayList<>();
-                products.clear();
+
                 if(snapshot.exists()){
                     for(DataSnapshot snap:snapshot.getChildren()){
                         Product product=snap.getValue(Product.class);
                         assert product != null;
-                        if(product.getProductState().equals("Approved") && category.equals("All")){
-                            products.add(product);
-                        }else if(product.getProductState().equals("Approved") && product.getCategory().equals(category)){
-                            products.add(product);
+                        if(category.equals("All")){
+                            if(product.getProductState().equals("Approved")) {
+                                products.add(product);
+                            }
+
+                        }else {
+                            if(product.getProductState().equals("Approved") && product.getCategory().equals(category)) {
+                                products.add(product);
+                            }
                         }
+
                     }
-                    ProductAdapter productAdapter=new ProductAdapter(getApplicationContext(),bannerProduct);
+                    ProductAdapter productAdapter=new ProductAdapter(getApplicationContext(),products);
                     recyclerView.setAdapter(productAdapter);
                     productAdapter.notifyDataSetChanged();
 
@@ -300,9 +315,9 @@ public class HomeActivity extends AppCompatActivity {
             }
         }
     };
-    public void bannerProductLoading(String agent, String category){
+    public void bannerProductLoading(String category){
         final DatabaseReference rootRef;
-        rootRef= FirebaseDatabase.getInstance().getReference().child("Products").child(agent);
+        rootRef= FirebaseDatabase.getInstance().getReference().child("Products").child("09");
         rootRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -311,10 +326,10 @@ public class HomeActivity extends AppCompatActivity {
                 if(snapshot.exists()){
                     for(DataSnapshot snap:snapshot.getChildren()){
                         Product product=snap.getValue(Product.class);
-                        if(product.getSid().equals(agent) && product.getProductState().equals("Approved")){
-                            if(product.getCategory().toLowerCase().equals(category.toLowerCase())){
+                        if(product.getProductState().equals("Approved")){
+                            if(product.getCategory().equals(category)){
                                 bannerProduct.add(product);
-                            }else if(category.toLowerCase().equals("all")){
+                            }else if(category.equals("All")){
                                 bannerProduct.add(product);
                             }
                         }
@@ -403,8 +418,8 @@ public class HomeActivity extends AppCompatActivity {
                 selected_position = getAdapterPosition();
                 notifyItemChanged(selected_position);
                 category_choose=categories.get(selected_position).getName();
-                loading(agent_choose,category_choose);
-                bannerProductLoading(agent_choose,category_choose);
+                loading(category_choose);
+                bannerProductLoading(category_choose);
 
             }
         }
