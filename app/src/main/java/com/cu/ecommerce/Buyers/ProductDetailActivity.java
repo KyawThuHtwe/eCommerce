@@ -54,19 +54,6 @@ public class ProductDetailActivity extends AppCompatActivity {
                 finish();
             }
         });
-        buyNow=findViewById(R.id.buy_now);
-
-        buyNow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(state.equals("Order Shipped") || state.equals("Order Placed")){
-                    Toast.makeText(getApplicationContext(),"you can add purchase more products, once your order is shipped or confirmed.",Toast.LENGTH_LONG).show();
-                }else {
-                    addingToCart("now");
-                }
-
-            }
-        });
 
 
         addToCart=findViewById(R.id.add_to_cart);
@@ -81,6 +68,20 @@ public class ProductDetailActivity extends AppCompatActivity {
         qty=getIntent().getStringExtra("qty");
 
         getProductDetail(agentID,productID,qty);
+
+        buyNow=findViewById(R.id.buy_now);
+
+        buyNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(state.equals("Order Shipped") || state.equals("Order Placed")){
+                    Toast.makeText(getApplicationContext(),"you can add purchase more products, once your order is shipped or confirmed.",Toast.LENGTH_LONG).show();
+                }else {
+                    addingToCart("now",agentID);
+                }
+
+            }
+        });
 
         favorite=findViewById(R.id.favorite);
         unfavorite=findViewById(R.id.unfavorite);
@@ -132,7 +133,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                 if(state.equals("Order Shipped") || state.equals("Order Placed")){
                     Toast.makeText(getApplicationContext(),"you can add purchase more products, once your order is shipped or confirmed.",Toast.LENGTH_LONG).show();
                 }else {
-                    addingToCart("later");
+                    addingToCart("later",agentID);
                 }
             }
         });
@@ -168,7 +169,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                 });
     }
 
-    private void addingToCart(String str) {
+    private void addingToCart(String str,String agentID) {
         String saveCurrentTime,saveCurrentDate;
         Calendar calendar=Calendar.getInstance();
         @SuppressLint("SimpleDateFormat") SimpleDateFormat currentDate=new SimpleDateFormat("MMM dd, yyyy");

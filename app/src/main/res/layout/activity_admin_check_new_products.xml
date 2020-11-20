@@ -7,9 +7,94 @@
     android:orientation="vertical"
     tools:context=".Admin.AdminCheckNewProductsActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_gravity="bottom|right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:ignore="RtlHardcoded">
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/add_fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:src="@drawable/add"
+                app:elevation="5dp"
+                android:tint="@color/colorWhite"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginRight="16dp" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/add_category_fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:fabSize="normal"
+                app:elevation="5dp"
+                android:tint="@color/colorWhite"
+                app:layout_constraintBottom_toTopOf="@+id/add_fab"
+                app:layout_constraintEnd_toEndOf="@+id/add_fab"
+                android:src="@drawable/add" />
+
+            <TextView
+                android:id="@+id/add_category_action_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="@string/add_category"
+                android:padding="10dp"
+                android:elevation="5dp"
+                android:textSize="16sp"
+                android:textColor="@color/colorTextPrimary"
+                android:backgroundTint="@color/colorWhite"
+                android:background="@drawable/corner_radius_background"
+                app:layout_constraintBottom_toBottomOf="@+id/add_category_fab"
+                app:layout_constraintEnd_toStartOf="@+id/add_category_fab"
+                app:layout_constraintTop_toTopOf="@+id/add_category_fab"
+                tools:ignore="RtlCompat,UnusedAttribute" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/add_product_fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:fabSize="normal"
+                app:elevation="5dp"
+                android:src="@drawable/add"
+                android:tint="@color/colorWhite"
+                app:layout_constraintBottom_toTopOf="@+id/add_category_fab"
+                app:layout_constraintEnd_toEndOf="@+id/add_category_fab"
+                app:layout_constraintStart_toStartOf="@+id/add_category_fab"/>
+
+            <TextView
+                android:id="@+id/add_product_action_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="@string/add_product"
+                android:padding="10dp"
+                android:elevation="5dp"
+                android:textSize="16sp"
+                android:textColor="@color/colorTextPrimary"
+                android:backgroundTint="@color/colorWhite"
+                android:background="@drawable/corner_radius_background"
+                app:layout_constraintBottom_toBottomOf="@+id/add_product_fab"
+                app:layout_constraintEnd_toStartOf="@+id/add_product_fab"
+                app:layout_constraintTop_toTopOf="@+id/add_product_fab"
+                tools:ignore="RtlCompat,UnusedAttribute" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </LinearLayout>

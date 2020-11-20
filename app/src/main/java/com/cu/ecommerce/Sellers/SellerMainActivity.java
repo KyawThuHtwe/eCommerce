@@ -29,7 +29,6 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class SellerMainActivity extends AppCompatActivity {
 
-    ImageView settings;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,28 +57,6 @@ public class SellerMainActivity extends AppCompatActivity {
         spec.setIndicator(createTabIndicater(tabHost,"More",R.drawable.more));
         spec.setContent(new Intent(getApplicationContext(), SellerMoreActivity.class));
         tabHost.addTab(spec);
-
-        settings = findViewById(R.id.settings);
-        settings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopupMenu popupMenu=new PopupMenu(SellerMainActivity.this,v);
-                popupMenu.inflate(R.menu.home);
-                popupMenu.show();
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        if(item.getItemId()==R.id.about){
-                            startActivity(new Intent(getApplicationContext(), AboutActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-                        }else if(item.getItemId()==R.id.logout){
-                            FirebaseAuth.getInstance().signOut();
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK));
-                        }
-                        return true;
-                    }
-                });
-            }
-        });
     }
 
     private View createTabIndicater(TabHost tabHost, String str, int iconResource) {

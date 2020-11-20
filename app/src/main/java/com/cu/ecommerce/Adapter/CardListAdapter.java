@@ -57,9 +57,9 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         try {
-            holder.name.setText("Name = " + carts.get(position).getPname());
-            holder.quantity.setText("Quantity = " + carts.get(position).getQuantity());
-            holder.price.setText("Price = " + carts.get(position).getPrice());
+            holder.name.setText(carts.get(position).getPname());
+            holder.quantity.setText("Quantity : " + carts.get(position).getQuantity());
+            holder.price.setText("Price : " + carts.get(position).getPrice());
             Picasso.get().load(carts.get(position).getImage()).placeholder(R.drawable.ic_launcher_foreground).error(R.drawable.ic_launcher_background).into(holder.image);
 
             String first=carts.get(position).getPrice().split(" ")[0];

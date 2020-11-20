@@ -15,8 +15,11 @@ import com.cu.ecommerce.Model.Order;
 import com.cu.ecommerce.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -72,8 +75,22 @@ public class AdminOrderAdapter extends RecyclerView.Adapter<AdminOrderAdapter.Vi
         holder.send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendOrder(orders.get(position).getSid(),orders.get(position).getOid());
-                holder.itemView.setVisibility(View.GONE);
+                DatabaseReference orderRef= FirebaseDatabase.getInstance().getReference().child("Orders");
+                orderRef.child(orders.get(position).getSid()).child(orders.get(position).getOid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.child("state").getValue().equals("Shipped")){
+                            Toast.makeText(context,"Please wait, Customer Order Received, Shipped",Toast.LENGTH_SHORT).show();
+                        }else {
+                            sendOrder(orders.get(position).getSid(),orders.get(position).getOid());
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             }
         });
     }
@@ -88,7 +105,7 @@ public class AdminOrderAdapter extends RecyclerView.Adapter<AdminOrderAdapter.Vi
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
-                    Toast.makeText(context,"SuccessFul",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,"Order Shipped",Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -7,6 +7,19 @@
     android:orientation="vertical"
     android:background="@color/colorWhite"
     tools:context=".Sellers.SellerMoreActivity">
+
+
+    <TextView
+        android:textSize="16sp"
+        android:paddingLeft="15dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:background="@color/colorBottomBar"
+        android:textColor="@color/colorTextSecondary"
+        android:text="@string/account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <LinearLayout
         android:id="@+id/account"
         android:background="?selectableItemBackground"
@@ -15,13 +28,14 @@
         android:layout_height="wrap_content">
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/account_profile"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:backgroundTint="@color/colorBottomBar"
             android:background="@drawable/round_background"
             android:src="@drawable/account_circle"
             android:layout_width="60dp"
             android:layout_height="60dp"/>
         <LinearLayout
-            android:layout_marginLeft="10dp"
             android:gravity="center_vertical"
             android:orientation="vertical"
             android:layout_width="wrap_content"
@@ -43,6 +57,60 @@
                 android:layout_height="wrap_content"/>
 
         </LinearLayout>
+    </LinearLayout>
+    <TextView
+        android:textSize="16sp"
+        android:paddingLeft="15dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:background="@color/colorBottomBar"
+        android:textColor="@color/colorTextSecondary"
+        android:text="General"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:id="@+id/about"
+        android:gravity="center_vertical"
+        android:background="?selectableItemBackground"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/about"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
+        <TextView
+            android:textSize="16sp"
+            android:textColor="@color/colorTextPrimary"
+            android:text="@string/about"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorBottomBar"/>
+    <LinearLayout
+        android:id="@+id/logout"
+        android:gravity="center_vertical"
+        android:background="?selectableItemBackground"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/logout"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
+        <TextView
+            android:textSize="16sp"
+            android:textColor="@color/colorTextPrimary"
+            android:text="@string/logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"

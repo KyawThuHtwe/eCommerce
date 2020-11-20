@@ -27,17 +27,6 @@
                 android:text="@string/online_shop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
-            <View
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="10dp"/>
-            <ImageView
-                android:id="@+id/settings"
-                android:background="?selectableItemBackgroundBorderless"
-                android:src="@drawable/settings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:tint="@color/colorTextPrimary" />
         </LinearLayout>
         <TabHost
             android:id="@+id/tabhost"

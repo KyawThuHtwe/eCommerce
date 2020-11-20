@@ -6,9 +6,28 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Sellers.SellerNewActivity">
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add"
+            android:layout_margin="20dp"
+            android:elevation="6dp"
+            android:tint="@color/colorWhite"
+            android:layout_gravity="bottom|right"
+            android:background="@color/colorPrimary"
+            android:src="@drawable/add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:ignore="RtlHardcoded,UnusedAttribute" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </LinearLayout>

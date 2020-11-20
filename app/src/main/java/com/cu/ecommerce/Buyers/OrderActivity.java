@@ -67,25 +67,21 @@ public class OrderActivity extends AppCompatActivity {
     public void orderLoadingOlder(String agentID){
         DatabaseReference reference= FirebaseDatabase.getInstance().getReference().child("Older Order");
 
-        reference.addValueEventListener(new ValueEventListener() {
+        reference.child(agentID).child(Prevalent.currentOnlineUser.getPhone()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 older_orders=new ArrayList<>();
                 older_orders.clear();
                 if(snapshot.exists()){
-                    for(DataSnapshot snap:snapshot.getChildren()) {
-                        for(DataSnapshot dataSnapshot:snap.getChildren()){
-                            for(DataSnapshot value:dataSnapshot.getChildren()){
-                                Order order=value.child("Order").getValue(Order.class);
-                                if(order.getSid().equals(agentID)){
-                                    older_orders.add(order);
-                                }
-                            }
-                            OlderOrderAdapter olderOrderAdapter=new OlderOrderAdapter(getApplicationContext(),older_orders,1);
-                            older_orderList.setAdapter(olderOrderAdapter);
-                            olderOrderAdapter.notifyDataSetChanged();
+                    for(DataSnapshot value:snapshot.getChildren()){
+                        Order order=value.child("Order").getValue(Order.class);
+                        if(order.getSid().equals(agentID)){
+                            older_orders.add(order);
                         }
                     }
+                    OlderOrderAdapter olderOrderAdapter=new OlderOrderAdapter(getApplicationContext(),older_orders,1);
+                    older_orderList.setAdapter(olderOrderAdapter);
+                    olderOrderAdapter.notifyDataSetChanged();
                 }
             }
 
@@ -99,25 +95,19 @@ public class OrderActivity extends AppCompatActivity {
     public void orderLoadingNew(String agentID){
         DatabaseReference reference=FirebaseDatabase.getInstance().getReference().child("Orders");;
 
-        reference.addValueEventListener(new ValueEventListener() {
+        reference.child(agentID).child(Prevalent.currentOnlineUser.getPhone()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 orders=new ArrayList<>();
                 orders.clear();
                 if(snapshot.exists()){
-                    for(DataSnapshot snap:snapshot.getChildren()){
-                        for(DataSnapshot dataSnapshot:snap.getChildren()){
-                            Order order=dataSnapshot.getValue(Order.class);
-                            if(order.getSid().equals(agentID)){
-                                orders.add(order);
-                            }
-
-                        }
-                        UserOrderAdapter userOrderAdapter=new UserOrderAdapter(getApplicationContext(),orders);
-                        new_orderList.setAdapter(userOrderAdapter);
-                        userOrderAdapter.notifyDataSetChanged();
+                    Order order=snapshot.getValue(Order.class);
+                    if(order.getSid().equals(agentID)){
+                        orders.add(order);
                     }
-
+                    UserOrderAdapter userOrderAdapter=new UserOrderAdapter(getApplicationContext(),orders);
+                    new_orderList.setAdapter(userOrderAdapter);
+                    userOrderAdapter.notifyDataSetChanged();
                 }
             }
 

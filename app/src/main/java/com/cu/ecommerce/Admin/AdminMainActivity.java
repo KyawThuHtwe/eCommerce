@@ -20,8 +20,6 @@ import com.cu.ecommerce.R;
 
 public class AdminMainActivity extends AppCompatActivity {
 
-    ImageView settings;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,28 +49,6 @@ public class AdminMainActivity extends AppCompatActivity {
         spec.setContent(new Intent(getApplicationContext(), AdminMoreActivity.class));
         tabHost.addTab(spec);
 
-
-        settings = findViewById(R.id.settings);
-        settings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopupMenu popupMenu=new PopupMenu(AdminMainActivity.this,v);
-                popupMenu.inflate(R.menu.home);
-                popupMenu.show();
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        if(item.getItemId()==R.id.about){
-                            startActivity(new Intent(getApplicationContext(), AboutActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-                        }else if(item.getItemId()==R.id.logout){
-                            Paper.book().destroy();
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK));
-                        }
-                        return true;
-                    }
-                });
-            }
-        });
     }
     private View createTabIndicater(TabHost tabHost, String str, int iconResource) {
         View view= LayoutInflater.from(getApplicationContext()).inflate(R.layout.tab_indicator,tabHost.getTabWidget(),false);

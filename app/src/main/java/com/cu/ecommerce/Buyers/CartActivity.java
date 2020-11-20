@@ -3,6 +3,8 @@ package com.cu.ecommerce.Buyers;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +32,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -103,9 +106,9 @@ public class CartActivity extends AppCompatActivity {
                         @Override
                         protected void onBindViewHolder(@NonNull UserCardView holder, int i, @NonNull Cart cart) {
                             try {
-                                holder.name.setText("Name = " + cart.getPname());
-                                holder.quantity.setText("Quantity = " + cart.getQuantity());
-                                holder.price.setText("Price = " + cart.getPrice() + " Kyats");
+                                holder.name.setText(cart.getPname());
+                                holder.quantity.setText("Quantity : " + cart.getQuantity());
+                                holder.price.setText("Price : " + cart.getPrice() + " Kyats");
                                 Picasso.get().load(cart.getImage()).placeholder(R.drawable.ic_launcher_foreground).error(R.drawable.ic_launcher_background).into(holder.image);
 
                                 int p = Integer.parseInt(cart.getPrice().split(" ")[0]);

@@ -20,6 +20,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -67,12 +69,18 @@ public class MaintainProductAdapter extends RecyclerView.Adapter<MaintainProduct
                         @Override
                         public void onClick(DialogInterface dialog, int con) {
                             if (con == 0) {
-                                Intent intent = new Intent(context, SellerMaintainProductActivity.class);
-                                intent.putExtra("pid", products.get(position).getPid());
-                                intent.putExtra("sid", products.get(position).getSid());
-                                context.startActivity(intent);
+                                try {
+                                    Intent intent = new Intent(context, SellerMaintainProductActivity.class);
+                                    intent.putExtra("pid", products.get(position).getPid());
+                                    intent.putExtra("sid", products.get(position).getSid());
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    context.startActivity(intent);
+                                }catch (Exception e){
+                                    Toast.makeText(context,e.getMessage(),Toast.LENGTH_SHORT).show();
+                                }
                             } else if (con == 1) {
-                                deleteProduct(products.get(position).getPid());
+                                deleteProduct(products.get(position).getPid(),products.get(position).getImage());
+                                holder.itemView.setVisibility(View.GONE);
                             }
                         }
                     });
@@ -83,7 +91,7 @@ public class MaintainProductAdapter extends RecyclerView.Adapter<MaintainProduct
             }
         });
     }
-    private void deleteProduct(String pid) {
+    private void deleteProduct(String pid,String image) {
         DatabaseReference unVerifyProductRef;
         unVerifyProductRef = FirebaseDatabase.getInstance().getReference().child("Products").child(Prevalent.currentOnlineUser.getPhone());
         unVerifyProductRef.child(pid)
@@ -92,7 +100,14 @@ public class MaintainProductAdapter extends RecyclerView.Adapter<MaintainProduct
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
-                            Toast.makeText(context,"Delete this Product Successfully",Toast.LENGTH_SHORT).show();
+                            StorageReference storageReference= FirebaseStorage.getInstance().getReference().child("Product Images");
+                            storageReference.child(image).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    Toast.makeText(context,"Delete this Product Successfully",Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
                         }
 
                     }

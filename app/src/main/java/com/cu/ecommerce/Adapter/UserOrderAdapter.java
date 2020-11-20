@@ -68,9 +68,8 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
             @Override
             public void onClick(View v) {
                 if(orders.get(position).getState().equals("Shipped")){
-                    removeOrder(orders.get(position).getSid(),orders.get(position).getOid());
                     removeCardList(orders.get(position).getSid(),orders.get(position).getOid());
-                    notifyItemChanged(position);
+                    removeOrder(orders.get(position).getSid(),orders.get(position).getOid());
                     holder.itemView.setVisibility(View.GONE);
                 }else {
                     Toast.makeText(context,"Not Shipped Order, Later Shipped",Toast.LENGTH_SHORT).show();
@@ -128,21 +127,18 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()) {
-                                            //Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show();
                                             cartListRef.child("Cart List").child("Admin View").child(sid).child(oid).removeValue()
                                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                         @Override
                                                         public void onComplete(@NonNull Task<Void> task) {
-                                                            if (task.isSuccessful()) {
-                                                                Toast.makeText(context, "Completed Successfully", Toast.LENGTH_SHORT).show();
+                                                         if (task.isSuccessful()) {
+
                                                             }
                                                         }
                                                     });
-
                                         }
                                     }
                                 });
-
                             }
                         }
                     }

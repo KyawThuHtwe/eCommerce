@@ -76,9 +76,9 @@ public class AdminUserProductsActivity extends AppCompatActivity {
                     @SuppressLint("SetTextI18n")
                     @Override
                     protected void onBindViewHolder(@NonNull CartViewHolder holder, int i, @NonNull Cart cart) {
-                        holder.name.setText("Name = "+cart.getPname());
-                        holder.quantity.setText("Quantity = "+cart.getQuantity());
-                        holder.price.setText("Price = "+cart.getPrice()+" Kyats");
+                        holder.name.setText(cart.getPname());
+                        holder.quantity.setText("Quantity : "+cart.getQuantity());
+                        holder.price.setText("Price : "+cart.getPrice()+" Kyats");
                         Picasso.get().load(cart.getImage()).placeholder(R.drawable.ic_launcher_foreground).error(R.drawable.ic_launcher_background).into(holder.image);
 
                     }

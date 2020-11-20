@@ -5,12 +5,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
 
 import com.cu.ecommerce.Adapter.ApproveProductAdapter;
 import com.cu.ecommerce.Adapter.MaintainProductAdapter;
 import com.cu.ecommerce.Model.Product;
 import com.cu.ecommerce.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,6 +29,7 @@ public class SellerNewActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     DatabaseReference unVerifyProductRef;
     ArrayList<Product> products=new ArrayList<>();
+    FloatingActionButton add;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +40,21 @@ public class SellerNewActivity extends AppCompatActivity {
 
         recyclerView=findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+        add = findViewById(R.id.add);
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent intent = new Intent(getApplicationContext(), SellerCategoryActivity.class);
+                    intent.putExtra("type", "seller");
+                    startActivity(intent);
+                    finish();
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
     }
     @Override
